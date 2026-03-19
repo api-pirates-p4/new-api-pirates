@@ -1,0 +1,277 @@
+---
+permalink: /donation
+title: Make a Donation
+layout: default
+---
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/donation.css' | relative_url }}">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">Make an impact</div>
+  <h1>Your Donation Repairs<br><em>More Than Homes.</em></h1>
+  <p class="hero-sub">PVO puts 95¢ of every dollar directly into veteran assistance — repairs, transportation, emergency relief, and more.</p>
+</div>
+
+<!-- Stat bar -->
+<div class="stat-bar">
+  <div class="stat-grid">
+    <div><div class="stat-num">95%+</div><div class="stat-label">Program expense ratio</div></div>
+    <div><div class="stat-num" id="stat-raised">—</div><div class="stat-label">Total raised</div></div>
+    <div><div class="stat-num">501(c)(3)</div><div class="stat-label">Tax-exempt status</div></div>
+    <div><div class="stat-num" id="stat-gifts">—</div><div class="stat-label">Donations received</div></div>
+  </div>
+</div>
+
+<!-- Page body -->
+<div class="page-body">
+
+  <!-- LEFT: Impact + campaigns -->
+  <div class="left-col">
+
+    <div class="section-label">Where your money goes</div>
+    <div class="section-title">An Honest Look at PVO's Impact</div>
+    <p style="font-size:0.92rem; color:#6b7280; line-height:1.75; margin-bottom:1rem;">
+      PVO has no paid staff. Every dollar raised goes toward veteran projects — not overhead.
+    </p>
+
+    <div class="ratio-wrap">
+      <div style="font-size:0.7rem;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">
+        How every dollar is spent
+      </div>
+      <div class="ratio-bar">
+        <div class="ratio-program">95% Programs</div>
+        <div class="ratio-admin">&lt;5%</div>
+      </div>
+      <div class="ratio-legend">
+        <span><span class="dot" style="background:#c8922a;"></span>Veteran programs — 95%+</span>
+        <span><span class="dot" style="background:#e8e4dc;border:1px solid #ccc;"></span>Admin — &lt;5%</span>
+      </div>
+    </div>
+
+    <!-- Impact stats from _data / front matter -->
+    <div class="impact-grid">
+      {% for stat in page.impact_stats %}
+      <div class="impact-card">
+        <div class="impact-num">{{ stat.num }}</div>
+        <div class="impact-desc">{{ stat.desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="section-label" style="margin-bottom:0.4rem;">Choose your campaign</div>
+    <div class="section-title" style="font-size:1.2rem; margin-bottom:1rem;">Direct your gift</div>
+
+    <!-- Campaign cards from front matter -->
+    <div class="campaign-grid">
+      {% for c in page.campaigns %}
+      <div class="campaign-card" onclick="selectCampaign(this, '{{ c.name }}')">
+        <div class="campaign-header {{ c.theme }}">
+          <div class="campaign-cat">{{ c.category }}</div>
+          <div class="campaign-name">{{ c.label }}</div>
+        </div>
+        <div class="campaign-body">
+        <div class="prog-bar"><div class="prog-fill" data-progress="{{ c.progress }}"></div></div>
+        <div class="prog-label">{{ c.progress }}% of goal · {{ c.raised }} raised</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Veteran stories from front matter -->
+    <div class="section-label" style="margin-bottom:0.75rem;">Real help for real veterans</div>
+    {% for s in page.stories %}
+    <div class="story">
+      <blockquote>"{{ s.quote }}"</blockquote>
+      <cite>— {{ s.attribution }}</cite>
+    </div>
+    {% endfor %}
+
+    <!-- Other methods -->
+    <div class="methods">
+      <div class="section-label" style="margin-bottom:0.75rem;">Other ways to give</div>
+      <div class="method-card">
+        <h4>By Check</h4>
+        <p>Payable to <strong>Poway Veterans Organization</strong>. Write "Donation" in the memo. Mail to PO Box 563, Poway, CA 92064.</p>
+      </div>
+      <div class="method-card">
+        <h4>Materials Donations</h4>
+        <p>PVO accepts donated materials for veteran projects. Call <strong>858-206-8854</strong> or email <strong>contact@powayveterans.org</strong>.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Donation form -->
+  <div class="right-col">
+    <div class="form-card">
+      <div class="section-label">Give today</div>
+      <div class="section-title">Make a Donation</div>
+
+      <div class="tax-notice">
+        <strong>Tax deductible.</strong> PVO is a 501(c)(3) nonprofit. A receipt will be emailed upon submission. Consult your tax adviser.
+      </div>
+
+      <div id="alert-success" class="alert success">
+        Thank you! Your donation has been recorded and a receipt is on its way.
+      </div>
+      <div id="alert-error" class="alert error">
+        Something went wrong. Please try again or call 858-206-8854.
+      </div>
+
+      <div class="form-group">
+        <label>Select an amount</label>
+        <div class="amount-grid">
+          <button class="amount-btn" onclick="setAmount(this,'25')">$25</button>
+          <button class="amount-btn" onclick="setAmount(this,'50')">$50</button>
+          <button class="amount-btn active" onclick="setAmount(this,'100')">$100</button>
+          <button class="amount-btn" onclick="setAmount(this,'250')">$250</button>
+        </div>
+        <input type="number" id="amount" value="100" placeholder="Or enter custom amount" min="1" style="margin-top:0.4rem;">
+      </div>
+
+      <div class="form-group">
+        <label>Frequency</label>
+        <select id="frequency">
+          <option value="one-time">One-time gift</option>
+          <option value="monthly">Monthly recurring</option>
+          <option value="annual">Annual recurring</option>
+        </select>
+      </div>
+
+      <div class="selected-campaign" id="campaign-label">
+        No campaign selected — donating to general fund
+      </div>
+      <input type="hidden" id="campaign" value="general">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First name *</label>
+          <input type="text" id="first-name" placeholder="First" required>
+        </div>
+        <div class="form-group">
+          <label>Last name *</label>
+          <input type="text" id="last-name" placeholder="Last" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="email" placeholder="you@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>Mailing address (optional)</label>
+        <input type="text" id="address" placeholder="Street, City, CA ZIP">
+      </div>
+
+      <div class="form-group">
+        <label>Dedication or note (optional)</label>
+        <input type="text" id="notes" placeholder="In honor of… / In memory of…">
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitDonation()">
+        Continue to PayPal →
+      </button>
+      <p class="form-note">
+        Your information is recorded securely. You'll be redirected to PayPal to complete payment. Credit card accepted — no PayPal account required.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const API_BASE    = '{{ page.api_base }}';
+  const PAYPAL_URL  = 'https://www.paypal.com/donate/?hosted_button_id={{ page.paypal_button_id }}';
+
+  async function loadImpact() {
+    try {
+      const res = await fetch(`${API_BASE}/api/impact`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.total_raised != null)
+        document.getElementById('stat-raised').textContent = '$' + Number(data.total_raised).toLocaleString();
+      if (data.total_gifts != null)
+        document.getElementById('stat-gifts').textContent = data.total_gifts;
+    } catch (e) {}
+  }
+  loadImpact();
+
+  // initialize progress bars created via Liquid without inline CSS
+  function initProgressBars() {
+    document.querySelectorAll('.prog-fill').forEach(el => {
+      const p = parseFloat(el.getAttribute('data-progress')) || 0;
+      el.style.width = p + '%';
+    });
+  }
+  initProgressBars();
+
+  function setAmount(btn, val) {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('amount').value = val;
+  }
+
+  function selectCampaign(card, name) {
+    document.querySelectorAll('.campaign-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById('campaign').value = name;
+    document.getElementById('campaign-label').textContent = 'Donating to: ' + name;
+  }
+
+  async function submitDonation() {
+    const first  = document.getElementById('first-name').value.trim();
+    const last   = document.getElementById('last-name').value.trim();
+    const email  = document.getElementById('email').value.trim();
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!first || !last || !email || !amount || amount < 1) {
+      showAlert('error', 'Please fill in your name, email, and a donation amount.');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Recording…';
+
+    const payload = {
+      name:      `${first} ${last}`,
+      email,
+      amount,
+      campaign:  document.getElementById('campaign').value,
+      frequency: document.getElementById('frequency').value,
+      notes:     document.getElementById('notes').value.trim() +
+                 (document.getElementById('address').value.trim()
+                   ? ' | Address: ' + document.getElementById('address').value.trim() : '')
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}/api/donations`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+      if (res.ok) {
+        showAlert('success');
+        btn.textContent = 'Redirecting to PayPal…';
+        setTimeout(() => { window.location.href = PAYPAL_URL; }, 1500);
+      } else {
+        throw new Error();
+      }
+    } catch (e) {
+      showAlert('error');
+      btn.disabled = false;
+      btn.textContent = 'Continue to PayPal →';
+    }
+  }
+
+  function showAlert(type, msg) {
+    document.querySelectorAll('.alert').forEach(a => a.classList.remove('show'));
+    const el = document.getElementById('alert-' + type);
+    if (msg) el.textContent = msg;
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>

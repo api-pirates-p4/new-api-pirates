@@ -1,0 +1,39 @@
+---
+permalink: /donation
+title: Make a Donation
+layout: default
+api_base: http://localhost:5001
+paypal_button_id: YOUR_BUTTON_ID
+campaigns:
+  - name: Home Repair Fund
+    category: Home repair
+    label: Fix a Veteran's Home
+    theme: repair
+    progress: 72
+    raised: "$14,400"
+  - name: Scholarship Fund
+    category: Scholarship
+    label: Support Education
+    theme: scholarship
+    progress: 55
+    raised: "$5,500"
+  - name: Emergency Relief
+    category: Emergency
+    label: Immediate Relief
+    theme: emergency
+    progress: 40
+    raised: "$4,000"
+stories:
+  - quote: "The roof had been leaking for two years. I didn't know who to call. PVO had a team out within a week."
+    attribution: "Poway veteran, Army, served 1972–1975"
+  - quote: "I couldn't get to my VA appointments — no transportation. PVO's drivers made sure I never missed one."
+    attribution: "Poway veteran, Navy, served 1968–1972"
+impact_stats:
+  - num: "180+"
+    desc: Home repair projects completed
+  - num: "400+"
+    desc: Transportation trips to VA appointments
+  - num: "12"
+    desc: Scholarships awarded
+  - num: "60+"
+    desc: Emergency assistance cases
