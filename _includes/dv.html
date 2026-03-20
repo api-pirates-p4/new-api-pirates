@@ -2,7 +2,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ '/assets/css/donation.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/dv.css' | relative_url }}">
 
 <!-- Hero -->
 <div class="hero">
@@ -49,7 +49,7 @@
 
     <!-- Impact stats from _data / front matter -->
     <div class="impact-grid">
-      {% for stat in page.impact_stats %}
+      {% for stat in site.data.dv.impact_stats %}
       <div class="impact-card">
         <div class="impact-num">{{ stat.num }}</div>
         <div class="impact-desc">{{ stat.desc }}</div>
@@ -62,7 +62,7 @@
 
     <!-- Campaign cards from front matter -->
     <div class="campaign-grid">
-      {% for c in page.campaigns %}
+      {% for c in site.data.dv.campaigns %}
       <div class="campaign-card" onclick="selectCampaign(this, '{{ c.name }}')">
         <div class="campaign-header {{ c.theme }}">
           <div class="campaign-cat">{{ c.category }}</div>
@@ -78,7 +78,7 @@
 
     <!-- Veteran stories from front matter -->
     <div class="section-label" style="margin-bottom:0.75rem;">Real help for real veterans</div>
-    {% for s in page.stories %}
+    {% for s in site.data.dv.stories %}
     <div class="story">
       <blockquote>"{{ s.quote }}"</blockquote>
       <cite>— {{ s.attribution }}</cite>
@@ -180,8 +180,8 @@
 </div>
 
 <script>
-  const API_BASE    = '{{ page.api_base }}';
-  const PAYPAL_URL  = 'https://www.paypal.com/donate/?hosted_button_id={{ page.paypal_button_id }}';
+    const API_BASE    = '{{ site.data.dv.api_base }}';
+    const PAYPAL_URL  = 'https://www.paypal.com/donate/?hosted_button_id={{ site.data.dv.paypal_button_id }}';
 
   async function loadImpact() {
     try {

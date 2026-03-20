@@ -128,3 +128,6 @@ minima:
     - navigation/search.md
 
 gemini_api_key: AIzaSyBWEz5qHeWx5buC4I4dZ2fllaMk3z8k_-w
+
+sass:
+  sass_dir: _sass
