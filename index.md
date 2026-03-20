@@ -484,3 +484,18 @@ Students work in teams to identify a real-world problem, conduct research, desig
 > Student projects are tracked and guided using Open Coding Society–supported project guidelines, including enrollment, issue tracking, and iterative review cycles, ensuring progress is documented and supported across disciplines.
 
 This capstone emphasizes creating a **student-designed solution to a real-world problem**, integrating computer science with other applied fields while highlighting professional collaboration, technical documentation, and public presentation.
+
+<a href="/pvo-chatbot/" style="
+  display: inline-block;
+  background: #0d1f3c;
+  color: #f7f3ec;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 99px;
+  text-decoration: none;
+  font-size: 1rem;
+  border: 2px solid #c9a84c;
+  margin-top: 12px;
+">
+  🎖️ Chat with PVO Assistant
+</a>
