@@ -1,12 +1,8 @@
 ---
-permalink: /donation
-title: Make a Donation
+permalink: /volunteer
 layout: page
 api_base: http://localhost:4500
-paypal_button_id: YOUR_BUTTON_ID
-campaigns: "{{ site.data.dv.campaigns }}"
 ---
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -23,8 +19,8 @@ campaigns: "{{ site.data.dv.campaigns }}"
     --gold: #c8922a;
     --gold-light: #e8b04a;
     --red: #8b1c1c;
-    --cream: #f8f5ef;
-    --warm-white: #fdfcf9;
+    --cream: transparent;
+    --warm-white: transparent;
     --gray: #6b7280;
     --gray-light: #e8e4dc;
     --text: #1f2937;
@@ -36,7 +32,7 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
   body {
     font-family: var(--font-body);
-    background: var(--warm-white);
+    background: transparent;
     color: var(--text);
     line-height: 1.6;
     font-size: 16px;
@@ -91,24 +87,11 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
   /* ── HERO BANNER ── */
   .hero {
-    background: var(--navy);
+    background: transparent;
     padding: 5rem 2rem 4rem;
     text-align: center;
     position: relative;
     overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 40px,
-        rgba(200,146,42,0.04) 40px,
-        rgba(200,146,42,0.04) 41px
-      );
   }
   .hero-eyebrow {
     font-family: var(--font-body);
@@ -197,7 +180,7 @@ campaigns: "{{ site.data.dv.campaigns }}"
   }
   .section-body {
     font-size: 1rem;
-    color: var(--gray);
+    color: rgba(255,255,255,0.7);
     max-width: 640px;
     line-height: 1.75;
     margin-bottom: 2.5rem;
@@ -205,8 +188,10 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
   /* ── STAT BAR ── */
   .stat-bar {
-    background: var(--navy);
+    background: transparent;
     padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(200,146,42,0.15);
+    border-bottom: 1px solid rgba(200,146,42,0.15);
   }
   .stat-grid {
     max-width: 1040px;
@@ -247,8 +232,8 @@ campaigns: "{{ site.data.dv.campaigns }}"
     gap: 1.5rem;
   }
   .role-card {
-    background: #fff;
-    border: 1px solid var(--gray-light);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,146,42,0.2);
     border-radius: 8px;
     padding: 1.75rem;
     cursor: pointer;
@@ -279,14 +264,37 @@ campaigns: "{{ site.data.dv.campaigns }}"
   .role-title {
     font-family: var(--font-display);
     font-size: 1.1rem;
-    color: var(--navy);
+    color: #fff;
     margin-bottom: 0.35rem;
   }
   .role-desc {
     font-size: 0.88rem;
-    color: var(--gray);
+    color: #000000 !important;
     line-height: 1.6;
     margin-bottom: 1rem;
+  }
+  .role-card .role-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .role-card.open .role-body {
+    max-height: 200px;
+    opacity: 1;
+  }
+  .role-toggle {
+    float: right;
+    font-size: 0.75rem;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+  .role-card.open .role-toggle {
+    transform: rotate(180deg);
   }
   .role-meta {
     display: flex;
@@ -306,9 +314,9 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
   /* ── CORPORATE BAND ── */
   .corporate-band {
-    background: var(--cream);
-    border-top: 1px solid var(--gray-light);
-    border-bottom: 1px solid var(--gray-light);
+    background: transparent;
+    border-top: 1px solid rgba(200,146,42,0.2);
+    border-bottom: 1px solid rgba(200,146,42,0.2);
     padding: 3rem 2rem;
   }
   .corporate-inner {
@@ -323,14 +331,14 @@ campaigns: "{{ site.data.dv.campaigns }}"
   .corporate-text h3 {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    color: var(--navy);
+    color: #fff;
     margin-bottom: 0.75rem;
   }
-  .corporate-text p { color: var(--gray); line-height: 1.75; font-size: 0.95rem; }
+  .corporate-text p { color: #fff !important; line-height: 1.75; font-size: 0.95rem; }
   .corporate-perks { list-style: none; margin-top: 1rem; }
   .corporate-perks li {
     font-size: 0.88rem;
-    color: var(--gray);
+    color: #fff !important;
     padding: 0.3rem 0;
     padding-left: 1.2rem;
     position: relative;
@@ -344,19 +352,20 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
   /* ── SIGN-UP FORM ── */
   .form-section {
-    background: var(--navy);
+    background: transparent;
     padding: 4rem 2rem;
   }
   .form-shell {
     max-width: 680px;
     margin: 0 auto;
-    background: var(--warm-white);
+    background: transparent;
     border-radius: 10px;
     padding: 2.5rem;
+    border: 1px solid rgba(200,146,42,0.25);
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   }
-  .form-shell .section-title { margin-bottom: 0.5rem; }
-  .form-shell .section-body { margin-bottom: 2rem; font-size: 0.9rem; }
+  .form-shell .section-title { margin-bottom: 0.5rem; color: #fff !important; }
+  .form-shell .section-body { margin-bottom: 2rem; font-size: 0.9rem; color: #fff !important; }
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -370,18 +379,18 @@ campaigns: "{{ site.data.dv.campaigns }}"
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: rgba(255,255,255,0.8);
   }
   .form-group input,
   .form-group select,
   .form-group textarea {
     padding: 0.65rem 0.9rem;
-    border: 1.5px solid var(--gray-light);
+    border: 1.5px solid rgba(200,146,42,0.3);
     border-radius: 5px;
     font-family: var(--font-body);
     font-size: 0.95rem;
-    color: var(--text);
-    background: #fff;
+    color: #fff;
+    background: rgba(255,255,255,0.06);
     transition: border-color 0.2s;
     outline: none;
   }
@@ -403,14 +412,14 @@ campaigns: "{{ site.data.dv.campaigns }}"
     align-items: center;
     gap: 0.4rem;
     font-size: 0.82rem;
-    color: var(--text);
+    color: rgba(255,255,255,0.8);
     cursor: pointer;
     padding: 0.4rem 0.5rem;
     border-radius: 4px;
-    border: 1px solid var(--gray-light);
+    border: 1px solid rgba(200,146,42,0.25);
     transition: all 0.15s;
   }
-  .role-check:hover { border-color: var(--gold); background: #fefaf3; }
+  .role-check:hover { border-color: var(--gold); background: rgba(200,146,42,0.08); }
   .role-check input { accent-color: var(--gold); }
   .form-submit {
     margin-top: 1.5rem;
@@ -431,250 +440,15 @@ campaigns: "{{ site.data.dv.campaigns }}"
   .form-submit:hover { background: var(--gold-light); }
   .form-note {
     font-size: 0.78rem;
-    color: var(--gray);
+    color: #1f2937;
     text-align: center;
     margin-top: 0.75rem;
   }
 
-  /* ── DONOR PAGE ── */
-  .impact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-  }
-  .impact-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 1.75rem 1.5rem;
-    text-align: center;
-    border: 1px solid var(--gray-light);
-    transition: box-shadow 0.2s;
-  }
-  .impact-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-  .impact-num {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-  .impact-desc {
-    font-size: 0.82rem;
-    color: var(--gray);
-    line-height: 1.5;
-  }
-  .impact-icon { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
-
-  /* ── CAMPAIGN CARDS ── */
-  .campaign-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-  }
-  .campaign-card {
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--gray-light);
-    transition: all 0.25s;
-    cursor: pointer;
-    background: #fff;
-  }
-  .campaign-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
-  .campaign-header {
-    padding: 1.5rem;
-    position: relative;
-  }
-  .campaign-header.repair { background: #1a2744; }
-  .campaign-header.scholarship { background: #2d4a1e; }
-  .campaign-header.emergency { background: #6b1414; }
-  .campaign-category {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-  }
-  .campaign-name {
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
-  .campaign-sub { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
-  .campaign-body { padding: 1.25rem 1.5rem; }
-  .campaign-progress {
-    height: 5px;
-    background: var(--gray-light);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 0.6rem;
-  }
-  .campaign-bar {
-    height: 100%;
-    background: var(--gold);
-    border-radius: 10px;
-    transition: width 1s ease;
-  }
-  .campaign-stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    color: var(--gray);
-    margin-bottom: 1rem;
-  }
-  .campaign-stats strong { color: var(--navy); }
-
-  /* ── IMPACT STORY ── */
-  .story-strip {
-    background: var(--cream);
-    border-left: 4px solid var(--gold);
-    padding: 1.5rem 2rem;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 1.5rem;
-  }
-  .story-strip blockquote {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    color: var(--navy);
-    line-height: 1.5;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-  .story-attribution {
-    font-size: 0.8rem;
-    color: var(--gray);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  /* ── EXPENSE RATIO ── */
-  .ratio-bar-wrap { margin: 1.5rem 0; }
-  .ratio-bar {
-    height: 28px;
-    background: var(--gray-light);
-    border-radius: 6px;
-    overflow: hidden;
-    display: flex;
-  }
-  .ratio-segment {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .ratio-segment.program { background: var(--gold); color: var(--navy); }
-  .ratio-segment.admin { background: var(--gray-light); color: var(--gray); }
-  .ratio-legend {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 0.5rem;
-    font-size: 0.78rem;
-    color: var(--gray);
-  }
-  .ratio-dot {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    margin-right: 0.3rem;
-  }
-
-  /* ── DONOR FORM ── */
-  .amount-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .amount-btn {
-    padding: 0.6rem;
-    border: 1.5px solid var(--gray-light);
-    background: #fff;
-    border-radius: 5px;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--navy);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-  }
-  .amount-btn:hover, .amount-btn.selected {
-    border-color: var(--gold);
-    background: #fef8ee;
-    color: var(--gold);
-  }
-
-  /* ── METHODS ── */
-  .method-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  .method-card {
-    background: #fff;
-    border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-  }
-  .method-card h4 {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--navy);
-    margin-bottom: 0.5rem;
-  }
-  .method-card p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
-
-  /* ── FRESHNESS BAND ── */
-  .freshness-band {
-    background: var(--navy);
-    color: #fff;
-    padding: 0.75rem 2rem;
-  }
-  .freshness-inner {
-    max-width: 1040px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.7);
-  }
-  .freshness-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #4ade80;
-    flex-shrink: 0;
-    box-shadow: 0 0 6px #4ade80;
-  }
-
-  /* ── TAX NOTICE ── */
-  .tax-notice {
-    background: #f0f7ff;
-    border: 1px solid #bcd4ef;
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    font-size: 0.83rem;
-    color: #1e40af;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-  .tax-notice strong { color: #1e3a8a; }
-
+  /* ── STAT BAR MOBILE ── */
   @media (max-width: 600px) {
     .form-row { grid-template-columns: 1fr; }
     .role-selector { grid-template-columns: repeat(2, 1fr); }
-    .amount-grid { grid-template-columns: repeat(2, 1fr); }
     .stat-item + .stat-item::before { display: none; }
   }
 
@@ -686,13 +460,9 @@ campaigns: "{{ site.data.dv.campaigns }}"
   <div class="nav-logo">Poway Veterans Organization</div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showPage('volunteer')">Volunteer</button>
-    <button class="nav-tab" onclick="showPage('donor')">Donate</button>
   </div>
 </nav>
 
-<!-- ═══════════════════════════════════════════
-     VOLUNTEER PAGE
-═══════════════════════════════════════════ -->
 <div id="volunteer-page" class="page active">
 
   <div class="hero">
@@ -726,72 +496,84 @@ campaigns: "{{ site.data.dv.campaigns }}"
     </div>
   </div>
 
-  <section id="volunteer-roles" style="background: var(--cream);">
+  <section id="volunteer-roles" style="background: transparent;">
     <div class="container">
       <div class="section-label">Where you fit in</div>
-      <div class="section-title">Six Teams. One Mission.</div>
-      <p class="section-body">Every volunteer is matched to a team based on skills, availability, and interest. Click a card to learn more — then include it in your sign-up below.</p>
+      <div class="section-title" style="color: #fff;">Six Teams. One Mission.</div>
+      <p class="section-body">Every volunteer is matched to a team based on skills, availability, and interest. Click a card to expand — then include it in your sign-up below.</p>
 
       <div class="roles-grid">
 
-        <div class="role-card" onclick="selectRole(this, 'Home Repair')">
+        <div class="role-card" onclick="toggleRole(this, 'Home Repair')">
           <span class="role-icon">🔨</span>
-          <div class="role-title">Home Repair</div>
-          <p class="role-desc">Carpentry, drywall, painting, and general handyman work at veterans' homes. Our most active and impactful team.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">4–8 hrs/project</span>
-            <span class="tag tag-level">Any skill level</span>
+          <div class="role-title">Home Repair <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Carpentry, drywall, painting, and general handyman work at veterans' homes. Our most active and impactful team.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">4–8 hrs/project</span>
+              <span class="tag tag-level">Any skill level</span>
+            </div>
           </div>
         </div>
 
-        <div class="role-card" onclick="selectRole(this, 'Events')">
+        <div class="role-card" onclick="toggleRole(this, 'Events')">
           <span class="role-icon">🎗️</span>
-          <div class="role-title">Events & Fundraising</div>
-          <p class="role-desc">Support the annual golf tournament and other PVO events — setup, registration, logistics, and community outreach.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">Seasonal / event-based</span>
-            <span class="tag tag-level">No experience needed</span>
+          <div class="role-title">Events & Fundraising <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Support the annual golf tournament and other PVO events — setup, registration, logistics, and community outreach.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">Seasonal / event-based</span>
+              <span class="tag tag-level">No experience needed</span>
+            </div>
           </div>
         </div>
 
-        <div class="role-card" onclick="selectRole(this, 'Outreach')">
+        <div class="role-card" onclick="toggleRole(this, 'Outreach')">
           <span class="role-icon">📣</span>
-          <div class="role-title">Community Outreach</div>
-          <p class="role-desc">Connect with veteran service organizations, attend community events, and help spread awareness of PVO's programs.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">2–4 hrs/month</span>
-            <span class="tag tag-level">Communication skills</span>
+          <div class="role-title">Community Outreach <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Connect with veteran service organizations, attend community events, and help spread awareness of PVO's programs.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">2–4 hrs/month</span>
+              <span class="tag tag-level">Communication skills</span>
+            </div>
           </div>
         </div>
 
-        <div class="role-card" onclick="selectRole(this, 'Admin')">
+        <div class="role-card" onclick="toggleRole(this, 'Admin')">
           <span class="role-icon">📋</span>
-          <div class="role-title">Admin & Coordination</div>
-          <p class="role-desc">Scheduling, record-keeping, donor acknowledgment letters, and volunteer coordination support from home or on-site.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">Flexible hours</span>
-            <span class="tag tag-level">Organized, detail-oriented</span>
+          <div class="role-title">Admin & Coordination <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Scheduling, record-keeping, donor acknowledgment letters, and volunteer coordination support from home or on-site.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">Flexible hours</span>
+              <span class="tag tag-level">Organized, detail-oriented</span>
+            </div>
           </div>
         </div>
 
-        <div class="role-card" onclick="selectRole(this, 'Transport')">
+        <div class="role-card" onclick="toggleRole(this, 'Transport')">
           <span class="role-icon">🚗</span>
-          <div class="role-title">Transport</div>
-          <p class="role-desc">Drive veterans to medical appointments, help haul materials to project sites, and assist with equipment pickup and delivery.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">As-needed scheduling</span>
-            <span class="tag tag-level">Valid CA driver's license</span>
+          <div class="role-title">Transport <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Drive veterans to medical appointments, help haul materials to project sites, and assist with equipment pickup and delivery.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">As-needed scheduling</span>
+              <span class="tag tag-level">Valid CA driver's license</span>
+            </div>
           </div>
         </div>
 
-        <div class="role-card" onclick="selectRole(this, 'Skilled Trades')">
+        <div class="role-card" onclick="toggleRole(this, 'Skilled Trades')">
           <span class="role-icon">⚙️</span>
-          <div class="role-title">Skilled Trades</div>
-          <p class="role-desc">Licensed plumbers, electricians, welders, and mechanics. Tackle complex repairs that need professional-level expertise.</p>
-          <div class="role-meta">
-            <span class="tag tag-time">Project-based</span>
-            <span class="tag tag-level">Licensed or certified</span>
-            <span class="tag tag-group">High demand</span>
+          <div class="role-title">Skilled Trades <span class="role-toggle">▼</span></div>
+          <div class="role-body">
+            <p class="role-desc">Licensed plumbers, electricians, welders, and mechanics. Tackle complex repairs that need professional-level expertise.</p>
+            <div class="role-meta">
+              <span class="tag tag-time">Project-based</span>
+              <span class="tag tag-level">Licensed or certified</span>
+              <span class="tag tag-group">High demand</span>
+            </div>
           </div>
         </div>
 
@@ -817,7 +599,7 @@ campaigns: "{{ site.data.dv.campaigns }}"
           <div style="font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.75rem; color: var(--gold);">Schedule a group day</div>
           <p style="font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem; line-height: 1.65;">Contact us to plan your team's volunteer experience. We accommodate groups of 5 to 40+.</p>
           <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 0.4rem;">📞 858-206-8854</p>
-          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">✉ contact@powayveterans.org</p>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0e0203190c0e192d1d021a0c141b0819081f0c031e43021f0a">[email&#160;protected]</a></p>
         </div>
       </div>
     </div>
@@ -827,7 +609,7 @@ campaigns: "{{ site.data.dv.campaigns }}"
     <div class="form-shell">
       <div class="section-label" style="color: var(--gold);">Sign up</div>
       <div class="section-title">Join the PVO Volunteer Team</div>
-      <p class="section-body" style="color: var(--gray);">Fill out the form and a team manager will reach out within 3 business days to match you with your first project.</p>
+      <p class="section-body">Fill out the form and a team manager will reach out within 3 business days to match you with your first project.</p>
 
       <div class="form-row">
         <div class="form-group">
@@ -910,257 +692,7 @@ campaigns: "{{ site.data.dv.campaigns }}"
 
 </div>
 
-<!-- ═══════════════════════════════════════════
-     DONOR PAGE
-═══════════════════════════════════════════ -->
-<div id="donor-page" class="page">
-
-  <div class="hero">
-    <div class="hero-eyebrow">Make an impact</div>
-    <h1>Your Donation Repairs<br><em>More Than Homes.</em></h1>
-    <p class="hero-sub">Poway's veterans served so we didn't have to. PVO puts 95¢ of every dollar directly into veteran assistance — repairs, transportation, emergency relief, and more.</p>
-    <div class="hero-cta">
-      <a href="#donate-form" class="btn btn-gold">Donate Now</a>
-      <a href="#impact" class="btn btn-outline">See the Impact</a>
-    </div>
-  </div>
-
-  <div class="stat-bar">
-    <div class="stat-grid">
-      <div class="stat-item">
-        <div class="stat-num">95%+</div>
-        <div class="stat-label">Program expense ratio</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">340+</div>
-        <div class="stat-label">Veterans helped</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">501(c)(3)</div>
-        <div class="stat-label">Tax-exempt status</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">$0</div>
-        <div class="stat-label">Paid staff — all volunteer</div>
-      </div>
-    </div>
-  </div>
-
-  <section id="impact" style="background: var(--cream);">
-    <div class="container">
-      <div class="section-label">Where your money goes</div>
-      <div class="section-title">An Honest Look at PVO's Impact</div>
-      <p class="section-body">PVO has no paid staff. Every dollar raised goes toward veteran projects — not overhead. Here's what that looks like in practice.</p>
-
-      <div style="max-width: 640px; margin-bottom: 2.5rem;">
-        <div class="ratio-bar-wrap">
-          <div style="font-size: 0.78rem; color: var(--gray); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;">How every dollar is spent</div>
-          <div class="ratio-bar">
-            <div class="ratio-segment program" style="width: 95%;">95% Programs</div>
-            <div class="ratio-segment admin" style="width: 5%; font-size: 0.65rem;">&lt;5%</div>
-          </div>
-          <div class="ratio-legend">
-            <span><span class="ratio-dot" style="background: var(--gold);"></span>Veteran programs &amp; projects — 95%+</span>
-            <span><span class="ratio-dot" style="background: var(--gray-light); border: 1px solid #ccc;"></span>Admin &amp; overhead — &lt;5%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="impact-grid">
-        <div class="impact-card">
-          <span class="impact-icon">🏠</span>
-          <div class="impact-num">180+</div>
-          <div class="impact-desc">Home repair projects completed for Poway-area veterans</div>
-        </div>
-        <div class="impact-card">
-          <span class="impact-icon">🚗</span>
-          <div class="impact-num">400+</div>
-          <div class="impact-desc">Transportation trips to VA appointments and care facilities</div>
-        </div>
-        <div class="impact-card">
-          <span class="impact-icon">🎓</span>
-          <div class="impact-num">12</div>
-          <div class="impact-desc">Scholarships awarded to veterans and their family members</div>
-        </div>
-        <div class="impact-card">
-          <span class="impact-icon">🆘</span>
-          <div class="impact-num">60+</div>
-          <div class="impact-desc">Emergency assistance cases — utility bills, critical repairs</div>
-        </div>
-      </div>
-
-      <div class="section-label" style="margin-top: 1rem;">Recent examples</div>
-      <div class="section-title" style="font-size: 1.4rem; margin-bottom: 1.5rem;">Real Help for Real Veterans</div>
-
-      <div class="story-strip">
-        <blockquote>"The roof had been leaking for two years. I didn't know who to call. PVO had a team out within a week."</blockquote>
-        <div class="story-attribution">— Poway veteran, Army, served 1972–1975</div>
-      </div>
-      <div class="story-strip">
-        <blockquote>"I couldn't get to my VA appointments — no transportation. PVO's drivers made sure I never missed one."</blockquote>
-        <div class="story-attribution">— Poway veteran, Navy, served 1968–1972</div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="donate-form" style="background: #fff;">
-    <div class="container">
-      <div class="section-label">Choose your impact</div>
-      <div class="section-title">Campaign-Based Giving</div>
-      <p class="section-body">Direct your donation to the cause closest to your heart — or give to the general fund and let PVO put it where it's needed most.</p>
-
-      <div class="campaign-grid">
-        <div class="campaign-card">
-          <div class="campaign-header repair">
-            <div class="campaign-category">Home repair fund</div>
-            <div class="campaign-name">Fix a Veteran's Home</div>
-            <p class="campaign-sub">Roofing, plumbing, electrical, carpentry — restoring safety and dignity one home at a time.</p>
-          </div>
-          <div class="campaign-body">
-            <div class="campaign-progress"><div class="campaign-bar" style="width: 72%;"></div></div>
-            <div class="campaign-stats"><span><strong>72%</strong> of goal</span><span>$14,400 raised</span></div>
-            <button class="btn btn-navy" style="width:100%; font-size:0.82rem; padding: 0.6rem;" onclick="selectCampaign('Home Repair Fund')">Donate to This Fund</button>
-          </div>
-        </div>
-
-        <div class="campaign-card">
-          <div class="campaign-header scholarship">
-            <div class="campaign-category">Scholarship fund</div>
-            <div class="campaign-name">Support a Veteran's Education</div>
-            <p class="campaign-sub">Helping veterans and their families access education and job training opportunities.</p>
-          </div>
-          <div class="campaign-body">
-            <div class="campaign-progress"><div class="campaign-bar" style="width: 55%;"></div></div>
-            <div class="campaign-stats"><span><strong>55%</strong> of goal</span><span>$5,500 raised</span></div>
-            <button class="btn btn-navy" style="width:100%; font-size:0.82rem; padding: 0.6rem;" onclick="selectCampaign('Scholarship Fund')">Donate to This Fund</button>
-          </div>
-        </div>
-
-        <div class="campaign-card">
-          <div class="campaign-header emergency">
-            <div class="campaign-category">Emergency relief</div>
-            <div class="campaign-name">Emergency Assistance</div>
-            <p class="campaign-sub">Immediate help for veterans facing utility shutoffs, urgent repairs, or unexpected hardship.</p>
-          </div>
-          <div class="campaign-body">
-            <div class="campaign-progress"><div class="campaign-bar" style="width: 40%;"></div></div>
-            <div class="campaign-stats"><span><strong>40%</strong> of goal</span><span>$4,000 raised</span></div>
-            <button class="btn btn-navy" style="width:100%; font-size:0.82rem; padding: 0.6rem;" onclick="selectCampaign('Emergency Relief Fund')">Donate to This Fund</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Donation Form -->
-      <div style="max-width: 600px; margin: 0 auto;">
-        <div style="background: var(--cream); border-radius: 10px; padding: 2rem; border: 1px solid var(--gray-light);">
-          <div id="campaign-label" style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 1rem;">General Fund (select a campaign above to redirect)</div>
-
-          <div class="tax-notice">
-            <strong>Tax deductible.</strong> PVO is a designated 501(c)(3) nonprofit (IRS). Donations in support of veteran assistance projects may be tax deductible. A receipt will be emailed upon completion. Consult your tax adviser.
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Select an amount</label>
-            <div class="amount-grid">
-              <button class="amount-btn" onclick="selectAmount(this, '$25')">$25</button>
-              <button class="amount-btn" onclick="selectAmount(this, '$50')">$50</button>
-              <button class="amount-btn selected" onclick="selectAmount(this, '$100')">$100</button>
-              <button class="amount-btn" onclick="selectAmount(this, '$250')">$250</button>
-            </div>
-            <input type="number" placeholder="Or enter a custom amount…" style="width:100%; padding: 0.65rem 0.9rem; border: 1.5px solid var(--gray-light); border-radius: 5px; font-size: 0.95rem; font-family: var(--font-body); outline: none;">
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Frequency</label>
-            <select style="font-family: var(--font-body); font-size: 0.95rem; padding: 0.65rem 0.9rem; border: 1.5px solid var(--gray-light); border-radius: 5px; outline: none;">
-              <option>One-time gift</option>
-              <option>Monthly recurring</option>
-              <option>Annual recurring</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>First Name *</label>
-              <input type="text" placeholder="First">
-            </div>
-            <div class="form-group">
-              <label>Last Name *</label>
-              <input type="text" placeholder="Last">
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Email *</label>
-            <input type="email" placeholder="you@email.com" style="width:100%;">
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Mailing address (optional — for paper receipt)</label>
-            <input type="text" placeholder="Street address, City, CA ZIP" style="width:100%;">
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1.5rem;">
-            <label>Dedication or note (optional)</label>
-            <textarea placeholder="In honor of… / In memory of… / Specifically for…" style="min-height: 72px; width: 100%;"></textarea>
-          </div>
-
-          <button class="form-submit">Continue to PayPal →</button>
-          <p class="form-note">You'll be redirected to PayPal to complete payment securely. Credit card accepted — no PayPal account required.</p>
-        </div>
-
-        <div class="method-grid" style="margin-top: 1.5rem;">
-          <div class="method-card">
-            <h4>By Check</h4>
-            <p>Payable to <strong>Poway Veterans Organization</strong>. Write "Donation" in the memo line. Mail to: PO Box 563, Poway, CA 92064.</p>
-          </div>
-          <div class="method-card">
-            <h4>Materials Donations</h4>
-            <p>PVO accepts donated materials for veteran projects. Call <strong>858-206-8854</strong> or email <strong>contact@powayveterans.org</strong> to coordinate.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<!-- Freshness band -->
-<div class="freshness-band">
-  <div class="freshness-inner">
-    <div class="freshness-dot"></div>
-    <span>Page last reviewed March 2026 · Events calendar updated monthly · Questions? Call 858-206-8854 or email contact@powayveterans.org</span>
-  </div>
-</div>
-
-<script>
-  function showPage(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(page + '-page').classList.add('active');
-    event.target.classList.add('active');
-  }
-
-  function selectRole(card, roleName) {
-    card.classList.toggle('selected');
-    // Also tick the checkbox in the form
-    const checkboxes = document.querySelectorAll('#role-selector input');
-    checkboxes.forEach(cb => {
-      if (cb.value === roleName) cb.checked = card.classList.contains('selected');
-    });
-  }
-
-  function selectAmount(btn, amount) {
-    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-  }
-
-  function selectCampaign(name) {
-    document.getElementById('campaign-label').textContent = 'Donating to: ' + name;
-    document.getElementById('campaign-label').style.color = 'var(--navy)';
-    document.getElementById('donate-form').scrollIntoView({ behavior: 'smooth' });
-  }
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function toggleRole(card, role) {
+    card.classList.toggle('open');
+    // sync checkbox in the form
