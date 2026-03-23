@@ -612,87 +612,128 @@ api_base: http://localhost:4500
       <p class="section-body">Fill out the form and a team manager will reach out within 3 business days to match you with your first project.</p>
 
       <div class="form-row">
-        <div class="form-group">
-          <label>First Name *</label>
-          <input type="text" placeholder="First">
-        </div>
-        <div class="form-group">
-          <label>Last Name *</label>
-          <input type="text" placeholder="Last">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Phone *</label>
-          <input type="tel" placeholder="(858) 555-0000">
-        </div>
-        <div class="form-group">
-          <label>Email *</label>
-          <input type="email" placeholder="you@email.com">
-        </div>
-      </div>
-      <div class="form-row full">
-        <div class="form-group">
-          <label>City / Zip *</label>
-          <input type="text" placeholder="Poway, CA 92064">
-        </div>
-      </div>
-
-      <div class="form-group" style="margin-bottom: 1rem;">
-        <label>Volunteer Roles (select all that interest you)</label>
-        <div class="role-selector" id="role-selector">
-          <label class="role-check"><input type="checkbox" value="Home Repair"> Home Repair</label>
-          <label class="role-check"><input type="checkbox" value="Events"> Events</label>
-          <label class="role-check"><input type="checkbox" value="Outreach"> Outreach</label>
-          <label class="role-check"><input type="checkbox" value="Admin"> Admin</label>
-          <label class="role-check"><input type="checkbox" value="Transport"> Transport</label>
-          <label class="role-check"><input type="checkbox" value="Skilled Trades"> Skilled Trades</label>
-        </div>
-      </div>
-
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Skills & Experience</label>
-          <textarea placeholder="Briefly describe relevant skills (e.g. carpentry, welding, project management, driving, administrative work)…"></textarea>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Availability</label>
-          <select>
-            <option value="">Any restrictions?</option>
-            <option>Weekdays only</option>
-            <option>Weekends only</option>
-            <option>Weekday mornings</option>
-            <option>Flexible — most days</option>
-            <option>Event-based only</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Best time to reach you</label>
-          <select>
-            <option value="">Select…</option>
-            <option>Morning (8am–12pm)</option>
-            <option>Afternoon (12pm–5pm)</option>
-            <option>Evening (5pm–8pm)</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Group or Organization (optional)</label>
-          <input type="text" placeholder="Company, faith community, service club, etc.">
-        </div>
-      </div>
-
-      <button class="form-submit">Submit Volunteer Application</button>
-      <p class="form-note">Your info is used only for volunteer coordination and is never shared or sold.</p>
-    </div>
+  <div class="form-group">
+    <label>First Name *</label>
+    <input type="text" id="first_name" placeholder="First">
   </div>
-
+  <div class="form-group">
+    <label>Last Name *</label>
+    <input type="text" id="last_name" placeholder="Last">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <label>Phone *</label>
+    <input type="tel" id="phone" placeholder="(858) 555-0000">
+  </div>
+  <div class="form-group">
+    <label>Email *</label>
+    <input type="email" id="email" placeholder="you@email.com">
+  </div>
+</div>
+<div class="form-row full">
+  <div class="form-group">
+    <label>City / Zip *</label>
+    <input type="text" id="city_zip" placeholder="Poway, CA 92064">
+  </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<div class="form-group" style="margin-bottom: 1rem;">
+  <label>Volunteer Roles (select all that interest you)</label>
+  <div class="role-selector" id="role-selector">
+    <label class="role-check"><input type="checkbox" value="Home Repair"> Home Repair</label>
+    <label class="role-check"><input type="checkbox" value="Events"> Events</label>
+    <label class="role-check"><input type="checkbox" value="Outreach"> Outreach</label>
+    <label class="role-check"><input type="checkbox" value="Admin"> Admin</label>
+    <label class="role-check"><input type="checkbox" value="Transport"> Transport</label>
+    <label class="role-check"><input type="checkbox" value="Skilled Trades"> Skilled Trades</label>
+  </div>
+</div>
+
+<div class="form-row full">
+  <div class="form-group">
+    <label>Skills & Experience</label>
+    <textarea id="skills" placeholder="Briefly describe relevant skills (e.g. carpentry, welding, project management, driving, administrative work)…"></textarea>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <label>Availability</label>
+    <select id="availability">
+      <option value="">Any restrictions?</option>
+      <option>Weekdays only</option>
+      <option>Weekends only</option>
+      <option>Weekday mornings</option>
+      <option>Flexible — most days</option>
+      <option>Event-based only</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Best time to reach you</label>
+    <select id="best_time">
+      <option value="">Select…</option>
+      <option>Morning (8am–12pm)</option>
+      <option>Afternoon (12pm–5pm)</option>
+      <option>Evening (5pm–8pm)</option>
+    </select>
+  </div>
+</div>
+<div class="form-row full">
+  <div class="form-group">
+    <label>Group or Organization (optional)</label>
+    <input type="text" id="organization" placeholder="Company, faith community, service club, etc.">
+  </div>
+</div>
+
+<button class="form-submit">Submit Volunteer Application</button>
+<p class="form-note">Your info is used only for volunteer coordination and is never shared or sold.</p>
+
+
+<script>
   function toggleRole(card, role) {
     card.classList.toggle('open');
-    // sync checkbox in the form
+    const checkboxes = document.querySelectorAll('#role-selector input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+      if (cb.value === role) cb.checked = card.classList.contains('open');
+    });
+  }
+
+  document.querySelector('.form-submit').addEventListener('click', async () => {
+    const roles = [...document.querySelectorAll('#role-selector input:checked')]
+      .map(cb => cb.value).join(', ');
+
+    const payload = {
+      first_name:   document.getElementById('first_name').value.trim(),
+      last_name:    document.getElementById('last_name').value.trim(),
+      phone:        document.getElementById('phone').value.trim(),
+      email:        document.getElementById('email').value.trim(),
+      city_zip:     document.getElementById('city_zip').value.trim(),
+      roles,
+      skills:       document.getElementById('skills').value.trim(),
+      availability: document.getElementById('availability').value,
+      best_time:    document.getElementById('best_time').value,
+      organization: document.getElementById('organization').value.trim(),
+    };
+
+    if (!payload.first_name || !payload.last_name || !payload.email) {
+      alert('Please fill in First Name, Last Name, and Email.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:8587/api/volunteers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert("Application submitted! We'll be in touch within 3 business days.");
+      } else {
+        alert('Error: ' + data.error);
+      }
+    } catch (err) {
+      alert('Could not reach the server. Please try again.');
+    }
+  });
+</script>
