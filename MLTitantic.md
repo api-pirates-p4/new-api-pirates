@@ -290,7 +290,7 @@ function showResult() {
     document.getElementById('ref-pct').textContent = refPct + '%';
   }, 200);
 
-  fetch('/api/veteran/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(answers) })
+  fetch('http://localhost:8587/api/veteran/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(answers) })
     .then(r=>r.json()).then(r=>{
       const p=Math.round(r.pvo_direct*100), rv=Math.round(r.refer_out*100);
       document.getElementById('pvo-bar').style.width=p+'%'; document.getElementById('pvo-pct').textContent=p+'%';

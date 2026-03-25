@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetRunner: TCP/IP Stack Attack</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap');
+
+  :root {
+    --cyan: #00f5ff;
+    --green: #00ff88;
+    --orange: #ff6b35;
+    --red: #ff2244;
+    --purple: #a855f7;
+    --dark: #030712;
+    --panel: rgba(0,245,255,0.05);
+    --border: rgba(0,245,255,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--cyan);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #gameContainer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ====== SCREENS ====== */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .screen.active { display: flex; }
+
+  /* ====== TITLE SCREEN ====== */
+  #titleScreen {
+    background: radial-gradient(ellipse at center, #0a0e1a 0%, #030712 70%);
+  }
+  #titleScreen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(40px,40px); }
+  }
+
+  .title-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    line-height: 1.1;
+    text-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,245,255,0.3);
+    animation: titlePulse 3s ease-in-out infinite;
+    z-index: 1;
+  }
+  .title-logo span { color: var(--orange); text-shadow: 0 0 30px var(--orange); }
+  @keyframes titlePulse {
+    0%,100% { opacity:1; } 50% { opacity:.85; }
+  }
+
+  .subtitle {
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+    color: rgba(0,245,255,0.6);
+    margin: 1rem 0 2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  .btn {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    padding: 0.8rem 2.5rem;
+    background: transparent;
+    border: 2px solid var(--cyan);
+    color: var(--cyan);
+    cursor: pointer;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+  .btn:hover {
+    background: rgba(0,245,255,0.1);
+    box-shadow: 0 0 20px rgba(0,245,255,0.4);
+    transform: scale(1.05);
+  }
+  .btn-orange { border-color: var(--orange); color: var(--orange); }
+  .btn-orange:hover { background: rgba(255,107,53,0.1); box-shadow: 0 0 20px rgba(255,107,53,0.4); }
+  .btn-green { border-color: var(--green); color: var(--green); }
+  .btn-green:hover { background: rgba(0,255,136,0.1); box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+
+  .packet-preview {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 2rem 0;
+    z-index: 1;
+  }
+  .pkt-seg {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    border: 1px solid;
+    padding: 0 6px;
+  }
+  .pkt-frame-hdr { background: rgba(168,85,247,0.2); border-color: var(--purple); color: var(--purple); width: 60px; }
+  .pkt-ip-hdr { background: rgba(0,245,255,0.15); border-color: var(--cyan); width: 55px; }
+  .pkt-tcp-hdr { background: rgba(0,255,136,0.15); border-color: var(--green); color: var(--green); width: 55px; }
+  .pkt-payload { background: rgba(255,107,53,0.15); border-color: var(--orange); color: var(--orange); flex: 1; min-width: 120px; }
+  .pkt-frame-tail { background: rgba(168,85,247,0.2); border-color: var(--purple); color: var(--purple); width: 40px; }
+
+  /* ====== GAME SCREEN ====== */
+  #gameScreen {
+    background: #030712;
+    flex-direction: row;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  #gameCanvas {
+    flex: 1;
+    display: block;
+  }
+
+  #sidebar {
+    width: 280px;
+    background: rgba(0,10,20,0.95);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.8rem;
+    overflow-y: auto;
+  }
+
+  .hud-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .hud-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: rgba(0,245,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .hud-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .layer-display {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .layer-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    font-size: 0.7rem;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .layer-item.active-layer {
+    border-color: var(--cyan);
+    background: rgba(0,245,255,0.08);
+    box-shadow: 0 0 10px rgba(0,245,255,0.2);
+  }
+  .layer-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    min-width: 18px;
+  }
+  .layer-name { color: rgba(255,255,255,0.7); font-size: 0.65rem; }
+  .layer-proto { margin-left: auto; font-size: 0.6rem; color: rgba(0,245,255,0.5); }
+
+  #dialogBox {
+    background: rgba(0,5,15,0.98);
+    border: 1px solid var(--cyan);
+    border-top: 3px solid var(--cyan);
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(0,245,255,0.2);
+  }
+  #dialogSpeaker {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+  }
+  #dialogText {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+    min-height: 60px;
+  }
+
+  .quiz-area {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .quiz-area.visible { display: flex; }
+  .quiz-q {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    line-height: 1.4;
+  }
+  .quiz-opt {
+    font-size: 0.68rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .quiz-opt:hover { border-color: var(--cyan); background: rgba(0,245,255,0.1); color: var(--cyan); }
+  .quiz-opt.correct { border-color: var(--green); background: rgba(0,255,136,0.15); color: var(--green); }
+  .quiz-opt.wrong { border-color: var(--red); background: rgba(255,34,68,0.1); color: var(--red); }
+
+  /* ====== QUIZ SCREEN ====== */
+  #quizScreen {
+    background: radial-gradient(ellipse at center, #0a0e1a 0%, #030712 70%);
+    padding: 2rem;
+  }
+  #quizScreen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .quiz-container {
+    background: rgba(0,10,25,0.95);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--cyan);
+    max-width: 700px;
+    width: 100%;
+    padding: 2rem;
+    z-index: 1;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+  .quiz-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: rgba(0,245,255,0.5);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .quiz-question {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .quiz-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-option-btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.8);
+    padding: 1rem;
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .quiz-option-btn:hover:not(:disabled) { border-color: var(--cyan); background: rgba(0,245,255,0.08); color: var(--cyan); }
+  .quiz-option-btn.correct { border-color: var(--green) !important; background: rgba(0,255,136,0.1) !important; color: var(--green) !important; }
+  .quiz-option-btn.wrong { border-color: var(--red) !important; background: rgba(255,34,68,0.08) !important; color: var(--red) !important; }
+  .quiz-option-btn:disabled { cursor: default; }
+
+  .quiz-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .quiz-prog-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(0,245,255,0.1);
+    margin: 0 1rem;
+    position: relative;
+  }
+  .quiz-prog-fill {
+    height: 100%;
+    background: var(--cyan);
+    transition: width 0.5s;
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  .feedback-msg {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.9rem;
+    min-height: 2rem;
+    line-height: 1.5;
+  }
+  .feedback-msg.good { color: var(--green); }
+  .feedback-msg.bad { color: var(--red); }
+
+  /* ====== END SCREEN ====== */
+  #endScreen {
+    background: radial-gradient(ellipse at center, #0a0e1a 0%, #030712 70%);
+  }
+  .end-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    margin-bottom: 1rem;
+    z-index: 1;
+  }
+  .score-display {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 700;
+    text-align: center;
+    color: var(--orange);
+    text-shadow: 0 0 40px var(--orange);
+    z-index: 1;
+  }
+  .score-label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(0,245,255,0.5);
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    z-index: 1;
+  }
+
+  /* ====== CONTROLS BAR ====== */
+  #controlsBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 280px;
+    height: 40px;
+    background: rgba(0,5,15,0.9);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 1.5rem;
+    font-size: 0.65rem;
+    color: rgba(0,245,255,0.4);
+  }
+  .ctrl-key {
+    background: rgba(0,245,255,0.1);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    color: var(--cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+  }
+
+  /* Floating text animations */
+  .float-text {
+    position: absolute;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    pointer-events: none;
+    animation: floatUp 1.5s forwards;
+    z-index: 100;
+  }
+  @keyframes floatUp {
+    0% { opacity:1; transform:translateY(0) scale(1); }
+    100% { opacity:0; transform:translateY(-60px) scale(1.2); }
+  }
+
+  /* ====== MTU METER ====== */
+  #mtuMeter {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+  }
+  .mtu-segments {
+    display: flex;
+    gap: 2px;
+    margin-top: 0.5rem;
+  }
+  .mtu-seg {
+    height: 18px;
+    flex: 1;
+    transition: all 0.3s;
+  }
+  .mtu-seg.frame-hdr { background: var(--purple); opacity: 0.7; }
+  .mtu-seg.ip-hdr { background: var(--cyan); opacity: 0.7; }
+  .mtu-seg.tcp-hdr { background: var(--green); opacity: 0.7; }
+  .mtu-seg.payload { background: var(--orange); opacity: 0.7; }
+  .mtu-seg.frame-tail { background: var(--purple); opacity: 0.7; }
+  .mtu-labels {
+    display: flex;
+    gap: 2px;
+    font-size: 0.5rem;
+    margin-top: 2px;
+    color: rgba(255,255,255,0.4);
+  }
+  .mtu-lab { flex: 1; text-align: center; overflow: hidden; }
+  .mtu-lab.payload-lab { flex: 3; }
+</style>
+</head>
+<body>
+<div id="gameContainer">
+
+  <!-- ===== TITLE SCREEN ===== -->
+  <div id="titleScreen" class="screen active">
+    <div class="title-logo">NET<span>RUNNER</span><br>TCP/IP Stack Attack</div>
+    <div class="subtitle">CB Unit 4 — Network Stack</div>
+    <div class="packet-preview">
+      <div class="pkt-seg pkt-frame-hdr">FRAME<br>HDR 14B</div>
+      <div class="pkt-seg pkt-ip-hdr">IP<br>HDR 20B</div>
+      <div class="pkt-seg pkt-tcp-hdr">TCP<br>HDR 20B</div>
+      <div class="pkt-seg pkt-payload">PAYLOAD (up to 1460B)</div>
+      <div class="pkt-seg pkt-frame-tail">CRC<br>4B</div>
+    </div>
+    <div style="display:flex;gap:1rem;z-index:1;">
+      <button class="btn" onclick="showInstructions()">How to Play</button>
+      <button class="btn btn-orange" onclick="startGame()">Deploy Packet</button>
+    </div>
+    <div style="z-index:1;margin-top:2rem;text-align:center;font-size:0.7rem;color:rgba(0,245,255,0.3);line-height:2;">
+      OSI 7-Layer vs TCP/IP 5-Layer · MTU Formation · NGINX Proxy · Docker · AWS EC2
+    </div>
+  </div>
+
+  <!-- ===== GAME SCREEN ===== -->
+  <div id="gameScreen" class="screen">
+    <canvas id="gameCanvas"></canvas>
+    <div id="sidebar">
+      <div class="hud-label" style="font-family:'Orbitron',monospace;font-size:0.8rem;letter-spacing:2px;">NetRunner</div>
+
+      <div class="hud-box">
+        <div class="hud-label">Score</div>
+        <div class="hud-value" id="scoreDisplay" style="color:var(--orange)">0</div>
+      </div>
+
+      <div class="hud-box">
+        <div class="hud-label">HP</div>
+        <div id="healthBar" style="display:flex;gap:3px;margin-top:4px;"></div>
+      </div>
+
+      <!-- MTU Meter -->
+      <div id="mtuMeter">
+        <div class="hud-label">MTU Frame (1518B)</div>
+        <div class="mtu-segments">
+          <div class="mtu-seg frame-hdr" style="flex:14"></div>
+          <div class="mtu-seg ip-hdr" style="flex:20"></div>
+          <div class="mtu-seg tcp-hdr" style="flex:20"></div>
+          <div class="mtu-seg payload" id="payloadBar" style="flex:1460"></div>
+          <div class="mtu-seg frame-tail" style="flex:4"></div>
+        </div>
+        <div class="mtu-labels">
+          <div class="mtu-lab">14B</div>
+          <div class="mtu-lab">20B</div>
+          <div class="mtu-lab">20B</div>
+          <div class="mtu-lab payload-lab" id="payloadLabel">1460B</div>
+          <div class="mtu-lab">4B</div>
+        </div>
+      </div>
+
+      <!-- OSI / TCP/IP Layer Display -->
+      <div class="hud-box" style="padding-bottom:0.5rem;">
+        <div class="hud-label">OSI ↔ TCP/IP Layers</div>
+        <div class="layer-display" id="layerDisplay"></div>
+      </div>
+
+      <!-- Dialog Box -->
+      <div id="dialogBox">
+        <div id="dialogSpeaker">◈ SYSTEM</div>
+        <div id="dialogText">Initializing network stack...</div>
+      </div>
+
+      <!-- Quiz area inside sidebar -->
+      <div class="quiz-area" id="sidebarQuiz">
+        <div class="quiz-q" id="sqQuestion"></div>
+        <div id="sqOptions"></div>
+      </div>
+
+      <button class="btn btn-green" onclick="showFullQuiz()" style="font-size:0.7rem;padding:0.5rem 1rem;">
+        ⚡ Pop Quiz
+      </button>
+    </div>
+    <div id="controlsBar">
+      <span><span class="ctrl-key">←→</span> Move</span>
+      <span><span class="ctrl-key">SPACE</span> Jump</span>
+      <span><span class="ctrl-key">Z</span> Shoot Packet</span>
+      <span><span class="ctrl-key">E</span> Talk to NPC</span>
+      <span style="margin-left:auto;color:rgba(255,255,255,0.3)">Collect layers to build the MTU frame</span>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quizScreen" class="screen">
+    <div class="quiz-container">
+      <div class="quiz-progress">
+        <span id="qProgressText" style="font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--cyan);">Q 1/10</span>
+        <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="qProgFill" style="width:10%"></div></div>
+        <span id="qScoreText" style="font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--orange);">0 pts</span>
+      </div>
+      <div class="quiz-title">◈ NETWORK STACK — POP QUIZ</div>
+      <div class="quiz-question" id="quizQuestion">Loading question...</div>
+      <div class="quiz-options-grid" id="quizOptions"></div>
+      <div class="feedback-msg" id="quizFeedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== END SCREEN ===== -->
+  <div id="endScreen" class="screen">
+    <div class="end-title" id="endTitle" style="color:var(--cyan);text-shadow:0 0 30px var(--cyan);">MISSION COMPLETE</div>
+    <div class="score-label">FINAL SCORE</div>
+    <div class="score-display" id="finalScore">0</div>
+    <div id="endMsg" style="font-family:'Exo 2',sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.6);text-align:center;max-width:500px;margin:1rem;z-index:1;line-height:1.6;"></div>
+    <div style="display:flex;gap:1rem;z-index:1;margin-top:1rem;">
+      <button class="btn" onclick="location.reload()">Restart</button>
+      <button class="btn btn-orange" onclick="showFullQuiz()">Take Quiz</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// QUIZ DATA — TCP/IP, OSI, MTU
+// ============================================================
+const allQuestions = [
+  {
+    q: "How many layers does the TCP/IP model have?",
+    opts: ["4", "5", "7", "3"],
+    ans: 1,
+    exp: "TCP/IP uses a 5-layer model: Physical, Data Link, Network, Transport, Application."
+  },
+  {
+    q: "How many layers does the OSI model have?",
+    opts: ["5", "4", "7", "6"],
+    ans: 2,
+    exp: "OSI has 7 layers. The top 3 (Application, Presentation, Session) are collapsed into one Application layer in TCP/IP."
+  },
+  {
+    q: "What does MTU stand for?",
+    opts: ["Maximum Transfer Unit", "Minimum Transmission Unit", "Maximum Transmission Unit", "Multi-Tier Utility"],
+    ans: 2,
+    exp: "MTU = Maximum Transmission Unit — the largest packet/frame that can be sent in one network transaction."
+  },
+  {
+    q: "What is the standard Ethernet MTU size?",
+    opts: ["1024 bytes", "1500 bytes", "2048 bytes", "512 bytes"],
+    ans: 1,
+    exp: "Standard Ethernet MTU is 1500 bytes for the IP packet. The full Ethernet frame is 1518 bytes (adds 14B header + 4B CRC)."
+  },
+  {
+    q: "In an Ethernet frame with MTU=1500, how many bytes are available for TCP payload (application data)?",
+    opts: ["1500", "1480", "1460", "1440"],
+    ans: 2,
+    exp: "1500B (MTU) - 20B (IP header) - 20B (TCP header) = 1460 bytes for payload data."
+  },
+  {
+    q: "Which OSI layers are COLLAPSED into the TCP/IP Application layer?",
+    opts: ["Physical + Data Link", "Application + Presentation + Session", "Transport + Network", "Session + Transport"],
+    ans: 1,
+    exp: "OSI layers 7 (Application), 6 (Presentation), and 5 (Session) are all handled as one Application layer in TCP/IP."
+  },
+  {
+    q: "What protocol does NGINX use to route traffic to Docker containers?",
+    opts: ["UDP", "TCP/IP", "FTP", "SMTP"],
+    ans: 1,
+    exp: "NGINX manages TCP/IP traffic, acting as a reverse proxy and load balancer routing requests to backend Docker containers."
+  },
+  {
+    q: "What is the purpose of the TCP 3-way handshake?",
+    opts: ["Encrypting data", "Resolving DNS names", "Establishing a reliable connection", "Assigning IP addresses"],
+    ans: 2,
+    exp: "SYN → SYN-ACK → ACK. The 3-way handshake establishes a reliable, ordered TCP connection before data transfer."
+  },
+  {
+    q: "Which layer handles SSL/TLS encryption in the OSI model?",
+    opts: ["Session Layer (5)", "Transport Layer (4)", "Presentation Layer (6)", "Application Layer (7)"],
+    ans: 2,
+    exp: "OSI Layer 6 (Presentation) handles data translation, encryption (SSL/TLS), and compression. In TCP/IP this is part of the Application layer."
+  },
+  {
+    q: "What does a reverse proxy like NGINX do?",
+    opts: [
+      "Stores database records",
+      "Receives requests and forwards them to backend servers internally",
+      "Assigns MAC addresses",
+      "Converts DNS to IP"
+    ],
+    ans: 1,
+    exp: "NGINX receives external requests and proxies them to internal backend servers (like Flask on port 8587), hiding internal port numbers and adding security."
+  },
+  {
+    q: "In the OSI model, what does the Data Link Layer (Layer 2) add to a packet?",
+    opts: ["IP addresses", "Port numbers", "MAC addresses and CRC", "Encryption keys"],
+    ans: 2,
+    exp: "Layer 2 wraps the IP packet in an Ethernet frame, adding MAC addresses (14B header) and a 4-byte CRC tail for error checking."
+  },
+  {
+    q: "What is the TCP/IP equivalent of the OSI Network Layer?",
+    opts: ["Application Layer", "Internet Layer (IP)", "Transport Layer", "Physical Layer"],
+    ans: 1,
+    exp: "The OSI Network Layer (Layer 3) maps to the TCP/IP Internet Layer, which uses IP for logical addressing and routing across networks."
+  },
+  {
+    q: "Your app's frontend is on GitHub Pages. Where is the backend deployed in this class?",
+    opts: ["Heroku", "Google Cloud", "AWS EC2 with Docker", "Localhost only"],
+    ans: 2,
+    exp: "The backend Python Flask or Java Spring app runs inside Docker containers on AWS EC2, managed by NGINX as a reverse proxy."
+  },
+  {
+    q: "What is CORS and why is NGINX configured for it?",
+    opts: [
+      "A database protocol",
+      "Cross-Origin Resource Sharing — allows the GitHub Pages frontend to call the AWS backend",
+      "An encryption algorithm",
+      "A routing protocol"
+    ],
+    ans: 1,
+    exp: "CORS (Cross-Origin Resource Sharing) lets browsers allow pages.opencodingsociety.com to call flask.opencodingsociety.com. Without it, the browser blocks the request."
+  },
+  {
+    q: "Which TCP/IP layer corresponds to OSI Session Layer (Layer 5)?",
+    opts: ["Transport", "Network", "Application", "Data Link"],
+    ans: 2,
+    exp: "OSI Session Layer (Layer 5) is absorbed into TCP/IP's Application Layer. WebSockets, for example, handle session management at this level."
+  }
+];
+
+// ============================================================
+// GAME ENGINE
+// ============================================================
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let gameState = {
+  score: 0,
+  hp: 5,
+  layersCollected: [],
+  running: false,
+  quizActive: false,
+  cameraX: 0,
+  level: 0
+};
+
+// Resize canvas
+function resizeCanvas() {
+  const sidebar = document.getElementById('sidebar');
+  canvas.width = window.innerWidth - sidebar.offsetWidth;
+  canvas.height = window.innerHeight - 40;
+}
+
+const LAYERS = [
+  { id:7, name:"Application",   proto:"HTTP/DNS",   color:"#00f5ff", tcpip:"Application" },
+  { id:6, name:"Presentation",  proto:"SSL/TLS",    color:"#7dd3fc", tcpip:"Application" },
+  { id:5, name:"Session",       proto:"Sockets",    color:"#a78bfa", tcpip:"Application" },
+  { id:4, name:"Transport",     proto:"TCP/UDP",    color:"#00ff88", tcpip:"Transport"   },
+  { id:3, name:"Network",       proto:"IP/ICMP",    color:"#fbbf24", tcpip:"Internet"    },
+  { id:2, name:"Data Link",     proto:"Ethernet",   color:"#f472b6", tcpip:"Data Link"   },
+  { id:1, name:"Physical",      proto:"Signals",    color:"#94a3b8", tcpip:"Physical"    },
+];
+
+// ---- Player ----
+const player = {
+  x: 100, y: 300,
+  w: 32, h: 48,
+  vx: 0, vy: 0,
+  onGround: false,
+  facing: 1,
+  frame: 0,
+  frameTimer: 0,
+  color: '#00f5ff'
+};
+
+// ---- World ----
+const TILE = 48;
+const WORLD_W = 4000;
+const GROUND_Y = 420;
+
+let platforms = [];
+let collectibles = [];
+let enemies = [];
+let packets = [];
+let particles = [];
+let npcs = [];
+let floatTexts = [];
+
+function buildLevel() {
+  platforms = [];
+  collectibles = [];
+  enemies = [];
+  npcs = [];
+
+  // Ground
+  for (let x = 0; x < WORLD_W; x += TILE) {
+    platforms.push({ x, y: GROUND_Y, w: TILE, h: 100, color: '#0a1a2e' });
+  }
+
+  // Elevated platforms
+  const platData = [
+    {x:300,y:340,w:120},{x:500,y:280,w:100},{x:720,y:320,w:140},
+    {x:950,y:260,w:120},{x:1150,y:300,w:100},{x:1350,y:240,w:140},
+    {x:1600,y:280,w:120},{x:1800,y:320,w:100},{x:2000,y:260,w:150},
+    {x:2300,y:300,w:120},{x:2500,y:240,w:140},{x:2800,y:280,w:100},
+    {x:3000,y:320,w:120},{x:3200,y:260,w:140},{x:3500,y:300,w:120},
+  ];
+  platData.forEach(p => platforms.push({ x:p.x, y:p.y, w:p.w, h:16, color:'#0d2a4a' }));
+
+  // Collectibles — one per OSI layer
+  const cPositions = [320,520,740,970,1170,1370,1620];
+  LAYERS.forEach((layer, i) => {
+    collectibles.push({
+      x: cPositions[i], y: GROUND_Y - 70,
+      w:32, h:32, collected: false,
+      layer, bobOffset: Math.random() * Math.PI * 2,
+      type: 'layer'
+    });
+  });
+
+  // MTU fragment collectibles
+  for (let i = 0; i < 5; i++) {
+    collectibles.push({
+      x: 1900 + i * 300, y: GROUND_Y - 60,
+      w: 28, h: 28, collected: false,
+      type: 'mtu', bobOffset: Math.random()*Math.PI*2,
+      value: 50
+    });
+  }
+
+  // Enemies — "malformed packets"
+  const ePos = [600, 850, 1100, 1450, 1750, 2100, 2400, 2700, 3100, 3400];
+  ePos.forEach((ex, i) => {
+    enemies.push({
+      x: ex, y: GROUND_Y - 48, w: 36, h: 48,
+      vx: (i%2===0?1:-1) * 1.5, hp: 2,
+      startX: ex, range: 150, alive: true,
+      type: i%3===0 ? 'bot' : i%3===1 ? 'drone' : 'firewall',
+      quiz: allQuestions[i % allQuestions.length]
+    });
+  });
+
+  // NPCs
+  npcs.push({
+    x: 200, y: GROUND_Y - 60, w: 32, h: 48,
+    name: "TCP SAGE", color: '#00ff88',
+    dialog: [
+      "Welcome, NetRunner! I am the TCP Sage.",
+      "The OSI model has 7 layers. TCP/IP collapses the top 3 into one Application layer!",
+      "OSI Layer 7=App, 6=Presentation, 5=Session → all become TCP/IP Application Layer.",
+      "Collect all 7 OSI layer tokens to assemble your Ethernet frame!"
+    ],
+    dialogIndex: 0, interacted: false
+  });
+
+  npcs.push({
+    x: 1000, y: GROUND_Y - 60, w: 32, h: 48,
+    name: "MTU MASTER", color: '#fbbf24',
+    dialog: [
+      "I am the MTU Master. Listen closely!",
+      "MTU = Maximum Transmission Unit. Standard Ethernet MTU = 1500 bytes.",
+      "Full frame = 14B(frame hdr) + 20B(IP) + 20B(TCP) + 1460B(payload) + 4B(CRC) = 1518B.",
+      "If data exceeds MTU, it gets FRAGMENTED into multiple packets!"
+    ],
+    dialogIndex: 0, interacted: false
+  });
+
+  npcs.push({
+    x: 2200, y: GROUND_Y - 60, w: 32, h: 48,
+    name: "NGINX PROXY", color: '#a855f7',
+    dialog: [
+      "I am NGINX — your reverse proxy guardian!",
+      "I handle SSL/TLS (Layer 6 Presentation), TCP routing (Layer 4 Transport).",
+      "Your GitHub Pages frontend → I proxy to Flask on AWS EC2 port 8587.",
+      "I also enforce CORS: only opencodingsociety.com domains get through!"
+    ],
+    dialogIndex: 0, interacted: false
+  });
+}
+
+// ---- Input ----
+const keys = {};
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Space') e.preventDefault();
+  if (e.code === 'KeyE') tryInteractNPC();
+  if (e.code === 'KeyZ') shootPacket();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+function tryInteractNPC() {
+  if (!gameState.running) return;
+  npcs.forEach(npc => {
+    if (Math.abs(npc.x - player.x) < 80) {
+      const d = npc.dialog[npc.dialogIndex % npc.dialog.length];
+      setDialog(npc.name, d);
+      npc.dialogIndex++;
+      npc.interacted = true;
+    }
+  });
+}
+
+function shootPacket() {
+  if (!gameState.running) return;
+  packets.push({
+    x: player.x + (player.facing > 0 ? player.w : 0),
+    y: player.y + player.h/2 - 6,
+    vx: player.facing * 8,
+    vy: 0, w:20, h:12, alive:true
+  });
+}
+
+// ---- Physics ----
+function update() {
+  if (!gameState.running || gameState.quizActive) return;
+
+  // Player movement
+  const speed = 4;
+  if (keys['ArrowLeft'] || keys['KeyA']) { player.vx = -speed; player.facing = -1; }
+  else if (keys['ArrowRight'] || keys['KeyD']) { player.vx = speed; player.facing = 1; }
+  else { player.vx *= 0.7; }
+
+  if ((keys['Space'] || keys['ArrowUp'] || keys['KeyW']) && player.onGround) {
+    player.vy = -12;
+    player.onGround = false;
+  }
+
+  player.vy += 0.5; // gravity
+  player.x += player.vx;
+  player.y += player.vy;
+
+  // Clamp world
+  player.x = Math.max(0, Math.min(WORLD_W - player.w, player.x));
+
+  // Platform collision
+  player.onGround = false;
+  platforms.forEach(p => {
+    if (rectOverlap(player, p)) {
+      // coming from above
+      if (player.vy > 0 && player.y + player.h - player.vy <= p.y + 5) {
+        player.y = p.y - player.h;
+        player.vy = 0;
+        player.onGround = true;
+      } else if (player.vy < 0 && player.y - player.vy >= p.y + p.h - 5) {
+        player.y = p.y + p.h;
+        player.vy = 0;
+      } else if (player.vx > 0) {
+        player.x = p.x - player.w;
+      } else if (player.vx < 0) {
+        player.x = p.x + p.w;
+      }
+    }
+  });
+
+  // Camera
+  const targetCamX = player.x - canvas.width/2 + player.w/2;
+  gameState.cameraX += (targetCamX - gameState.cameraX) * 0.1;
+  gameState.cameraX = Math.max(0, Math.min(WORLD_W - canvas.width, gameState.cameraX));
+
+  // Collectibles
+  collectibles.forEach(c => {
+    if (c.collected) return;
+    if (rectOverlap(player, c)) {
+      c.collected = true;
+      if (c.type === 'layer') {
+        gameState.layersCollected.push(c.layer);
+        gameState.score += 100;
+        spawnFloat(player.x, player.y - 20, `+100 [${c.layer.name}]`, c.layer.color);
+        setDialog("PACKET CAPTURE", `Collected OSI Layer ${c.layer.id}: ${c.layer.name} — ${c.layer.proto}`);
+        updateLayerDisplay();
+        updateMTU();
+        if (gameState.layersCollected.length === 7) {
+          setDialog("◈ SYSTEM", "ALL 7 OSI LAYERS COLLECTED! Frame assembled. TCP/IP Application layer combines layers 5, 6, 7!");
+        }
+      } else if (c.type === 'mtu') {
+        gameState.score += c.value;
+        spawnFloat(player.x, player.y - 20, `+${c.value} MTU`, '#fbbf24');
+        spawnParticles(c.x, c.y, '#fbbf24', 6);
+      }
+      updateScore();
+    }
+  });
+
+  // Enemies
+  enemies.forEach(e => {
+    if (!e.alive) return;
+    e.x += e.vx;
+    if (Math.abs(e.x - e.startX) > e.range) e.vx *= -1;
+
+    // Player-enemy collision
+    if (rectOverlap(player, e)) {
+      if (player.vy > 0 && player.y + player.h - player.vy < e.y + 10) {
+        // Stomp
+        e.hp--;
+        player.vy = -8;
+        spawnParticles(e.x, e.y, '#ff2244', 8);
+        if (e.hp <= 0) {
+          e.alive = false;
+          gameState.score += 75;
+          updateScore();
+          spawnFloat(e.x, e.y - 10, '+75 PKT!', '#ff2244');
+          // Trigger mini quiz
+          triggerMiniQuiz(e.quiz);
+        }
+      } else {
+        takeDamage();
+      }
+    }
+  });
+
+  // Projectiles
+  packets.forEach(p => {
+    if (!p.alive) return;
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > WORLD_W) { p.alive = false; return; }
+    enemies.forEach(e => {
+      if (!e.alive) return;
+      if (rectOverlap(p, e)) {
+        p.alive = false;
+        e.hp--;
+        spawnParticles(e.x+e.w/2, e.y+e.h/2, '#ff6b35', 6);
+        if (e.hp <= 0) {
+          e.alive = false;
+          gameState.score += 75;
+          updateScore();
+          spawnFloat(e.x, e.y - 10, '+75', '#ff6b35');
+        }
+      }
+    });
+  });
+
+  // Particles
+  particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; p.vy+=0.15; p.life-=0.03; });
+  particles = particles.filter(p => p.life > 0);
+
+  // Float texts
+  floatTexts = floatTexts.filter(f => Date.now() - f.created < 1500);
+
+  // Death floor
+  if (player.y > canvas.height + 100) {
+    player.y = 200;
+    player.x = Math.max(0, gameState.cameraX);
+    takeDamage();
+  }
+
+  // Win condition
+  if (player.x > WORLD_W - 200 && gameState.layersCollected.length >= 5) {
+    endGame(true);
+  }
+
+  // Player frame animation
+  player.frameTimer++;
+  if (player.frameTimer > 8) { player.frame = (player.frame+1)%4; player.frameTimer=0; }
+}
+
+function rectOverlap(a, b) {
+  return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+}
+
+function takeDamage() {
+  gameState.hp = Math.max(0, gameState.hp - 1);
+  updateHealth();
+  if (gameState.hp <= 0) endGame(false);
+}
+
+// ---- Drawing ----
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Background
+  drawBackground();
+
+  ctx.save();
+  ctx.translate(-Math.floor(gameState.cameraX), 0);
+
+  // Platforms
+  platforms.forEach(p => {
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+    // Grid lines on ground
+    if (p.h > 30) {
+      ctx.strokeStyle = 'rgba(0,245,255,0.05)';
+      ctx.lineWidth = 1;
+      for (let gx = p.x; gx < p.x+p.w; gx+=TILE) {
+        ctx.beginPath(); ctx.moveTo(gx, p.y); ctx.lineTo(gx, p.y+p.h); ctx.stroke();
+      }
+      // Top glow line
+      ctx.strokeStyle = 'rgba(0,245,255,0.3)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x+p.w, p.y); ctx.stroke();
+    } else {
+      ctx.strokeStyle = 'rgba(0,245,255,0.4)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(p.x, p.y, p.w, p.h);
+    }
+  });
+
+  // Collectibles
+  const t = Date.now()/1000;
+  collectibles.forEach(c => {
+    if (c.collected) return;
+    const bob = Math.sin(t*2 + c.bobOffset) * 5;
+    if (c.type === 'layer') {
+      // Layer orb
+      const lc = c.layer.color;
+      ctx.save();
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = lc;
+      ctx.beginPath();
+      ctx.arc(c.x+16, c.y+16+bob, 16, 0, Math.PI*2);
+      ctx.fillStyle = lc + '33';
+      ctx.fill();
+      ctx.strokeStyle = lc;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+      // Layer number
+      ctx.fillStyle = lc;
+      ctx.font = 'bold 11px "Orbitron",monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('L'+c.layer.id, c.x+16, c.y+21+bob);
+    } else {
+      // MTU fragment
+      ctx.save();
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = '#fbbf24';
+      ctx.fillStyle = '#fbbf2433';
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const cx = c.x+14, cy = c.y+14+bob;
+      ctx.rect(cx-12, cy-8, 24, 16);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '8px "Share Tech Mono",monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('MTU', cx, cy+3);
+      ctx.restore();
+    }
+  });
+
+  // NPCs
+  npcs.forEach(npc => {
+    drawCharacter(npc.x, npc.y, npc.w, npc.h, npc.color, npc.name.split(' ')[0], true);
+    // Interaction hint
+    if (Math.abs(npc.x - player.x) < 80) {
+      ctx.fillStyle = 'rgba(0,245,255,0.9)';
+      ctx.font = '11px "Share Tech Mono",monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('[E] Talk', npc.x+npc.w/2, npc.y-10);
+    }
+  });
+
+  // Enemies
+  enemies.forEach(e => {
+    if (!e.alive) return;
+    const ec = e.type==='firewall'?'#ff2244':e.type==='drone'?'#a855f7':'#ff6b35';
+    drawEnemy(e, ec);
+  });
+
+  // Packets/projectiles
+  ctx.fillStyle = '#00f5ff';
+  packets.filter(p=>p.alive).forEach(p => {
+    ctx.save();
+    ctx.shadowBlur = 10; ctx.shadowColor = '#00f5ff';
+    ctx.fillStyle = '#00f5ff';
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+    // Labels on packet
+    ctx.fillStyle = '#030712';
+    ctx.font = '6px "Share Tech Mono",monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('TCP', p.x+2, p.y+8);
+    ctx.restore();
+  });
+
+  // Player
+  drawPlayer();
+
+  // Particles
+  particles.forEach(p => {
+    ctx.save();
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.shadowBlur = 6; ctx.shadowColor = p.color;
+    ctx.fillRect(p.x-2, p.y-2, 4, 4);
+    ctx.restore();
+  });
+
+  // End portal
+  if (gameState.layersCollected.length >= 5) {
+    const px = WORLD_W - 150, py = GROUND_Y - 100;
+    ctx.save();
+    ctx.shadowBlur = 30; ctx.shadowColor = '#00ff88';
+    const spin = t * 2;
+    for (let i=0; i<8; i++) {
+      const a = spin + i*Math.PI/4;
+      ctx.beginPath();
+      ctx.arc(px+Math.cos(a)*30, py+Math.sin(a)*30, 5, 0, Math.PI*2);
+      ctx.fillStyle = `hsl(${i*45},100%,60%)`;
+      ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(0,255,136,0.2)';
+    ctx.beginPath(); ctx.arc(px, py, 35, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#00ff88'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(px, py, 35, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = '#00ff88'; ctx.font='10px "Orbitron",monospace'; ctx.textAlign='center';
+    ctx.fillText('EXIT', px, py+4);
+    ctx.restore();
+  }
+
+  ctx.restore(); // camera
+
+  // HUD overlays on canvas
+  drawHUD();
+}
+
+function drawBackground() {
+  // Sky gradient
+  const grad = ctx.createLinearGradient(0,0,0,canvas.height);
+  grad.addColorStop(0, '#030712');
+  grad.addColorStop(0.6, '#040e1e');
+  grad.addColorStop(1, '#061828');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // Distant "server rack" silhouettes
+  ctx.fillStyle = 'rgba(0,245,255,0.03)';
+  for (let i=0; i<8; i++) {
+    const rx = (i*300 - (gameState.cameraX*0.1)%300 + 300) % (canvas.width+200) - 100;
+    ctx.fillRect(rx, canvas.height-300, 60, 200);
+    ctx.fillRect(rx+70, canvas.height-250, 50, 150);
+  }
+
+  // Stars/data bits
+  ctx.fillStyle = 'rgba(0,245,255,0.3)';
+  for (let i=0; i<60; i++) {
+    const sx = (i*137 - gameState.cameraX*0.05) % canvas.width;
+    const sy = (i * 53) % (canvas.height * 0.5);
+    const ss = (i%3===0)?2:1;
+    ctx.fillRect(sx, sy, ss, ss);
+  }
+}
+
+function drawPlayer() {
+  const px = player.x - gameState.cameraX;
+  const py = player.y;
+  ctx.save();
+  ctx.shadowBlur = 15; ctx.shadowColor = '#00f5ff';
+
+  // Body
+  ctx.fillStyle = '#0a2a4a';
+  ctx.fillRect(px+4, py+16, player.w-8, player.h-16);
+
+  // Suit detail
+  ctx.fillStyle = '#00f5ff';
+  ctx.fillRect(px+8, py+20, 8, 14); // chest panel
+  ctx.fillStyle = '#003344';
+  ctx.fillRect(px+9, py+21, 6, 12);
+
+  // Head/helmet
+  ctx.fillStyle = '#0a3a5a';
+  ctx.fillRect(px+4, py+2, player.w-8, 16);
+  ctx.fillStyle = 'rgba(0,245,255,0.4)';
+  ctx.fillRect(px+6, py+4, player.w-12, 10); // visor
+
+  // Legs (animated)
+  const legAnim = Math.sin(player.frame * Math.PI/2);
+  ctx.fillStyle = '#0d2040';
+  ctx.fillRect(px+4+(player.vx!==0?legAnim*3:0), py+player.h-16, 10, 16);
+  ctx.fillRect(px+player.w-14-(player.vx!==0?legAnim*3:0), py+player.h-16, 10, 16);
+
+  // Flip for direction
+  if (player.facing === -1) {
+    ctx.restore(); ctx.save();
+    ctx.translate(px + player.w/2, 0);
+    ctx.scale(-1, 1);
+    ctx.translate(-(px + player.w/2), 0);
+  }
+
+  ctx.restore();
+}
+
+function drawCharacter(x, y, w, h, color, label, isNPC) {
+  ctx.save();
+  ctx.shadowBlur = 10; ctx.shadowColor = color;
+  // Body
+  ctx.fillStyle = color + '33';
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.fillRect(x, y+14, w, h-14);
+  ctx.strokeRect(x, y+14, w, h-14);
+  // Head
+  ctx.beginPath();
+  ctx.arc(x+w/2, y+10, 10, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+  // Label
+  ctx.fillStyle = color;
+  ctx.font = '8px "Share Tech Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(label, x+w/2, y+h+14);
+  ctx.restore();
+}
+
+function drawEnemy(e, color) {
+  ctx.save();
+  ctx.shadowBlur = 12; ctx.shadowColor = color;
+  if (e.type === 'firewall') {
+    // Firewall: blocky brick shape
+    ctx.fillStyle = color + '33';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.fillRect(e.x, e.y, e.w, e.h);
+    ctx.strokeRect(e.x, e.y, e.w, e.h);
+    for (let ry=0; ry<e.h; ry+=12) {
+      ctx.beginPath(); ctx.moveTo(e.x, e.y+ry); ctx.lineTo(e.x+e.w, e.y+ry);
+      ctx.strokeStyle = color+'66'; ctx.lineWidth=1; ctx.stroke();
+    }
+    ctx.fillStyle = color;
+    ctx.font = '7px "Orbitron",monospace'; ctx.textAlign='center';
+    ctx.fillText('FW', e.x+e.w/2, e.y+e.h/2+3);
+  } else if (e.type === 'drone') {
+    ctx.fillStyle = color + '44';
+    ctx.strokeStyle = color; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(e.x+e.w/2, e.y+e.h/2, e.w/2, 0, Math.PI*2);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = '7px "Orbitron",monospace'; ctx.textAlign='center';
+    ctx.fillText('PKT', e.x+e.w/2, e.y+e.h/2+3);
+  } else {
+    ctx.fillStyle = color+'33';
+    ctx.strokeStyle = color; ctx.lineWidth=1.5;
+    ctx.fillRect(e.x, e.y+8, e.w, e.h-8);
+    ctx.strokeRect(e.x, e.y+8, e.w, e.h-8);
+    ctx.beginPath(); ctx.arc(e.x+e.w/2, e.y+8, 8, 0, Math.PI*2);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = '7px "Orbitron",monospace'; ctx.textAlign='center';
+    ctx.fillText('ERR', e.x+e.w/2, e.y+e.h/2+8);
+  }
+  // HP bars
+  for (let i=0; i<e.hp; i++) {
+    ctx.fillStyle = color;
+    ctx.fillRect(e.x+2+i*8, e.y-8, 6, 4);
+  }
+  ctx.restore();
+}
+
+function drawHUD() {
+  // Layer progress at top of canvas
+  const layers = gameState.layersCollected;
+  const total = 7;
+  const w = Math.min(canvas.width * 0.6, 400);
+  const startX = (canvas.width - w) / 2;
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,5,15,0.7)';
+  ctx.fillRect(startX - 10, 8, w + 20, 30);
+  ctx.strokeStyle = 'rgba(0,245,255,0.2)';
+  ctx.strokeRect(startX - 10, 8, w + 20, 30);
+  ctx.font = '9px "Orbitron",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(0,245,255,0.5)';
+  ctx.fillText(`OSI LAYERS: ${layers.length}/7`, canvas.width/2, 21);
+  LAYERS.forEach((layer, i) => {
+    const lx = startX + (i / (total-1)) * w;
+    const collected = layers.find(l => l.id === layer.id);
+    ctx.beginPath();
+    ctx.arc(lx, 32, collected?5:4, 0, Math.PI*2);
+    ctx.fillStyle = collected ? layer.color : 'rgba(0,245,255,0.15)';
+    ctx.shadowBlur = collected ? 10 : 0;
+    ctx.shadowColor = layer.color;
+    ctx.fill();
+    if (!collected) { ctx.strokeStyle = layer.color+'44'; ctx.lineWidth=1; ctx.stroke(); }
+  });
+  ctx.restore();
+}
+
+function spawnParticles(x, y, color, count) {
+  for (let i=0; i<count; i++) {
+    const a = (Math.PI*2/count)*i + Math.random()*0.3;
+    particles.push({ x, y, vx:Math.cos(a)*3, vy:Math.sin(a)*3-2, color, life:1 });
+  }
+}
+
+function spawnFloat(x, y, text, color) {
+  floatTexts.push({ x: x - gameState.cameraX, y, text, color, created: Date.now() });
+  // Show as DOM element for simplicity
+  const el = document.createElement('div');
+  el.className = 'float-text';
+  el.style.left = (x - gameState.cameraX) + 'px';
+  el.style.top = y + 'px';
+  el.style.color = color;
+  el.style.fontSize = '14px';
+  el.textContent = text;
+  document.getElementById('gameContainer').appendChild(el);
+  setTimeout(() => el.remove(), 1500);
+}
+
+// ---- UI Updates ----
+function updateScore() {
+  document.getElementById('scoreDisplay').textContent = gameState.score;
+}
+
+function updateHealth() {
+  const bar = document.getElementById('healthBar');
+  bar.innerHTML = '';
+  for (let i=0; i<5; i++) {
+    const pip = document.createElement('div');
+    pip.style.cssText = `width:18px;height:14px;border:1px solid ${i < gameState.hp ? '#00ff88' : '#0a2a0a'};background:${i < gameState.hp ? '#00ff88' : 'transparent'};`;
+    bar.appendChild(pip);
+  }
+}
+
+function updateLayerDisplay() {
+  const div = document.getElementById('layerDisplay');
+  div.innerHTML = '';
+  LAYERS.slice().reverse().forEach(layer => {
+    const collected = gameState.layersCollected.find(l => l.id === layer.id);
+    const item = document.createElement('div');
+    item.className = 'layer-item' + (collected ? ' active-layer' : '');
+    item.style.borderColor = collected ? layer.color : 'transparent';
+    item.innerHTML = `
+      <span class="layer-num" style="color:${collected?layer.color:'rgba(255,255,255,0.2)'}">${layer.id}</span>
+      <span class="layer-name" style="color:${collected?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.2)'}">${layer.name}</span>
+      <span class="layer-proto" style="color:${collected?layer.color+'99':'rgba(255,255,255,0.1)'}">${layer.proto}</span>
+    `;
+    div.appendChild(item);
+  });
+}
+
+function updateMTU() {
+  const n = gameState.layersCollected.length;
+  // Simulate payload filling as layers collected
+  const payloadFill = Math.round(1460 * (n/7));
+  document.getElementById('payloadBar').style.flex = payloadFill;
+  document.getElementById('payloadLabel').textContent = payloadFill + 'B';
+}
+
+function setDialog(speaker, text) {
+  document.getElementById('dialogSpeaker').textContent = '◈ ' + speaker;
+  document.getElementById('dialogText').textContent = text;
+}
+
+// ---- Mini quiz (sidebar) after defeating enemy ----
+function triggerMiniQuiz(q) {
+  gameState.quizActive = true;
+  const qa = document.getElementById('sidebarQuiz');
+  const qQ = document.getElementById('sqQuestion');
+  const qO = document.getElementById('sqOptions');
+  qa.classList.add('visible');
+  qQ.textContent = q.q;
+  qO.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if (i === q.ans) {
+        btn.classList.add('correct');
+        gameState.score += 150;
+        updateScore();
+        setDialog("CORRECT!", q.exp);
+        spawnFloat(player.x, player.y - 30, '+150 CORRECT!', '#00ff88');
+      } else {
+        btn.classList.add('wrong');
+        qO.children[q.ans].classList.add('correct');
+        setDialog("STUDY UP!", q.exp);
+      }
+      [...qO.children].forEach(b => b.disabled = true);
+      setTimeout(() => {
+        qa.classList.remove('visible');
+        gameState.quizActive = false;
+      }, 3000);
+    };
+    qO.appendChild(btn);
+  });
+}
+
+// ---- Game Loop ----
+let raf;
+function gameLoop() {
+  update();
+  draw();
+  raf = requestAnimationFrame(gameLoop);
+}
+
+// ---- Screens ----
+function showInstructions() {
+  setDialog("MISSION BRIEF",
+    "Collect all 7 OSI layer tokens. Defeat malformed packet enemies by jumping on them or shooting (Z). Interact with NPCs (E) to learn about TCP/IP. Reach the EXIT portal to win!"
+  );
+  // Just update dialog and start
+  startGame();
+}
+
+function startGame() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('gameScreen').classList.add('active');
+  resizeCanvas();
+  gameState = { score:0, hp:5, layersCollected:[], running:true, quizActive:false, cameraX:0 };
+  buildLevel();
+  updateScore();
+  updateHealth();
+  updateLayerDisplay();
+  updateMTU();
+  setDialog("TCP SAGE", "Welcome, NetRunner! OSI has 7 layers but TCP/IP collapses them to 5. Collect the layer tokens!");
+  if (raf) cancelAnimationFrame(raf);
+  gameLoop();
+}
+
+// ---- Full Quiz (Pop Quiz Mode) ----
+let quizState = { current: 0, score: 0, questions: [] };
+
+function showFullQuiz() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('quizScreen').classList.add('active');
+  if (raf) cancelAnimationFrame(raf);
+
+  // Shuffle and pick 10
+  const shuffled = [...allQuestions].sort(() => Math.random()-0.5).slice(0, 10);
+  quizState = { current:0, score:0, questions: shuffled };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const qs = quizState.questions;
+  const qi = quizState.current;
+  const total = qs.length;
+
+  document.getElementById('qProgressText').textContent = `Q ${qi+1}/${total}`;
+  document.getElementById('qProgFill').style.width = `${((qi)/total)*100}%`;
+  document.getElementById('qScoreText').textContent = `${quizState.score} pts`;
+  document.getElementById('quizFeedback').textContent = '';
+
+  if (qi >= total) {
+    endQuiz();
+    return;
+  }
+
+  const q = qs[qi];
+  document.getElementById('quizQuestion').textContent = q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(i, q, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(selected, q, btn) {
+  const opts = document.getElementById('quizOptions').children;
+  [...opts].forEach(b => b.disabled = true);
+  const fb = document.getElementById('quizFeedback');
+  if (selected === q.ans) {
+    btn.classList.add('correct');
+    quizState.score += 100;
+    fb.className = 'feedback-msg good';
+    fb.textContent = '✓ Correct! ' + q.exp;
+  } else {
+    btn.classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+    fb.className = 'feedback-msg bad';
+    fb.textContent = '✗ ' + q.exp;
+  }
+  document.getElementById('qScoreText').textContent = `${quizState.score} pts`;
+  setTimeout(() => {
+    quizState.current++;
+    renderQuizQuestion();
+  }, 2500);
+}
+
+function endQuiz() {
+  const pct = Math.round((quizState.score / (quizState.questions.length*100))*100);
+  document.getElementById('qProgFill').style.width = '100%';
+  document.getElementById('quizQuestion').textContent = 'Quiz Complete!';
+  document.getElementById('quizOptions').innerHTML = '';
+  const fb = document.getElementById('quizFeedback');
+  fb.className = 'feedback-msg good';
+  fb.textContent = `Final Score: ${quizState.score}/${quizState.questions.length*100} (${pct}%)`;
+
+  setTimeout(() => {
+    endGame(true, quizState.score);
+  }, 2000);
+}
+
+function endGame(win, overrideScore) {
+  if (raf) cancelAnimationFrame(raf);
+  gameState.running = false;
+  const total = overrideScore !== undefined ? overrideScore : gameState.score;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('endScreen').classList.add('active');
+  document.getElementById('finalScore').textContent = total;
+
+  const pct = gameState.layersCollected.length;
+  let msg = '';
+  if (win) {
+    document.getElementById('endTitle').style.color = 'var(--green)';
+    document.getElementById('endTitle').textContent = 'PACKET DELIVERED!';
+    msg = `You assembled ${pct}/7 OSI layers into an Ethernet frame! `+
+          `Remember: TCP/IP uses 5 layers (Physical, Data Link, Network, Transport, Application). `+
+          `OSI uses 7 — the top 3 (Application+Presentation+Session) collapse into one. `+
+          `MTU = 1500B, full frame = 1518B, TCP payload = 1460B.`;
+  } else {
+    document.getElementById('endTitle').style.color = 'var(--red)';
+    document.getElementById('endTitle').textContent = 'CONNECTION RESET';
+    msg = 'Your packet was dropped. Study the OSI vs TCP/IP model and try again. Remember: MTU = 1500B!';
+  }
+  document.getElementById('endMsg').textContent = msg;
+}
+
+// Init layer display
+window.addEventListener('resize', resizeCanvas);
+updateLayerDisplay();
+</script>
+</body>
+</html>
