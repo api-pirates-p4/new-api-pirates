@@ -202,6 +202,56 @@ button,input{font:inherit}
 .restart-link{display:block;width:100%;background:none;border:none;font-size:0.8rem;color:var(--text-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-family:'Space Grotesk',sans-serif;text-align:center}
 .restart-link:hover{color:var(--text-2)}
 
+/* ── Smart application flow ── */
+.smart-stack{display:grid;gap:1rem}
+.smart-panel{background:linear-gradient(180deg, rgba(21,34,59,0.98), rgba(17,28,49,0.96));border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem;box-shadow:var(--shadow)}
+.smart-panel-title{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.3rem}
+.smart-panel-sub{font-size:0.82rem;line-height:1.5;color:var(--text-2)}
+.smart-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.75rem}
+.smart-guide-card{background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.smart-guide-kicker{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:0.45rem}
+.smart-guide-title{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:0.22rem}
+.smart-guide-copy{font-size:0.78rem;line-height:1.5;color:var(--text-2)}
+.smart-banner{display:flex;align-items:flex-start;gap:0.75rem;padding:0.95rem 1rem;border-radius:var(--radius);background:rgba(241,182,92,0.08);border:1px solid rgba(241,182,92,0.22)}
+.smart-banner-mark{width:30px;height:30px;border-radius:10px;background:rgba(241,182,92,0.16);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;flex-shrink:0}
+.smart-banner-copy{font-size:0.8rem;line-height:1.5;color:var(--text-2)}
+.smart-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+.subtle-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;padding:0.95rem 1.15rem;border-radius:var(--radius-lg);border:1px solid var(--border);background:rgba(255,255,255,0.03);color:var(--text);font-family:'Sora',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;transition:all 0.2s var(--ease)}
+.subtle-btn:hover{background:rgba(255,255,255,0.06);border-color:var(--border-strong)}
+.smart-upload-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:1rem}
+.smart-upload-box{display:grid;gap:0.85rem}
+.smart-upload-label{display:block;padding:1rem;border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:rgba(255,255,255,0.025);cursor:pointer;transition:all 0.2s var(--ease)}
+.smart-upload-label:hover{border-color:rgba(241,182,92,0.45);background:rgba(255,255,255,0.04)}
+.smart-upload-title{font-size:0.92rem;font-weight:700;color:var(--text);margin-bottom:0.25rem}
+.smart-upload-copy{font-size:0.78rem;line-height:1.45;color:var(--text-2)}
+.smart-file-meta{font-size:0.78rem;color:var(--text-3)}
+.smart-textarea,.smart-input,.smart-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;color:var(--text);padding:0.85rem 0.95rem;font-size:0.88rem;transition:border-color 0.2s, box-shadow 0.2s}
+.smart-textarea{min-height:132px;resize:vertical}
+.smart-textarea:focus,.smart-input:focus,.smart-select:focus{border-color:var(--navy-mid);box-shadow:0 0 0 4px rgba(157,183,255,0.1);outline:none}
+.smart-doc-preview{border:1px solid var(--border);border-radius:var(--radius-lg);background:rgba(255,255,255,0.025);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.smart-doc-empty{padding:1rem;text-align:center;font-size:0.8rem;line-height:1.5;color:var(--text-3)}
+.smart-doc-img{display:block;width:100%;height:100%;object-fit:cover}
+.smart-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.85rem}
+.smart-field{display:grid;gap:0.35rem}
+.smart-field.span-2{grid-column:span 2}
+.smart-label{font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--text-3)}
+.smart-helper{font-size:0.74rem;color:var(--text-3)}
+.smart-checklist{display:grid;gap:0.55rem}
+.smart-check{display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;padding:0.85rem 0.95rem;border:1px solid var(--border);border-radius:var(--radius);background:rgba(255,255,255,0.025)}
+.smart-check strong{display:block;font-size:0.84rem;color:var(--text)}
+.smart-check span{display:block;font-size:0.77rem;line-height:1.45;color:var(--text-2);margin-top:0.16rem}
+.smart-status{font-size:0.72rem;font-weight:700;border-radius:999px;padding:0.28rem 0.55rem;white-space:nowrap}
+.smart-status.ready{background:var(--green-light);color:var(--green)}
+.smart-status.missing{background:var(--red-light);color:var(--red)}
+.smart-preview-list{display:grid;gap:0.7rem}
+.smart-preview-row{display:flex;justify-content:space-between;gap:1rem;padding-bottom:0.65rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+.smart-preview-row:last-child{padding-bottom:0;border-bottom:none}
+.smart-preview-key{font-size:0.76rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3)}
+.smart-preview-val{font-size:0.86rem;line-height:1.45;color:var(--text);text-align:right;max-width:60%}
+.smart-pills{display:flex;flex-wrap:wrap;gap:0.45rem}
+.smart-pill{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:999px;padding:0.45rem 0.7rem;font-size:0.75rem;color:var(--text-2)}
+.smart-missing{display:grid;gap:0.35rem;font-size:0.8rem;color:var(--text-2)}
+
 /* ── Summary chips ── */
 .summary-bar{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1.25rem;min-height:0;transition:all 0.3s}
 .summary-chip{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:6px 11px;font-size:0.73rem;color:var(--text-2);animation:popIn 0.3s var(--ease)}
@@ -219,9 +269,15 @@ button,input{font:inherit}
   .progress-pct-wrap{text-align:left}
   .skip-btn{width:100%;text-align:center}
   .q-card,.wall-card,.result-header,.prob-section,.steps-section{padding:1.4rem}
+  .smart-panel{padding:1rem}
   .q-title{font-size:1.35rem}
   .zip-input{font-size:1.85rem}
   .tile-grid.cols-2{grid-template-columns:1fr}
+  .smart-guide-grid,.smart-upload-grid,.smart-form-grid{grid-template-columns:1fr}
+  .smart-field.span-2{grid-column:auto}
+  .smart-preview-row{flex-direction:column}
+  .smart-preview-val{max-width:none;text-align:left}
+  .smart-actions > *{width:100%}
   .stepper-wrap{gap:0.75rem}
   .step-val{min-width:88px;font-size:2.4rem}
 }
@@ -361,6 +417,7 @@ let stepperVal = 1;
 const answers = {};
 let savedSeconds = 0;
 let zipLocation = null;
+let smartDraft = null;
 
 // ── Chip labels ───────────────────────────────────────────────────────────────
 const CHIP_LABELS = {
@@ -380,6 +437,45 @@ const TOASTS = [
   "Almost done!",
   "One more question!",
 ];
+
+const PVO_NEED_MAP = {
+  rent:'Other',
+  utility:'Other',
+  food:'Meals/food',
+  transport:'Transportation',
+  home_repair:'Home repairs',
+  medical:'Medical',
+  counseling:'Counseling',
+  legal:'Legal',
+  vehicle_reg:'Transportation',
+  moving:'Other',
+  storage:'Other',
+  mental_health:'Counseling',
+};
+
+const NEED_TEXT = {
+  rent:'rent or housing support',
+  utility:'utility bill support',
+  food:'food assistance',
+  transport:'transportation support',
+  home_repair:'home repair assistance',
+  medical:'medical cost support',
+  counseling:'counseling support',
+  legal:'legal or VA benefits guidance',
+  vehicle_reg:'vehicle registration help',
+  moving:'moving or relocation help',
+  storage:'storage fee assistance',
+  mental_health:'PTSD / TBI support',
+};
+
+const EMPLOYMENT_TEXT = {
+  employed:'currently working',
+  unemployed:'currently between jobs',
+  disabled:'currently disabled or unable to work',
+};
+
+const BRANCH_OPTIONS = ['Army','Navy','Air Force','Marine Corps','Coast Guard','Space Force'];
+const SMART_REQUIRED_FIELDS = ['firstName','lastName','street','city','state','zip','cellPhone','email','branch','generalNeed','specificNeed','proofDocName'];
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
 const PROGRESS_NOTES = [
@@ -486,6 +582,212 @@ function confetti(){
   }
 }
 
+function setApplicationHeader(label,note,caption){
+  document.getElementById('prog-bar').style.width='100%';
+  document.getElementById('prog-pct').textContent='100%';
+  document.getElementById('prog-label').textContent=label;
+  document.getElementById('prog-step').textContent='PVO application prep';
+  document.getElementById('prog-note').textContent=note;
+  document.getElementById('prog-caption').textContent=caption;
+  document.querySelectorAll('.progress-dot').forEach(dot => {
+    dot.classList.remove('active');
+    dot.classList.add('complete');
+  });
+}
+
+function formatPhone(value){
+  const digits = String(value || '').replace(/\D/g,'').slice(-10);
+  if(digits.length !== 10) return value || '';
+  return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+}
+
+function titleCase(value){
+  return String(value || '')
+    .toLowerCase()
+    .split(/[\s-]+/)
+    .filter(Boolean)
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function escapeHtml(value=''){
+  return String(value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function splitName(fullName=''){
+  const cleaned = fullName.replace(/\s+/g,' ').trim();
+  if(!cleaned) return {firstName:'',lastName:''};
+  const parts = cleaned.split(' ');
+  return {firstName:parts.shift() || '', lastName:parts.join(' ') || ''};
+}
+
+function mapGeneralNeed(){
+  return PVO_NEED_MAP[answers.need_type] || 'Other';
+}
+
+function buildSpecificNeedSummary(){
+  const need = NEED_TEXT[answers.need_type] || 'support';
+  const work = EMPLOYMENT_TEXT[answers.employment] || 'current employment information not provided';
+  const household = answers.household_sz || 1;
+  const housing = answers.housing_risk ? 'housing is currently at risk' : 'housing is currently stable';
+  const va = answers.has_va_care ? 'already connected to VA services' : 'not yet connected to VA services';
+  const area = answers.user_zip && SERVED_ZIPS[answers.user_zip] ? `${SERVED_ZIPS[answers.user_zip][0]} (${answers.user_zip})` : 'service area confirmed';
+  return `Applicant is requesting ${need}. They report being ${work}, a household size of ${household}, and that ${housing}. Applicant is ${va}. Intake started from ${area}.`;
+}
+
+function createSmartDraft(){
+  return {
+    firstName:'',
+    lastName:'',
+    street:'',
+    city:'',
+    state:'CA',
+    zip:answers.user_zip || '',
+    homePhone:'',
+    cellPhone:'',
+    email:'',
+    branch:'',
+    generalNeed:mapGeneralNeed(),
+    specificNeed:buildSpecificNeedSummary(),
+    primaryDocName:'',
+    primaryDocPreview:'',
+    primaryDocText:'',
+    proofDocName:'',
+    proofDocPreview:'',
+  };
+}
+
+function ensureSmartDraft(){
+  if(!smartDraft) smartDraft = createSmartDraft();
+  if(!smartDraft.generalNeed) smartDraft.generalNeed = mapGeneralNeed();
+  if(!smartDraft.specificNeed) smartDraft.specificNeed = buildSpecificNeedSummary();
+  if(!smartDraft.zip && answers.user_zip) smartDraft.zip = answers.user_zip;
+  return smartDraft;
+}
+
+function parseDocumentText(rawText=''){
+  const text = String(rawText || '').replace(/\r/g,'\n');
+  const parsed = {};
+
+  const email = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+  if(email) parsed.email = email[0];
+
+  const phones = [...text.matchAll(/(?:\+?1[\s.-]*)?(?:\(?(\d{3})\)?[\s.-]*)?(\d{3})[\s.-]*(\d{4})/g)]
+    .map(match => formatPhone(`${match[1] || ''}${match[2]}${match[3]}`))
+    .filter(Boolean);
+  if(phones[0]) parsed.homePhone = phones[0];
+  if(phones[1]) parsed.cellPhone = phones[1];
+  else if(phones[0] && !parsed.cellPhone) parsed.cellPhone = phones[0];
+
+  const branch = BRANCH_OPTIONS.find(option => new RegExp(`\\b${option.replace(/\s+/g,'\\s+')}\\b`, 'i').test(text));
+  if(branch) parsed.branch = branch;
+
+  const address = text.match(/\b\d{1,6}\s+[A-Za-z0-9.#'\- ]+\s(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Way|Place|Pl|Circle|Cir|Trail|Trl|Highway|Hwy)\b[^\n,]*/i);
+  if(address) parsed.street = address[0].replace(/\s+/g,' ').trim();
+
+  const cityStateZip = text.match(/([A-Za-z .'-]+),\s*(CA|California|[A-Z]{2})\s+(\d{5})(?:-\d{4})?/i);
+  if(cityStateZip){
+    parsed.city = titleCase(cityStateZip[1]);
+    parsed.state = cityStateZip[2].length > 2 ? 'CA' : cityStateZip[2].toUpperCase();
+    parsed.zip = cityStateZip[3];
+  }
+
+  const labelledName = text.match(/(?:name|member name|patient name|recipient)[:\s]+([A-Z][A-Za-z' -]+(?:\s+[A-Z][A-Za-z' -]+)+)/i);
+  const allCapsName = text.match(/^([A-Z][A-Z' -]+,\s*[A-Z][A-Z' -]+)$/m);
+  const plainName = text.match(/^([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2})$/m);
+  let fullName = '';
+  if(labelledName) fullName = labelledName[1];
+  else if(allCapsName) fullName = allCapsName[1].split(',').reverse().join(' ');
+  else if(plainName) fullName = plainName[1];
+  if(fullName){
+    const split = splitName(titleCase(fullName.replace(',', ' ')));
+    parsed.firstName = split.firstName;
+    parsed.lastName = split.lastName;
+  }
+
+  return parsed;
+}
+
+function getMissingSmartFields(){
+  const draft = ensureSmartDraft();
+  const missing = [];
+  if(!draft.firstName) missing.push('First name');
+  if(!draft.lastName) missing.push('Last name');
+  if(!draft.street) missing.push('Street address');
+  if(!draft.city) missing.push('City');
+  if(!draft.state) missing.push('State');
+  if(!draft.zip) missing.push('ZIP code');
+  if(!draft.cellPhone && !draft.homePhone) missing.push('Phone number');
+  if(!draft.email) missing.push('Email');
+  if(!draft.branch) missing.push('Branch of service');
+  if(!draft.generalNeed) missing.push('General need');
+  if(!draft.specificNeed) missing.push('Specific need details');
+  if(!draft.proofDocName) missing.push('Proof of service upload');
+  return missing;
+}
+
+function getPreviewValue(value, fallback='Not filled yet'){
+  return escapeHtml(value && String(value).trim() ? value : fallback);
+}
+
+function updateUploadPreview(kind){
+  const draft = ensureSmartDraft();
+  const nameKey = kind === 'primary' ? 'primaryDocName' : 'proofDocName';
+  const previewKey = kind === 'primary' ? 'primaryDocPreview' : 'proofDocPreview';
+  const fileNameEl = document.getElementById(`${kind}-doc-name`);
+  const previewEl = document.getElementById(`${kind}-doc-preview`);
+  if(fileNameEl) fileNameEl.textContent = draft[nameKey] || 'No file selected yet';
+  if(previewEl){
+    previewEl.innerHTML = draft[previewKey]
+      ? `<img class="smart-doc-img" src="${draft[previewKey]}" alt="${kind} document preview" />`
+      : `<div class="smart-doc-empty">${kind === 'primary' ? 'Upload or capture a document for name, address, contact details, and service clues.' : 'Upload DD-214, military ID, or another proof-of-service file.'}</div>`;
+  }
+}
+
+function handlePrimaryDoc(event){
+  const draft = ensureSmartDraft();
+  const file = event.target.files && event.target.files[0];
+  draft.primaryDocName = file ? file.name : '';
+  draft.primaryDocPreview = '';
+  updateUploadPreview('primary');
+  if(file && file.type.startsWith('image/')){
+    const reader = new FileReader();
+    reader.onload = () => {
+      draft.primaryDocPreview = reader.result;
+      updateUploadPreview('primary');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function handleProofDoc(event){
+  const draft = ensureSmartDraft();
+  const file = event.target.files && event.target.files[0];
+  draft.proofDocName = file ? file.name : '';
+  draft.proofDocPreview = '';
+  updateUploadPreview('proof');
+  if(file && file.type.startsWith('image/')){
+    const reader = new FileReader();
+    reader.onload = () => {
+      draft.proofDocPreview = reader.result;
+      updateUploadPreview('proof');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function handlePrimaryDocText(value){
+  ensureSmartDraft().primaryDocText = value;
+}
+
+function syncDraftField(key, value){
+  ensureSmartDraft()[key] = value;
+}
+
 // ── Render ────────────────────────────────────────────────────────────────────
 function render(){
   if(currentQ === -1) renderZip();
@@ -540,6 +842,7 @@ function submitZip(){
   const val = document.getElementById('zip-in').value;
   if(!SERVED_ZIPS[val]) return;
   answers['location'] = zipLocation;
+  answers['user_zip'] = val;
   addChip('zip', val+' — '+SERVED_ZIPS[val][0]);
   addTimeSaved(45);
   advanceToFirst();
@@ -647,16 +950,7 @@ function advance(){
 }
 
 function showResult(){
-  document.getElementById('prog-bar').style.width='100%';
-  document.getElementById('prog-pct').textContent='100%';
-  document.getElementById('prog-label').textContent='Complete!';
-  document.getElementById('prog-step').textContent=`Step ${TOTAL_STEPS} of ${TOTAL_STEPS}`;
-  document.getElementById('prog-note').textContent='Your prescreener is complete. Review the best next step below.';
-  document.getElementById('prog-caption').textContent='Routing summary ready.';
-  document.querySelectorAll('.progress-dot').forEach(dot => {
-    dot.classList.remove('active');
-    dot.classList.add('complete');
-  });
+  setApplicationHeader('Complete!','Your prescreener is complete. Review the best next step below.','Routing summary ready.');
 
   const res = simulate(answers);
   const isPVO = res.pvo_direct >= 0.5;
@@ -696,6 +990,7 @@ function showResult(){
       <div class="steps-title">Your next steps</div>
       ${steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div><div class="step-t">${s.t}</div><div class="step-b">${s.b}</div></div></div>`).join('')}
     </div>
+    ${isPVO ? `<button class="cta-btn" onclick="startSmartApplication()">Start application →</button>` : ''}
     <a class="cta-btn" href="https://powayveterans.org/request-assistance/" target="_blank">Apply Now →</a>
     <button class="restart-link" onclick="restartFlow()">Start over with different answers</button>
   </div>`;
@@ -716,6 +1011,248 @@ function showResult(){
     }).catch(()=>{});
 }
 
+function startSmartApplication(){
+  const res = simulate(answers);
+  const payload = {
+    ...answers,
+    pvo_direct: res.pvo_direct,
+    refer_out: res.refer_out,
+    confidence: res.confidence,
+    generated_at: new Date().toISOString(),
+  };
+  localStorage.setItem('pvo_prescreener_context_v1', JSON.stringify(payload));
+  localStorage.removeItem('pvo_application_draft_v1');
+  window.location.href = '/pvo-application-assist';
+}
+
+function renderSmartCapture(){
+  const draft = ensureSmartDraft();
+  setApplicationHeader('Build your PVO application','Upload one intake document, then review the fields before proof-of-service upload.','Capture with your camera or upload an image/PDF.');
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `<div class="result-screen smart-stack">
+    <div class="result-header" style="text-align:left">
+      <div class="steps-title">Smart Application Builder</div>
+      <div class="result-title yes" style="margin-bottom:0.45rem">Start with one document we can learn from</div>
+      <p class="result-desc" style="margin:0;max-width:none">There usually is not one document that fills every PVO field. The best combination is: an ID or address document for contact details, then DD-214 or military ID for proof of service.</p>
+    </div>
+    <div class="smart-guide-grid">
+      <div class="smart-guide-card">
+        <div class="smart-guide-kicker">Best for name + address</div>
+        <div class="smart-guide-title">Driver's license or state ID</div>
+        <div class="smart-guide-copy">Usually gives the cleanest name and mailing address for the application draft.</div>
+      </div>
+      <div class="smart-guide-card">
+        <div class="smart-guide-kicker">Best for branch clues</div>
+        <div class="smart-guide-title">VA letter or veteran ID</div>
+        <div class="smart-guide-copy">Helpful when you want branch-of-service details to prefill before review.</div>
+      </div>
+      <div class="smart-guide-card">
+        <div class="smart-guide-kicker">Required later</div>
+        <div class="smart-guide-title">DD-214 or military ID</div>
+        <div class="smart-guide-copy">PVO asks for proof of service. You will upload that in the final step.</div>
+      </div>
+    </div>
+    <div class="smart-banner">
+      <div class="smart-banner-mark">i</div>
+      <div class="smart-banner-copy">Current version: the prescreener already pre-fills need-related answers. For contact details, upload a photo and paste any visible text from the document if you want the draft to pull more fields automatically before review.</div>
+    </div>
+    <div class="smart-upload-grid">
+      <div class="smart-upload-box smart-panel">
+        <div>
+          <div class="smart-panel-title">1. Capture a primary document</div>
+          <div class="smart-panel-sub">Use your camera or upload a file with the applicant's name and address. If you can copy text from the document, paste it below for best autofill.</div>
+        </div>
+        <label class="smart-upload-label">
+          <input type="file" accept="image/*,.pdf" capture="environment" style="display:none" onchange="handlePrimaryDoc(event)">
+          <div class="smart-upload-title">Upload or take a photo</div>
+          <div class="smart-upload-copy">Accepted here for drafting: ID card, utility bill, VA letter, or similar intake document.</div>
+        </label>
+        <div class="smart-file-meta" id="primary-doc-name">${escapeHtml(draft.primaryDocName || 'No file selected yet')}</div>
+        <div class="smart-field">
+          <label class="smart-label" for="smart-ocr-text">Optional text from the document</label>
+          <textarea id="smart-ocr-text" class="smart-textarea" placeholder="Paste any text you can copy from the photo or scanned document. We will use it to prefill name, address, phone, email, and branch when possible." oninput="handlePrimaryDocText(this.value)">${escapeHtml(draft.primaryDocText || '')}</textarea>
+          <div class="smart-helper">This keeps the workflow reliable even before a full OCR service is connected.</div>
+        </div>
+      </div>
+      <div class="smart-panel">
+        <div class="smart-panel-title">Document preview</div>
+        <div class="smart-panel-sub" style="margin-bottom:0.85rem">Preview is optional for PDFs. Image uploads show here immediately.</div>
+        <div class="smart-doc-preview" id="primary-doc-preview"></div>
+      </div>
+    </div>
+    <div class="smart-actions">
+      <button class="subtle-btn" onclick="showResult()">Back to results</button>
+      <button class="cta-btn" style="margin-bottom:0" onclick="prepareSmartReview()">Review extracted info →</button>
+    </div>
+  </div>`;
+  updateUploadPreview('primary');
+}
+
+function prepareSmartReview(){
+  const draft = ensureSmartDraft();
+  const parsed = parseDocumentText(draft.primaryDocText || '');
+  Object.entries(parsed).forEach(([key, value]) => {
+    if(value && !draft[key]) draft[key] = value;
+  });
+  if(!draft.generalNeed) draft.generalNeed = mapGeneralNeed();
+  if(!draft.specificNeed) draft.specificNeed = buildSpecificNeedSummary();
+  renderSmartReview();
+}
+
+function renderSmartReview(){
+  const draft = ensureSmartDraft();
+  setApplicationHeader('Review your draft','Check every field before moving to proof of service.','Edit anything that looks off.');
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `<div class="result-screen smart-stack">
+    <div class="smart-panel">
+      <div class="smart-panel-title">2. Review the PVO draft</div>
+      <div class="smart-panel-sub">These fields mirror the PVO assistance form. The prescreener has already filled the need-related sections; your document can help fill the rest.</div>
+    </div>
+    <div class="smart-form-grid smart-panel">
+      <div class="smart-field">
+        <label class="smart-label">First name</label>
+        <input class="smart-input" value="${escapeHtml(draft.firstName || '')}" oninput="syncDraftField('firstName', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">Last name</label>
+        <input class="smart-input" value="${escapeHtml(draft.lastName || '')}" oninput="syncDraftField('lastName', this.value)">
+      </div>
+      <div class="smart-field span-2">
+        <label class="smart-label">Street address</label>
+        <input class="smart-input" value="${escapeHtml(draft.street || '')}" oninput="syncDraftField('street', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">City</label>
+        <input class="smart-input" value="${escapeHtml(draft.city || '')}" oninput="syncDraftField('city', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">State</label>
+        <input class="smart-input" value="${escapeHtml(draft.state || '')}" oninput="syncDraftField('state', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">ZIP code</label>
+        <input class="smart-input" value="${escapeHtml(draft.zip || '')}" oninput="syncDraftField('zip', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">Home phone</label>
+        <input class="smart-input" value="${escapeHtml(draft.homePhone || '')}" oninput="syncDraftField('homePhone', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">Cell phone</label>
+        <input class="smart-input" value="${escapeHtml(draft.cellPhone || '')}" oninput="syncDraftField('cellPhone', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">Email</label>
+        <input class="smart-input" value="${escapeHtml(draft.email || '')}" oninput="syncDraftField('email', this.value)">
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">Branch of service</label>
+        <select class="smart-select" onchange="syncDraftField('branch', this.value)">
+          <option value="">Select branch</option>
+          ${BRANCH_OPTIONS.map(option => `<option value="${option}" ${draft.branch===option?'selected':''}>${option}</option>`).join('')}
+        </select>
+      </div>
+      <div class="smart-field">
+        <label class="smart-label">General need(s)</label>
+        <select class="smart-select" onchange="syncDraftField('generalNeed', this.value)">
+          ${['Home repairs','Medical','Counseling','Legal','Transportation','Family','Meals/food','Veterans Administration Services','Other'].map(option => `<option value="${option}" ${draft.generalNeed===option?'selected':''}>${option}</option>`).join('')}
+        </select>
+      </div>
+      <div class="smart-field span-2">
+        <label class="smart-label">Specific need(s)</label>
+        <textarea class="smart-textarea" oninput="syncDraftField('specificNeed', this.value)">${escapeHtml(draft.specificNeed || '')}</textarea>
+      </div>
+    </div>
+    <div class="smart-actions">
+      <button class="subtle-btn" onclick="renderSmartCapture()">Back to document step</button>
+      <button class="cta-btn" style="margin-bottom:0" onclick="renderSmartProof()">Continue to proof of service →</button>
+    </div>
+  </div>`;
+}
+
+function renderSmartProof(){
+  const draft = ensureSmartDraft();
+  setApplicationHeader('Add proof of service','PVO asks for proof of military service with the request.','Upload DD-214, military ID, or another acceptable proof document.');
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `<div class="result-screen smart-stack">
+    <div class="smart-panel">
+      <div class="smart-panel-title">3. Add proof of service</div>
+      <div class="smart-panel-sub">PVO lists DD-214 or a military ID as accepted examples. This step keeps that attachment paired with the draft before you open the live form.</div>
+    </div>
+    <div class="smart-upload-grid">
+      <div class="smart-upload-box smart-panel">
+        <label class="smart-upload-label">
+          <input type="file" accept="image/*,.pdf,.doc,.txt" capture="environment" style="display:none" onchange="handleProofDoc(event)">
+          <div class="smart-upload-title">Upload proof of service</div>
+          <div class="smart-upload-copy">Examples: DD-214, military ID, or another file that clearly proves service status.</div>
+        </label>
+        <div class="smart-file-meta" id="proof-doc-name">${escapeHtml(draft.proofDocName || 'No proof document selected yet')}</div>
+        <div class="smart-checklist">
+          <div class="smart-check">
+            <div><strong>Primary document</strong><span>${escapeHtml(draft.primaryDocName || 'Not uploaded yet')}</span></div>
+            <div class="smart-status ${draft.primaryDocName ? 'ready' : 'missing'}">${draft.primaryDocName ? 'Ready' : 'Missing'}</div>
+          </div>
+          <div class="smart-check">
+            <div><strong>Proof of service</strong><span>${escapeHtml(draft.proofDocName || 'Upload required for a complete packet')}</span></div>
+            <div class="smart-status ${draft.proofDocName ? 'ready' : 'missing'}">${draft.proofDocName ? 'Ready' : 'Needed'}</div>
+          </div>
+        </div>
+      </div>
+      <div class="smart-panel">
+        <div class="smart-panel-title">Proof preview</div>
+        <div class="smart-panel-sub" style="margin-bottom:0.85rem">Image files preview here. PDFs and docs will still be tracked by file name.</div>
+        <div class="smart-doc-preview" id="proof-doc-preview"></div>
+      </div>
+    </div>
+    <div class="smart-actions">
+      <button class="subtle-btn" onclick="renderSmartReview()">Back to review</button>
+      <button class="cta-btn" style="margin-bottom:0" onclick="renderSmartFinal()">Show submission-ready form →</button>
+    </div>
+  </div>`;
+  updateUploadPreview('proof');
+}
+
+function renderSmartFinal(){
+  const draft = ensureSmartDraft();
+  setApplicationHeader('Submission-ready preview','This is the PVO packet as currently prepared. Review any missing items before opening the live form.','Ready to transfer into the official PVO assistance form.');
+  const missing = getMissingSmartFields();
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `<div class="result-screen smart-stack">
+    <div class="smart-panel">
+      <div class="smart-panel-title">4. Submission-ready PVO preview</div>
+      <div class="smart-panel-sub">This mirrors the live PVO assistance form at <code>powayveterans.org/request-assistance/</code> and shows what is already prepared.</div>
+    </div>
+    <div class="smart-panel">
+      <div class="smart-preview-list">
+        <div class="smart-preview-row"><div class="smart-preview-key">Name</div><div class="smart-preview-val">${getPreviewValue(`${draft.firstName} ${draft.lastName}`.trim())}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Address</div><div class="smart-preview-val">${getPreviewValue([draft.street,draft.city,draft.state,draft.zip].filter(Boolean).join(', '))}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Home phone</div><div class="smart-preview-val">${getPreviewValue(draft.homePhone)}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Cell phone</div><div class="smart-preview-val">${getPreviewValue(draft.cellPhone)}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Email</div><div class="smart-preview-val">${getPreviewValue(draft.email)}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Branch of service</div><div class="smart-preview-val">${getPreviewValue(draft.branch)}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">General need(s)</div><div class="smart-preview-val">${getPreviewValue(draft.generalNeed)}</div></div>
+        <div class="smart-preview-row"><div class="smart-preview-key">Specific need(s)</div><div class="smart-preview-val">${getPreviewValue(draft.specificNeed)}</div></div>
+      </div>
+    </div>
+    <div class="smart-panel">
+      <div class="smart-panel-title">Attached files</div>
+      <div class="smart-pills">
+        <span class="smart-pill">Primary intake: ${escapeHtml(draft.primaryDocName || 'Not added yet')}</span>
+        <span class="smart-pill">Proof of service: ${escapeHtml(draft.proofDocName || 'Not added yet')}</span>
+      </div>
+    </div>
+    <div class="smart-panel">
+      <div class="smart-panel-title">Readiness check</div>
+      ${missing.length ? `<div class="smart-missing">${missing.map(item => `<div>• ${item}</div>`).join('')}</div>` : `<div class="smart-banner"><div class="smart-banner-mark">✓</div><div class="smart-banner-copy">All major PVO fields in this draft are filled. Final step is transferring this packet into the live PVO form for submission.</div></div>`}
+    </div>
+    <div class="smart-actions">
+      <button class="subtle-btn" onclick="renderSmartProof()">Back to proof step</button>
+      <button class="subtle-btn" onclick="renderSmartReview()">Edit draft fields</button>
+      <a class="cta-btn" style="margin-bottom:0" href="https://powayveterans.org/request-assistance/" target="_blank">Open live PVO form →</a>
+    </div>
+  </div>`;
+}
+
 function simulate(a){
   const direct=['rent','utility','food','transport','home_repair','vehicle_reg','medical','storage','moving'];
   const refer=['counseling','legal','mental_health'];
@@ -733,7 +1270,7 @@ function simulate(a){
 
 function restartFlow(){
   Object.keys(answers).forEach(k=>delete answers[k]);
-  currentQ=-1; stepperVal=1; zipLocation=null; savedSeconds=0;
+  currentQ=-1; stepperVal=1; zipLocation=null; savedSeconds=0; smartDraft=null;
   document.getElementById('summary-bar').innerHTML='';
   const ts=document.getElementById('time-saved');ts.classList.add('hidden');
   render();
