@@ -148,13 +148,10 @@ async function sendMessage(override) {
   wrap.appendChild(td);
   wrap.scrollTop = wrap.scrollHeight;
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('http://localhost:8426/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYS,
         messages: history
       })
     });
