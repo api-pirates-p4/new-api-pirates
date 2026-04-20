@@ -269,7 +269,7 @@ api_base: http://localhost:4500
   }
   .role-desc {
     font-size: 0.88rem;
-    color: #000000 !important;
+    color: #ffffff !important;
     line-height: 1.6;
     margin-bottom: 1rem;
   }
@@ -599,7 +599,7 @@ api_base: http://localhost:4500
           <div style="font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.75rem; color: var(--gold);">Schedule a group day</div>
           <p style="font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem; line-height: 1.65;">Contact us to plan your team's volunteer experience. We accommodate groups of 5 to 40+.</p>
           <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 0.4rem;">📞 858-206-8854</p>
-          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0e0203190c0e192d1d021a0c141b0819081f0c031e43021f0a">[email&#160;protected]</a></p>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">✉ <a href="mailto:contact@powayveterans.org">contact@powayveterans.org</a></p>
         </div>
       </div>
     </div>
@@ -721,7 +721,7 @@ api_base: http://localhost:4500
     }
 
     try {
-      const res = await fetch('http://localhost:8587/api/volunteers', {
+      const res = await fetch('http://localhost:8426/api/volunteers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
