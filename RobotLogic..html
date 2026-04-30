@@ -1,0 +1,460 @@
+---
+layout: null
+feedback: true
+hide: true
+title: lesson 3.0
+permalink: /lesson-3-0
+---
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<title>AP CSP Robot Logic Game</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #08111d;
+    --bg-alt: #0d1726;
+    --panel: rgba(11, 22, 37, 0.86);
+    --panel-strong: rgba(15, 31, 52, 0.92);
+    --panel-border: rgba(129, 163, 208, 0.18);
+    --text: #edf4ff;
+    --muted: #8ea4c2;
+    --chip: rgba(133, 167, 214, 0.12);
+    --accent: #57c7a2;
+    --accent-deep: #13956f;
+    --danger: #ff7c7c;
+    --danger-bg: rgba(129, 30, 30, 0.3);
+    --success-bg: rgba(24, 104, 76, 0.32);
+    --shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+    --radius: 24px;
+  }
+
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: system-ui, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(52, 106, 191, 0.22), transparent 28%),
+      radial-gradient(circle at top right, rgba(60, 193, 145, 0.14), transparent 24%),
+      linear-gradient(180deg, #09111d 0%, #08111d 45%, #050b13 100%);
+    color: var(--text);
+  }
+  #app {
+    width: min(1500px, 100vw);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: clamp(20px, 3vw, 40px);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 16px;
+  }
+  h1 { font-size: clamp(28px, 3vw, 42px); font-weight: 700; color: var(--text); letter-spacing: -0.03em; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .level-badge {
+    font-size: 13px;
+    font-weight: 700;
+    color: #06131d;
+    background: linear-gradient(135deg, #7db5ff, #d7e8ff);
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+  .score { font-size: 14px; color: var(--muted); }
+  .game-area {
+    display: grid;
+    grid-template-columns: minmax(420px, 1.15fr) minmax(320px, 0.85fr);
+    gap: 16px;
+    min-height: 0;
+  }
+  .grid-panel,
+  .cmd-panel,
+  .queue-panel,
+  .challenge-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+  }
+  .challenge-panel {
+    padding: 18px 20px;
+    background: linear-gradient(180deg, rgba(15, 31, 52, 0.92), rgba(9, 18, 30, 0.88));
+  }
+  .challenge-title,
+  .grid-label,
+  .cmd-title,
+  .queue-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .challenge-desc { font-size: 16px; line-height: 1.5; color: var(--text); }
+  .goal-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .chip {
+    font-size: 12px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--chip);
+    color: #cfe0fb;
+    border: 1px solid rgba(133, 167, 214, 0.18);
+  }
+  .grid-panel {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: clamp(360px, 62vh, 760px);
+  }
+  .grid-label { margin-bottom: 0; }
+  canvas#grid {
+    width: 100%;
+    max-width: min(72vh, 820px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    align-self: center;
+    border: 1px solid rgba(133, 167, 214, 0.14);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(19, 34, 54, 0.96), rgba(10, 18, 31, 0.96));
+  }
+  .right-panel { display: grid; grid-template-rows: auto 1fr; gap: 16px; min-height: 0; }
+  .cmd-panel,
+  .queue-panel { padding: 18px; }
+  .cmd-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cmd-btn {
+    padding: 14px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(133, 167, 214, 0.08);
+    border: 1px solid rgba(133, 167, 214, 0.18);
+    border-radius: 16px;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .cmd-btn:hover { background: rgba(133, 167, 214, 0.16); border-color: rgba(133, 167, 214, 0.32); }
+  .cmd-btn:active { transform: scale(0.98); }
+  .queue-panel { display: flex; flex-direction: column; min-height: 0; }
+  .queue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 180px;
+    overflow: auto;
+    padding-right: 2px;
+  }
+  .queue-item {
+    font-size: 13px;
+    padding: 12px 14px;
+    background: rgba(133, 167, 214, 0.08);
+    border: 1px solid rgba(133, 167, 214, 0.16);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text);
+  }
+  .queue-item.active {
+    border-color: rgba(87, 199, 162, 0.7);
+    background: rgba(18, 120, 88, 0.35);
+    color: #e9fff7;
+    font-weight: 600;
+  }
+  .queue-item.done { opacity: 0.42; }
+  .queue-empty { font-size: 13px; color: #6f86a6; font-style: italic; padding: 4px 0; }
+  .action-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .run-btn,
+  .clear-btn {
+    min-height: 50px;
+    padding: 12px 18px;
+    font-size: 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+  .run-btn {
+    flex: 1 1 220px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #05150f;
+    border: none;
+  }
+  .run-btn:hover { transform: translateY(-1px); }
+  .run-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .clear-btn {
+    background: rgba(133, 167, 214, 0.08);
+    border: 1px solid rgba(133, 167, 214, 0.18);
+    color: var(--text);
+  }
+  .clear-btn:hover { background: rgba(133, 167, 214, 0.14); }
+  .feedback {
+    font-size: 15px;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 18px;
+    font-weight: 600;
+    border: 1px solid transparent;
+  }
+  .feedback.success { background: var(--success-bg); color: #bff5de; border-color: rgba(87, 199, 162, 0.32); }
+  .feedback.fail { background: var(--danger-bg); color: #ffd8d8; border-color: rgba(255, 124, 124, 0.22); }
+  .feedback.hidden { display: none; }
+
+  @media (max-width: 980px) {
+    #app { grid-template-rows: auto auto auto auto auto; }
+    .game-area { grid-template-columns: 1fr; }
+    .grid-panel { min-height: auto; }
+    canvas#grid { max-width: min(78vw, 640px); }
+  }
+
+  @media (max-width: 560px) {
+    #app { padding: 16px; gap: 14px; }
+    .cmd-buttons { grid-template-columns: 1fr; }
+    .action-row > * { width: 100%; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top-bar">
+    <h1>AP CSP Robot Game</h1>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="level-badge" id="level-badge">Level 1</div>
+      <div class="score">Score: <span id="score">0</span></div>
+    </div>
+  </div>
+
+  <div class="challenge-panel">
+    <div class="challenge-title">Challenge</div>
+    <div class="challenge-desc" id="challenge-desc"></div>
+    <div class="goal-chips" id="goal-chips"></div>
+  </div>
+
+  <div class="game-area">
+    <div class="grid-panel">
+      <div class="grid-label">Grid</div>
+      <canvas id="grid" width="240" height="240"></canvas>
+    </div>
+    <div class="right-panel">
+      <div class="cmd-panel">
+        <div class="cmd-title">Commands</div>
+        <div class="cmd-buttons">
+          <button class="cmd-btn" onclick="addCmd('MOVE_FORWARD')">▲ Move forward</button>
+          <button class="cmd-btn" onclick="addCmd('MOVE_BACKWARD')">▼ Move backward</button>
+          <button class="cmd-btn" onclick="addCmd('ROTATE_LEFT')">↺ Rotate left</button>
+          <button class="cmd-btn" onclick="addCmd('ROTATE_RIGHT')">↻ Rotate right</button>
+        </div>
+      </div>
+      <div class="queue-panel">
+        <div class="queue-title">Program</div>
+        <div class="queue-list" id="queue-list"><div class="queue-empty">Add commands above ↑</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="run-btn" id="run-btn" onclick="runProgram()">▶ Run program</button>
+    <button class="clear-btn" onclick="clearQueue()">✕ Clear</button>
+    <button class="clear-btn" id="next-btn" style="display:none" onclick="nextLevel()">Next level →</button>
+  </div>
+
+  <div class="feedback hidden" id="feedback"></div>
+</div>
+
+<script>
+const DIRS = ['UP','RIGHT','DOWN','LEFT'];
+const CMD_LABELS = {
+  MOVE_FORWARD: '▲ Move forward',
+  MOVE_BACKWARD: '▼ Move backward',
+  ROTATE_LEFT: '↺ Rotate left',
+  ROTATE_RIGHT: '↻ Rotate right'
+};
+
+const LEVELS = [
+  { rows:5, cols:5, start:{r:4,c:0,dir:'UP'}, goal:{r:0,c:0}, walls:[], desc:"Move the robot up to the star!", hint:"Try 4× Move Forward" },
+  { rows:5, cols:5, start:{r:4,c:0,dir:'UP'}, goal:{r:4,c:4}, walls:[], desc:"Move the robot to the right side.", hint:"Rotate right, then move 4× forward" },
+  { rows:5, cols:5, start:{r:4,c:0,dir:'UP'}, goal:{r:0,c:4}, walls:[], desc:"Reach the top-right corner!", hint:"Move up then turn and move right" },
+  { rows:6, cols:6, start:{r:5,c:0,dir:'UP'}, goal:{r:0,c:5}, walls:[{r:2,c:0},{r:2,c:1},{r:2,c:2}], desc:"Navigate around the wall!", hint:"Watch out for the wall blocks" },
+  { rows:6, cols:6, start:{r:5,c:2,dir:'UP'}, goal:{r:0,c:5}, walls:[{r:3,c:2},{r:3,c:3},{r:3,c:4}], desc:"Tricky detour ahead!", hint:"You may need to go around the wall" },
+];
+
+let level = 0, score = 0, queue = [], running = false;
+let robot = {r:0, c:0, dir:'UP'}, goalPos = {r:0, c:0}, walls = [];
+let animStep = -1;
+
+function initLevel() {
+  const lv = LEVELS[level];
+  robot = {...lv.start};
+  goalPos = {r: lv.goal.r, c: lv.goal.c};
+  walls = lv.walls || [];
+  queue = [];
+  animStep = -1;
+  document.getElementById('level-badge').textContent = 'Level ' + (level + 1);
+  document.getElementById('challenge-desc').textContent = lv.desc;
+  document.getElementById('score').textContent = score;
+  document.getElementById('goal-chips').innerHTML = `<span class="chip">Hint: ${lv.hint}</span>`;
+  document.getElementById('feedback').className = 'feedback hidden';
+  document.getElementById('run-btn').disabled = false;
+  document.getElementById('next-btn').style.display = 'none';
+  renderQueue();
+  drawGrid();
+}
+
+function drawGrid() {
+  const lv = LEVELS[level];
+  const rows = lv.rows, cols = lv.cols;
+  const canvas = document.getElementById('grid');
+  const targetSize = Math.max(
+    240,
+    Math.min(
+      Math.floor(canvas.clientWidth || 240),
+      Math.floor(window.innerHeight * 0.62),
+      820
+    )
+  );
+  const cell = Math.max(24, Math.floor(targetSize / Math.max(rows, cols)));
+  const sz = cell * Math.max(rows, cols);
+  canvas.width = sz; canvas.height = sz;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, sz, sz);
+
+  const gridColor = 'rgba(164, 193, 232, 0.14)';
+  const wallColor = '#34455d';
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      ctx.fillStyle = 'rgba(164, 193, 232, 0.035)';
+      ctx.fillRect(c * cell, r * cell, cell, cell);
+      ctx.strokeStyle = gridColor;
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(c * cell, r * cell, cell, cell);
+    }
+  }
+
+  walls.forEach(w => {
+    ctx.fillStyle = wallColor;
+    ctx.beginPath();
+    ctx.roundRect(w.c * cell + 2, w.r * cell + 2, cell - 4, cell - 4, 3);
+    ctx.fill();
+  });
+
+  const gr = goalPos.r, gc = goalPos.c;
+  ctx.fillStyle = '#FAC775';
+  ctx.beginPath();
+  ctx.roundRect(gc * cell + 3, gr * cell + 3, cell - 6, cell - 6, 4);
+  ctx.fill();
+  ctx.font = `bold ${Math.round(cell * 0.45)}px serif`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('★', gc * cell + cell / 2, gr * cell + cell / 2 + 1);
+
+  const cx = robot.c * cell + cell / 2;
+  const cy = robot.r * cell + cell / 2;
+  const cr = cell * 0.34;
+  ctx.fillStyle = '#57c7a2';
+  ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI * 2); ctx.fill();
+
+  const angle = {UP: -Math.PI/2, RIGHT: 0, DOWN: Math.PI/2, LEFT: Math.PI}[robot.dir];
+  const ax = cx + Math.cos(angle) * cr * 0.55;
+  const ay = cy + Math.sin(angle) * cr * 0.55;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(ax, ay, cr * 0.28, 0, Math.PI * 2); ctx.fill();
+}
+
+function renderQueue() {
+  const el = document.getElementById('queue-list');
+  if (!queue.length) { el.innerHTML = '<div class="queue-empty">Add commands above ↑</div>'; return; }
+  el.innerHTML = queue.map((cmd, i) => {
+    let cls = 'queue-item';
+    if (i === animStep) cls += ' active';
+    else if (i < animStep) cls += ' done';
+    return `<div class="${cls}"><span>${CMD_LABELS[cmd]}</span><span style="margin-left:auto;font-size:11px;color:#aaa">#${i+1}</span></div>`;
+  }).join('');
+}
+
+function addCmd(cmd) {
+  if (running || queue.length >= 12) return;
+  queue.push(cmd);
+  renderQueue();
+}
+
+function clearQueue() {
+  if (running) return;
+  queue = [];
+  animStep = -1;
+  robot = {...LEVELS[level].start};
+  renderQueue();
+  drawGrid();
+  document.getElementById('feedback').className = 'feedback hidden';
+  document.getElementById('run-btn').disabled = false;
+  document.getElementById('next-btn').style.display = 'none';
+}
+
+function applyCmd(r, c, dir, cmd) {
+  const di = DIRS.indexOf(dir);
+  if (cmd === 'ROTATE_LEFT') return {r, c, dir: DIRS[(di + 3) % 4]};
+  if (cmd === 'ROTATE_RIGHT') return {r, c, dir: DIRS[(di + 1) % 4]};
+  const lv = LEVELS[level];
+  const dr = {UP:-1, DOWN:1, LEFT:0, RIGHT:0}[dir];
+  const dc = {UP:0, DOWN:0, LEFT:-1, RIGHT:1}[dir];
+  let nr = r, nc = c;
+  if (cmd === 'MOVE_FORWARD') { nr = r + dr; nc = c + dc; }
+  else if (cmd === 'MOVE_BACKWARD') { nr = r - dr; nc = c - dc; }
+  if (nr < 0 || nr >= lv.rows || nc < 0 || nc >= lv.cols) return {r, c, dir};
+  if (walls.some(w => w.r === nr && w.c === nc)) return {r, c, dir};
+  return {r: nr, c: nc, dir};
+}
+
+function runProgram() {
+  if (!queue.length) return;
+  running = true;
+  document.getElementById('run-btn').disabled = true;
+  animStep = 0;
+  robot = {...LEVELS[level].start};
+  renderQueue(); drawGrid();
+  runStep();
+}
+
+function runStep() {
+  if (animStep >= queue.length) {
+    running = false;
+    const win = robot.r === goalPos.r && robot.c === goalPos.c;
+    const fb = document.getElementById('feedback');
+    if (win) {
+      score += 10 + Math.max(0, 12 - queue.length);
+      document.getElementById('score').textContent = score;
+      fb.textContent = '✓ Reached the goal! Great job!';
+      fb.className = 'feedback success';
+      if (level < LEVELS.length - 1) document.getElementById('next-btn').style.display = '';
+      else { fb.textContent = '🎉 All levels complete! Final score: ' + score; }
+    } else {
+      fb.textContent = '✗ Did not reach the goal. Try again!';
+      fb.className = 'feedback fail';
+      document.getElementById('run-btn').disabled = false;
+    }
+    animStep = -1; renderQueue();
+    return;
+  }
+  const cmd = queue[animStep];
+  robot = applyCmd(robot.r, robot.c, robot.dir, cmd);
+  renderQueue(); drawGrid();
+  animStep++;
+  setTimeout(runStep, 420);
+}
+
+function nextLevel() {
+  if (level < LEVELS.length - 1) { level++; initLevel(); }
+}
+
+initLevel();
+window.addEventListener('resize', drawGrid);
+</script>
+</body>
+</html>
