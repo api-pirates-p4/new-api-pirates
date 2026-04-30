@@ -40,4 +40,4 @@ permalink: /robotgamelesson
 
 ## Try it Yourself
 
-{% include RobotLogic..html %}
+{% include RobotLogic.html %}
