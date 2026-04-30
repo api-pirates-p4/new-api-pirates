@@ -40,4 +40,6 @@ permalink: /robotgamelesson
 
 ## Try it Yourself
 
-{% include RobotLogic.html %}
+<div style="width:100vw; position:relative; left:50%; transform:translateX(-50%);">
+  <iframe src="/lesson-3-0" style="width:100%; height:90vh; border:none; display:block;"></iframe>
+</div>
