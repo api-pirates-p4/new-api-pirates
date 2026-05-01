@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Level 2 — The Vault of Lists
+title: The Vault of Lists
 permalink: /escaperoom
 ---
 
