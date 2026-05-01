@@ -1,196 +1,153 @@
 ---
-layout: page
+layout: post
 title: Level 2 — The Vault of Lists
 permalink: /escaperoom
 ---
-# 📦 Level 2 — The Vault of Lists (Pseudocode)
  
-The second chamber is lined with glowing shelves. Each shelf holds a row of numbered compartments — some filled, some empty.
-A voice echoes:
+<style>
+body { background: #060d1f; color: #e9eefc; font-family: system-ui, sans-serif; }
+</style>
  
-> *"Only those who master the art of the List may pass. Fill them. Empty them. Know their length."*
+<h1>📦 Level 2 — The Vault of Lists</h1>
  
----
+<p>The second chamber is lined with glowing shelves. Each shelf holds a row of numbered compartments — some filled, some empty.</p>
+<blockquote><em>"Only those who master the art of the List may pass. Fill them. Empty them. Know their length."</em></blockquote>
  
-## 📘 What Is a List?
+<hr>
  
-A **list** is an ordered collection of items stored under a single variable name.  
-Each item lives at a numbered **index**, and on the AP exam, **indexing starts at 1** (not 0!).
+<h2>📘 What Is a List?</h2>
+<p>A <strong>list</strong> is an ordered collection of items stored under a single variable name.<br>
+Each item lives at a numbered <strong>index</strong>, and on the AP exam, <strong>indexing starts at 1</strong> (not 0!).</p>
  
-```
-inventory ← ["key", "torch", "map", "potion"]
-              index 1   2       3      4
-```
+<pre><code>inventory ← ["key", "torch", "map", "potion"]
+              index 1   2       3      4</code></pre>
  
-**Key things to remember:**
-- A list can hold **any type** of value — strings, numbers, even booleans
-- Items in a list are **ordered** — the sequence matters
-- The **same value** can appear multiple times at different indices
-- A list can be **empty**: `myList ← []`
-- The **last valid index** is always equal to `LENGTH(myList)`
-You can store **any type** of value — numbers, strings, even other lists.
+<ul>
+  <li>A list can hold <strong>any type</strong> of value — strings, numbers, even booleans</li>
+  <li>Items in a list are <strong>ordered</strong> — the sequence matters</li>
+  <li>The <strong>same value</strong> can appear multiple times at different indices</li>
+  <li>A list can be <strong>empty</strong>: <code>myList ← []</code></li>
+  <li>The <strong>last valid index</strong> is always equal to <code>LENGTH(myList)</code></li>
+</ul>
  
+<hr>
  
-## 🔑 Core List Operations
+<h2>🔑 Core List Operations</h2>
  
-### 1. Accessing an Element
-```
-inventory[2]   →   "torch"
-```
-- Use bracket notation with the index number (**starts at 1**)
-- Reading an element does **not** change the list
-- Accessing an out-of-range index causes an **error**
----
+<h3>1. Accessing an Element</h3>
+<pre><code>inventory[2]   →   "torch"</code></pre>
+<ul>
+  <li>Use bracket notation with the index number (<strong>starts at 1</strong>)</li>
+  <li>Reading an element does <strong>not</strong> change the list</li>
+  <li>Accessing an out-of-range index causes an <strong>error</strong></li>
+</ul>
  
-### 2. Assigning a Value
-```
-inventory[3] ← "compass"
-```
-- Replaces whatever was at index 3 with `"compass"`
-- The list **length stays the same** — you're overwriting, not adding
-- The old value at that index is **gone**
----
+<h3>2. Assigning a Value</h3>
+<pre><code>inventory[3] ← "compass"</code></pre>
+<ul>
+  <li>Replaces whatever was at index 3 with <code>"compass"</code></li>
+  <li>The list <strong>length stays the same</strong> — you're overwriting, not adding</li>
+  <li>The old value at that index is <strong>gone</strong></li>
+</ul>
  
-### 3. INSERT
-```
-INSERT(inventory, 2, "gem")
-```
-- Inserts `"gem"` **at index 2**, shifting everything else **right**
-- The list **grows by one**
-- Result: `["key", "gem", "torch", "map", "potion"]`
----
+<h3>3. INSERT</h3>
+<pre><code>INSERT(inventory, 2, "gem")</code></pre>
+<ul>
+  <li>Inserts <code>"gem"</code> <strong>at index 2</strong>, shifting everything else <strong>right</strong></li>
+  <li>The list <strong>grows by one</strong></li>
+  <li>Result: <code>["key", "gem", "torch", "map", "potion"]</code></li>
+</ul>
  
-### 4. APPEND
-```
-APPEND(inventory, "rope")
-```
-- Adds `"rope"` to the **end** of the list
-- Think of it as INSERT at position `LENGTH + 1`
-- The list **grows by one**
----
+<h3>4. APPEND</h3>
+<pre><code>APPEND(inventory, "rope")</code></pre>
+<ul>
+  <li>Adds <code>"rope"</code> to the <strong>end</strong> of the list</li>
+  <li>Think of it as INSERT at position <code>LENGTH + 1</code></li>
+  <li>The list <strong>grows by one</strong></li>
+</ul>
  
-### 5. REMOVE
-```
-REMOVE(inventory, 2)
-```
-- Removes the item at index 2, shifting everything **left**
-- The list **shrinks by one** — no gaps are left behind
-- Items after the removed one all shift down by 1
----
+<h3>5. REMOVE</h3>
+<pre><code>REMOVE(inventory, 2)</code></pre>
+<ul>
+  <li>Removes the item at index 2, shifting everything <strong>left</strong></li>
+  <li>The list <strong>shrinks by one</strong> — no gaps are left behind</li>
+  <li>Items after the removed one all shift down by 1</li>
+</ul>
  
-### 6. LENGTH
-```
-LENGTH(inventory)   →   4
-```
-- Returns the **count** of items currently in the list
-- Useful for looping and bounds-checking
-- Updates automatically as items are added or removed
-## 🔄 Traversing a List with a Loop
+<h3>6. LENGTH</h3>
+<pre><code>LENGTH(inventory)   →   4</code></pre>
+<ul>
+  <li>Returns the <strong>count</strong> of items currently in the list</li>
+  <li>Useful for looping and bounds-checking</li>
+  <li>Updates automatically as items are added or removed</li>
+</ul>
  
-The most common list pattern on the exam: visit every item one by one.
+<hr>
  
-```
-FOR EACH item IN inventory
+<h2>🔄 Traversing a List with a Loop</h2>
+<pre><code>FOR EACH item IN inventory
 {
     DISPLAY(item)
-}
-```
+}</code></pre>
  
-Or using an index:
- 
-```
-i ← 1
+<pre><code>i ← 1
 REPEAT LENGTH(inventory) TIMES
 {
     DISPLAY(inventory[i])
     i ← i + 1
-}
-```
+}</code></pre>
  
-**When to use each style:**
-- Use **FOR EACH** when you only need the *value* and not its position
-- Use the **index loop** when you need to know *where* an item is or modify items in place
-- Both loops visit every element — neither skips or repeats
-- Always stop at `LENGTH(list)` to avoid going out of bounds
-## ✍️ Trace Practice
+<ul>
+  <li>Use <strong>FOR EACH</strong> when you only need the value and not its position</li>
+  <li>Use the <strong>index loop</strong> when you need to know where an item is or modify items in place</li>
+  <li>Always stop at <code>LENGTH(list)</code> to avoid going out of bounds</li>
+</ul>
  
-Follow the pseudocode below. What does `loot` look like at each step?
+<hr>
  
-```
-loot ← ["gold", "silver", "bronze"]
-APPEND(loot, "diamond")
-REMOVE(loot, 2)
-INSERT(loot, 1, "ruby")
-loot[3] ← "emerald"
-DISPLAY(loot)
-```
+<h2>⚠️ Common Misconceptions</h2>
+<table>
+  <thead><tr><th>Mistake</th><th>Correction</th></tr></thead>
+  <tbody>
+    <tr><td><code>list[0]</code> accesses the first item</td><td>❌ AP pseudocode starts at <strong>index 1</strong></td></tr>
+    <tr><td><code>REMOVE</code> leaves a gap at that index</td><td>❌ Everything shifts <strong>left</strong>; no gaps</td></tr>
+    <tr><td><code>INSERT</code> overwrites the existing item</td><td>❌ It <strong>pushes</strong> the existing item right</td></tr>
+    <tr><td><code>LENGTH</code> counts from 0</td><td>❌ It returns the true <strong>count</strong> of items</td></tr>
+    <tr><td>You can loop past <code>LENGTH(list)</code></td><td>❌ That causes an <strong>out-of-bounds</strong> error</td></tr>
+  </tbody>
+</table>
  
-Work it out on paper, then expand the answer below.
+<hr>
  
-<details>
-<summary>👁️ Reveal Answer</summary>
-| Step | List State |
-|------|------------|
-| Start | `["gold", "silver", "bronze"]` |
-| APPEND(loot, "diamond") | `["gold", "silver", "bronze", "diamond"]` |
-| REMOVE(loot, 2) | `["gold", "bronze", "diamond"]` |
-| INSERT(loot, 1, "ruby") | `["ruby", "gold", "bronze", "diamond"]` |
-| loot[3] ← "emerald" | `["ruby", "gold", "emerald", "diamond"]` |
+<h2>🎮 GAME: Escape the Vault!</h2>
  
-**DISPLAY output:** `["ruby", "gold", "emerald", "diamond"]`
+<p>You are locked inside the Vault of Lists. Your <strong>inventory</strong> starts empty.<br>
+Collect the right items, arrange them correctly, and the vault door will open.</p>
  
-</details>
----
+<h3>📜 Rules & How to Win</h3>
+<ul>
+  <li>You are exploring <strong>4 rooms</strong>: Entry Hall → Armory → Library → Vault Door</li>
+  <li>Use <strong>go east</strong> / <strong>go west</strong> to move between rooms</li>
+  <li>Pick up items and manage them in your inventory list</li>
+  <li>Reach the <strong>Vault Door</strong> with inventory in this exact order: <code>[key, torch, map]</code></li>
+  <li>The door checks <strong>both items AND positions</strong> — order matters!</li>
+</ul>
  
-## ⚠️ Common Misconceptions
+<table>
+  <thead><tr><th>Command</th><th>What it does (list operation)</th></tr></thead>
+  <tbody>
+    <tr><td><code>take [item]</code></td><td>APPEND — adds item to end of inventory</td></tr>
+    <tr><td><code>drop [index]</code></td><td>REMOVE — removes item at that index</td></tr>
+    <tr><td><code>insert [i] [item]</code></td><td>INSERT — places item at a specific index</td></tr>
+    <tr><td><code>swap [i] [j]</code></td><td>Swaps two items by index</td></tr>
+    <tr><td><code>inventory</code></td><td>Shows your list with indices and LENGTH</td></tr>
+    <tr><td><code>look</code></td><td>Describes the current room and its items</td></tr>
+    <tr><td><code>hint</code></td><td>Gives you a nudge if you're stuck</td></tr>
+    <tr><td><code>help</code></td><td>Lists all available commands</td></tr>
+  </tbody>
+</table>
  
-| Mistake | Correction |
-|---------|------------|
-| `list[0]` accesses the first item | ❌ AP pseudocode starts at **index 1** |
-| `REMOVE` leaves a gap at that index | ❌ Everything shifts **left**; no gaps |
-| `INSERT` overwrites the existing item | ❌ It **pushes** the existing item right |
-| `LENGTH` counts from 0 | ❌ It returns the true **count** of items |
-| You can loop past `LENGTH(list)` | ❌ That causes an **out-of-bounds** error |
- 
----
- 
----
-# 🎮 GAME: Escape the Vault!
- 
-You are locked inside the Vault of Lists. Your **inventory** starts empty.  
-Collect the right items, arrange them correctly, and the vault door will open.
- 
-**How to play:** Run the cell below, then type commands into the text box.
- 
----
- 
-### 📜 Rules & How to Win
- 
-- You are exploring **4 rooms**: Entry Hall → Armory → Library → Vault Door
-- Use **`go east`** / **`go west`** to move between rooms
-- **Pick up items** from each room and manage them in your inventory list
-- Your goal is to reach the **Vault Door** with your inventory in this **exact order**:
-```
-inventory = [key, torch, map]
-```
- 
-- The door checks **both the items AND their positions** — order matters!
-- **Commands you can use:**
-| Command | What it does (list operation) |
-|---------|-------------------------------|
-| `take [item]` | **APPEND** — adds item to the end of your inventory |
-| `drop [index]` | **REMOVE** — removes item at that index; it drops to the floor |
-| `insert [i] [item]` | **INSERT** — places item at a specific index, shifting others right |
-| `swap [i] [j]` | Swaps two items by index (uses a temp variable behind the scenes) |
-| `inventory` | Shows your current list with indices and LENGTH |
-| `look` | Describes the current room and its items |
-| `hint` | Gives you a nudge if you're stuck |
-| `help` | Lists all available commands |
- 
-- You may need to **rearrange** your inventory before reaching the Vault Door
-- Items dropped in a room stay there — you can come back for them
----
- 
+<hr>
  
 <div id="game" style="
   font-family: 'Courier New', monospace;
@@ -202,9 +159,11 @@ inventory = [key, torch, map]
   color: #e9eefc;
   margin: 10px 0;
 ">
+ 
 <h2 style="color:#ffd27a; margin-top:0;">🗝️ Escape the Vault</h2>
  
 <div id="g-room" style="color:#cfe7ff; margin-bottom:10px; min-height:60px;"></div>
+ 
 <div style="display:flex; gap:8px; margin-bottom:6px;">
   <span style="color:#8ab4ff; white-space:nowrap;">▶ </span>
   <input id="g-cmd" placeholder="type a command and press Enter…" style="
@@ -219,18 +178,22 @@ inventory = [key, torch, map]
     font-family:inherit;
   ">Go</button>
 </div>
+ 
 <div id="g-log" style="
   background:#040910; border-radius:8px; padding:10px;
   height:240px; overflow-y:auto;
   font-size:.88em; line-height:1.6;
 "></div>
+ 
 <div id="g-inv" style="margin-top:10px; color:#ffd27a;"></div>
+ 
 <style>
   #game button:hover { background:rgba(255,255,255,.15) !important; }
 </style>
  
 <script>
 (function(){
+ 
 // ── Game State ──────────────────────────────────────────────
 const ROOMS = [
   {
@@ -254,9 +217,11 @@ const ROOMS = [
     items: []
   }
 ];
+ 
 let inventory = [];
 let roomIdx   = 0;
 let won       = false;
+ 
 // ── Helpers ──────────────────────────────────────────────────
 function showInv(){
   const el = document.getElementById('g-inv');
@@ -267,6 +232,7 @@ function showInv(){
     el.textContent = 'Inventory: ' + indexed + '  (length=' + inventory.length + ')';
   }
 }
+ 
 function log(html, color){
   const el = document.getElementById('g-log');
   const p  = document.createElement('div');
@@ -275,12 +241,14 @@ function log(html, color){
   el.appendChild(p);
   el.scrollTop = el.scrollHeight;
 }
+ 
 function showRoom(){
   const r   = ROOMS[roomIdx];
   const rEl = document.getElementById('g-room');
   rEl.innerHTML = `<b style="color:#ffd27a">📍 ${r.name}</b><br>${r.desc}`;
   showInv();
 }
+ 
 function checkWin(){
   if(roomIdx === 3 &&
      inventory.length === 3 &&
@@ -295,14 +263,17 @@ function checkWin(){
     document.getElementById('g-go').disabled  = true;
   }
 }
+ 
 // ── Command Parser ────────────────────────────────────────────
 function handle(raw){
   if(won) return;
   const input = raw.trim().toLowerCase();
   if(!input) return;
   log('▶ ' + raw, '#8ab4ff');
+ 
   const parts = input.split(/\s+/);
   const cmd   = parts[0];
+ 
   // HELP
   if(cmd==='help'){
     log('Commands:', '#ffd27a');
@@ -316,6 +287,7 @@ function handle(raw){
     log('  <b>hint</b>              — get a nudge');
     return;
   }
+ 
   // LOOK
   if(cmd==='look'){
     const r = ROOMS[roomIdx];
@@ -323,6 +295,7 @@ function handle(raw){
     if(r.items.length>0) log(`Items here: ${r.items.join(', ')}`, '#ffd27a');
     return;
   }
+ 
   // INVENTORY
   if(cmd==='inventory'||cmd==='inv'||cmd==='i'){
     if(inventory.length===0){ log('Your inventory is empty.'); return; }
@@ -330,6 +303,7 @@ function handle(raw){
     log('LENGTH = ' + inventory.length);
     return;
   }
+ 
   // GO
   if(cmd==='go'){
     const dir = parts[1];
@@ -347,6 +321,7 @@ function handle(raw){
     checkWin();
     return;
   }
+ 
   // TAKE
   if(cmd==='take'||cmd==='get'||cmd==='pick'){
     const item = parts.slice(1).join(' ');
@@ -360,6 +335,7 @@ function handle(raw){
     showRoom();
     return;
   }
+ 
   // DROP
   if(cmd==='drop'||cmd==='remove'){
     const i = parseInt(parts[1]);
@@ -373,6 +349,7 @@ function handle(raw){
     showRoom();
     return;
   }
+ 
   // INSERT
   if(cmd==='insert'){
     const i    = parseInt(parts[1]);
@@ -392,6 +369,7 @@ function handle(raw){
     showRoom();
     return;
   }
+ 
   // SWAP
   if(cmd==='swap'){
     const a = parseInt(parts[1]), b = parseInt(parts[2]);
@@ -406,6 +384,7 @@ function handle(raw){
     showRoom();
     return;
   }
+ 
   // HINT
   if(cmd==='hint'){
     const hints = [
@@ -420,49 +399,45 @@ function handle(raw){
     log('💡 Hint: ' + h, '#ffd27a');
     return;
   }
+ 
   log(`Unknown command "${cmd}". Type <b>help</b> for a list of commands.`, '#ff7a7a');
 }
+ 
 // ── Boot ─────────────────────────────────────────────────────
 const cmdEl = document.getElementById('g-cmd');
 const goBtn = document.getElementById('g-go');
+ 
 goBtn.onclick = ()=>{ handle(cmdEl.value); cmdEl.value=''; cmdEl.focus(); };
 cmdEl.addEventListener('keydown', e=>{ if(e.key==='Enter'){ handle(cmdEl.value); cmdEl.value=''; }});
+ 
 log('🗝️ You wake up inside the Vault of Lists. The door is sealed.', '#ffd27a');
 log('Type <b>help</b> for commands, or <b>look</b> to examine your surroundings.');
 log('Goal: reach the Vault Door with inventory = [key, torch, map].');
 log('');
 showRoom();
 handle('look');
+ 
 })();
 </script>
 </div>
----
-## 📝 Reflection Questions
  
-After playing the game, think about these:
+<hr>
  
-1. When you used **`take`**, which list operation did that simulate?
-2. When you used **`swap`**, what list operations (in pseudocode) would you need to replicate that?
-3. Why does the vault door care about the **index** of each item, not just *whether* the item is present?
-4. What would happen if the vault required items in the list but the **order didn't matter**? How would the pseudocode check change?
+<h2>📝 Reflection Questions</h2>
+<ol>
+  <li>When you used <strong>take</strong>, which list operation did that simulate?</li>
+  <li>When you used <strong>swap</strong>, what list operations (in pseudocode) would you need to replicate that?</li>
+  <li>Why does the vault door care about the <strong>index</strong> of each item, not just whether the item is present?</li>
+  <li>What would happen if the vault required items but the <strong>order didn't matter</strong>? How would the pseudocode check change?</li>
+</ol>
+ 
 <details>
-<summary> Reveal Answers</summary>
-1. **`take` → `APPEND`** — it always adds to the end of the list.
-2. Swap needs a **temporary variable**: `temp ← list[i]`, `list[i] ← list[j]`, `list[j] ← temp`.
-3. Lists are **ordered** — `[torch, key, map]` is different from `[key, torch, map]`. The index is what distinguishes them.
-4. You'd loop through the list checking if each required item exists *anywhere* (`FOR EACH` + a found flag), ignoring position.
+<summary>Reveal Answers</summary>
+<ol>
+  <li><strong>take → APPEND</strong> — it always adds to the end of the list.</li>
+  <li>Swap needs a <strong>temporary variable</strong>: <code>temp ← list[i]</code>, <code>list[i] ← list[j]</code>, <code>list[j] ← temp</code>.</li>
+  <li>Lists are <strong>ordered</strong> — <code>[torch, key, map]</code> is different from <code>[key, torch, map]</code>.</li>
+  <li>You'd loop through checking if each required item exists anywhere, ignoring position.</li>
+</ol>
 </details>
----
- 
-<div style="margin-top:2rem; text-align:center;">
-  <span style="
-    display:inline-block;
-    padding:10px 18px;
-    background:#1a2148;
-    color:#e9eefc;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,.3);
-  ">⬅️ Back to Lobby &nbsp;|&nbsp; Level 3 — Procedures ➡️</span>
-</div>
- 
  
