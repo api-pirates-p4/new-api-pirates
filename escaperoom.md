@@ -3,7 +3,6 @@ layout: page
 title: Level 2 — The Vault of Lists
 permalink: /escaperoom
 ---
- 
 # 📦 Level 2 — The Vault of Lists (Pseudocode)
  
 The second chamber is lined with glowing shelves. Each shelf holds a row of numbered compartments — some filled, some empty.
@@ -465,4 +464,5 @@ After playing the game, think about these:
     box-shadow:0 4px 10px rgba(0,0,0,.3);
   ">⬅️ Back to Lobby &nbsp;|&nbsp; Level 3 — Procedures ➡️</span>
 </div>
+ 
  
