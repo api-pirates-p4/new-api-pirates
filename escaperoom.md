@@ -2,6 +2,7 @@
 layout: post
 title: Level 2 — The Vault of Lists
 permalink: /escaperoom
+render_with_liquid: false
 ---
  
 <style>
