@@ -1,0 +1,188 @@
+---
+layout: post
+title: Home Page
+permalink: /poway-home-page
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PVO | Open Coding Society</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #1a1a1a; font-size: 16px; line-height: 1.6; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2.5rem; border-bottom: 1px solid #e8e8e8; background: #fff; position: sticky; top: 0; z-index: 50; }
+  .nav-logo { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; }
+  .logo-mark { width: 34px; height: 34px; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.04em; flex-shrink: 0; }
+  .logo-name { font-weight: 600; font-size: 0.95rem; color: #1a1a1a; }
+  .logo-name span { color: #888; font-weight: 400; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: #555; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .nav-links a:hover { color: #1a1a1a; }
+  .nav-btn { background: #1a1a1a; color: #fff; text-decoration: none; padding: 0.5rem 1.1rem; border-radius: 7px; font-size: 0.85rem; font-weight: 500; transition: background 0.2s; }
+  .nav-btn:hover { background: #333; }
+  .hero { max-width: 720px; margin: 0 auto; padding: 5rem 2rem 4rem; text-align: center; }
+  .hero-tag { display: inline-block; background: #f3f4f6; color: #555; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 100px; margin-bottom: 1.5rem; }
+  .hero h1 { font-family: 'Lora', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: #1a1a1a; line-height: 1.2; margin-bottom: 1.2rem; }
+  .hero p { font-size: 1.05rem; color: #555; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.75; }
+  .hero-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s; display: inline-block; }
+  .btn-dark { background: #1a1a1a; color: #fff; }
+  .btn-dark:hover { background: #333; }
+  .divider { border: none; border-top: 1px solid #e8e8e8; max-width: 960px; margin: 0 auto; }
+  .section { max-width: 960px; margin: 0 auto; padding: 4rem 2rem; }
+  .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 700; color: #1a1a1a; margin-bottom: 2.5rem; }
+  .feature-card { display: grid; grid-template-columns: 200px 1fr; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; }
+  .feature-card:hover { border-color: #d1d5db; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .card-aside { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; background: #f3f4f6; border-right: 1px solid #e5e7eb; gap: 0.65rem; position: relative; overflow: hidden; min-height: 200px; }
+  .card-aside img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .card-aside-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 60%); }
+  .card-num { position: relative; z-index: 1; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); padding: 0 1rem 0.9rem; }
+  .card-body { padding: 1.75rem 2rem; }
+  .card-title { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.55rem; }
+  .card-desc { font-size: 0.92rem; color: #555; line-height: 1.75; margin-bottom: 0.9rem; }
+  .card-why { background: #f9fafb; border-left: 3px solid #e5e7eb; padding: 0.6rem 0.85rem; font-size: 0.85rem; color: #444; line-height: 1.65; margin-bottom: 1.1rem; border-radius: 0 6px 6px 0; }
+  .card-why strong { color: #1a1a1a; font-weight: 600; }
+  .card-link-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 500; color: #1a1a1a; }
+  .card-link-row svg { width: 15px; height: 15px; stroke: currentColor; transition: transform 0.2s; flex-shrink: 0; }
+  .feature-card:hover .card-link-row svg { transform: translateX(3px); }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .pillar { padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 10px; }
+  .pillar-icon { font-size: 1.4rem; margin-bottom: 0.75rem; }
+  .pillar-title { font-weight: 600; font-size: 0.95rem; color: #1a1a1a; margin-bottom: 0.4rem; }
+  .pillar-desc { font-size: 0.87rem; color: #666; line-height: 1.7; }
+  footer { border-top: 1px solid #e8e8e8; padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-left { display: flex; align-items: center; gap: 0.6rem; }
+  .footer-text { font-size: 0.82rem; color: #9ca3af; }
+  .footer-links { display: flex; gap: 1.75rem; }
+  .footer-links a { font-size: 0.82rem; color: #9ca3af; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: #555; }
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .feature-card { grid-template-columns: 1fr; }
+    .card-aside { min-height: 160px; border-right: none; border-bottom: 1px solid #e5e7eb; }
+    .pillars { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">PVO</div>
+    <span class="logo-name">Open Coding <span>Society</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://pvo.opencodingsociety.com">Platform</a></li>
+  </ul>
+  <a href="https://pvo.opencodingsociety.com" class="nav-btn">Visit Platform</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-tag">PVO Platform</span>
+  <h1>Projects built by students,<br>for the community.</h1>
+  <p>The PVO platform brings together AI tools, data science, and volunteer coordination — all created by students at the Open Coding Society.</p>
+  <div class="hero-actions">
+    <a href="#features" class="btn btn-dark">Explore the tools</a>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<div class="section" id="features">
+  <p class="section-label">Features</p>
+  <h2 class="section-title">Three tools worth exploring</h2>
+
+  <!-- Card 1: Chatbot -->
+  <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" class="feature-card" target="_blank" rel="noopener">
+    <div class="card-aside">
+      <img src="images/marquee-agentforce-ai-chatbot.webp" alt="AI Chatbot illustration" />
+      <div class="card-aside-overlay"></div>
+      <span class="card-num">01 &nbsp;·&nbsp; AI Assistant</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">PVO Chatbot</h3>
+      <p class="card-desc">An AI assistant built into the platform. Ask it anything — about volunteering, the site, or how to get started — and it responds instantly in plain language, no matter your experience level.</p>
+      <p class="card-why"><strong>Why it matters:</strong> Not everyone knows where to start. The chatbot removes that friction, making the whole platform more accessible to anyone who visits.</p>
+      <div class="card-link-row">Open Chatbot <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <!-- Card 2: MelTitanic -->
+  <a href="https://pvo.opencodingsociety.com/MelTitanic" class="feature-card" target="_blank" rel="noopener">
+    <div class="card-aside">
+      <img src="images/VC_Deep_Learning_Hero_3200x1800.jpeg" alt="Deep learning neural network visualization" />
+      <div class="card-aside-overlay"></div>
+      <span class="card-num">02 &nbsp;·&nbsp; Machine Learning</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">MelTitanic</h3>
+      <p class="card-desc">An interactive machine learning demo built around the Titanic dataset. Enter passenger details and see a real ML model predict survival outcomes — a hands-on way to understand how algorithms work.</p>
+      <p class="card-why"><strong>Why it matters:</strong> Machine learning can feel abstract. MelTitanic makes it tangible by grounding it in a story people know, turning a complex topic into something you can actually play with.</p>
+      <div class="card-link-row">Try the demo <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <!-- Card 3: Volunteer -->
+  <a href="https://pvo.opencodingsociety.com/volunteer" class="feature-card" target="_blank" rel="noopener">
+    <div class="card-aside">
+      <img src="images/portada-9.jpg" alt="AI and machine learning diagram" />
+      <div class="card-aside-overlay"></div>
+      <span class="card-num">03 &nbsp;·&nbsp; Community</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">Volunteer Hub</h3>
+      <p class="card-desc">A simple place to find, sign up for, and track volunteer opportunities. It connects students who want to give back with the events and causes that need them.</p>
+      <p class="card-why"><strong>Why it matters:</strong> Community service is a big part of what Open Coding Society stands for. This tool makes it easy to act on that — turning good intentions into real, organized effort.</p>
+      <div class="card-link-row">Get involved <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+</div>
+
+<hr class="divider" />
+
+<div class="section" id="about">
+  <p class="section-label">About</p>
+  <h2 class="section-title">Built with purpose</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon">💡</div>
+      <p class="pillar-title">Student-built</p>
+      <p class="pillar-desc">Every feature was designed and developed by students learning real software engineering skills through project-based work.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🌱</div>
+      <p class="pillar-title">Real impact</p>
+      <p class="pillar-desc">These aren't just school projects. They solve genuine problems — helping people find volunteers, learn ML, and get answers quickly.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🔓</div>
+      <p class="pillar-title">Open and accessible</p>
+      <p class="pillar-desc">Open Coding Society believes good tools should be free and open. Everything here is available to anyone in the community.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <div class="logo-mark" style="width:28px;height:28px;font-size:0.65rem;">PVO</div>
+    <span class="footer-text">Open Coding Society &copy; 2025</span>
+  </div>
+  <div class="footer-links">
+    <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" target="_blank">Chatbot</a>
+    <a href="https://pvo.opencodingsociety.com/MelTitanic" target="_blank">MelTitanic</a>
+    <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank">Volunteer</a>
+    <a href="https://pvo.opencodingsociety.com" target="_blank">Platform</a>
+  </div>
+</footer>
+
+</body>
+</html>
