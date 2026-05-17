@@ -397,6 +397,7 @@
     }
 
     return Object.freeze({
+      init,
       applyPreferences,
       resetPreferences,
       applyLanguage,
