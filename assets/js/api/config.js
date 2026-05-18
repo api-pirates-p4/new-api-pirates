@@ -3,7 +3,7 @@
 
 // ^^ Do not remove the above front matter, it is required for Jekyll processing
 
-export const baseurl = "{{ site.baseurl }}";
+export const baseurl =  "{{ site.url }}{{ site.baseurl }}";
 
 export var pythonURI;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
