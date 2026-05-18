@@ -2,6 +2,7 @@
 layout: post
 feedback: true
 hide: true
+show_reading_time: false
 title: PVO Application Assist
 permalink: /pvo-application-assist
 ---
@@ -10,73 +11,98 @@ permalink: /pvo-application-assist
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PVO Application Assist</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --red:#ff6a4d;--gold:#f1b65c;--green:#55d39b;
-  --bg:#08111f;--bg-2:#0c1830;--surface:#111c31;--surface-2:#15223b;--surface-3:#1b2b48;
-  --border:rgba(196,214,255,0.14);--border-strong:rgba(196,214,255,0.28);
-  --text:#f3f7ff;--text-2:#b9c6e5;--text-3:#7e90b7;
-  --green-light:rgba(85,211,155,0.14);--gold-light:rgba(241,182,92,0.12);--red-light:rgba(255,106,77,0.12);
-  --radius:16px;--radius-lg:22px;--radius-xl:28px;
-  --shadow:0 18px 50px rgba(2,8,20,0.38);
+  --red:#b22234;--red-strong:#c94857;--red-light:rgba(178,34,52,0.16);
+  --navy:#f4f7fb;--navy-mid:#c9a84c;
+  --gold:#c9a84c;--gold-light:rgba(232,201,122,0.16);
+  --green:#55d39b;--green-light:rgba(85,211,155,0.14);
+  --bg:#08111f;--bg-2:#0d1728;--bg-3:#111c33;
+  --surface:#111b2d;--surface-2:#17243a;--surface-3:#1a2744;--surface-4:#243460;
+  --border:rgba(214,222,234,0.16);--border-strong:rgba(232,201,122,0.38);
+  --text:#f4f7fb;--text-2:#c0cad8;--text-3:#8f9cb1;
+  --radius:8px;--radius-lg:8px;--radius-xl:8px;
+  --shadow:0 14px 36px rgba(0,0,0,0.26);
+  --shadow-lg:0 24px 80px rgba(0,0,0,0.42);
   --ease:cubic-bezier(0.22,1,0.36,1);
 }
-html,body{height:100%;font-family:'Space Grotesk',sans-serif;background:radial-gradient(circle at top left, rgba(255,106,77,0.14), transparent 28%),radial-gradient(circle at top right, rgba(90,140,255,0.18), transparent 34%),linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 45%, #07101d 100%);color:var(--text);overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:0.45;background-image:linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);background-size:32px 32px;mask-image:linear-gradient(180deg, rgba(0,0,0,0.45), transparent 85%)}
+html,body{height:100%;font-family:'Source Sans 3',sans-serif;background:#08111f;color:var(--text);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:0.32;background-image:linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);background-size:32px 32px;mask-image:linear-gradient(180deg, rgba(0,0,0,0.45), transparent 85%)}
+.site-header{display:none!important}
+.page-content{padding:0!important;overflow-x:hidden}
+.page-content>.wrapper,.opencs_root,.post,.post-content,.post-content.e-content{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+.post-header,.post-title{display:none!important}
 button,input,textarea,select{font:inherit}
-.shell{max-width:900px;margin:0 auto;min-height:100vh;padding:1rem 1rem 3rem}
-.top-frame{position:sticky;top:0.75rem;z-index:20;margin-bottom:1.1rem;padding:1rem;background:linear-gradient(180deg, rgba(18,33,63,0.92), rgba(12,24,48,0.88));border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
-.topbar{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:0.9rem}
-.brand{display:grid;gap:0.32rem}
-.brand-line{display:flex;align-items:center;gap:0.6rem;font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-0.02em}
-.badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 8px;border-radius:999px;background:linear-gradient(135deg,var(--red),var(--gold));color:#09111f;font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase}
-.brand-sub{font-size:0.82rem;line-height:1.5;color:var(--text-2);max-width:480px}
-.ghost-link{display:inline-flex;align-items:center;justify-content:center;padding:0.8rem 1rem;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.03);color:var(--text);text-decoration:none;font-size:0.86rem;font-weight:600;transition:all 0.2s var(--ease)}
+:focus-visible{outline:2px solid rgba(232,201,122,0.9);outline-offset:3px}
+.pvo-module-nav{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#111c33;border-bottom:3px solid var(--gold);box-shadow:0 2px 18px rgba(0,0,0,0.35);position:relative;z-index:50}
+.pvo-module-nav-inner{max-width:1200px;margin:0 auto;padding:0.9rem 2rem;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:1.2rem 2rem;min-height:72px}
+.pvo-logo-wrap{display:flex;align-items:center;gap:0.9rem;text-decoration:none}
+.pvo-logo-emblem{width:46px;height:46px;background:linear-gradient(145deg,var(--gold) 0%,#e8c97a 50%,var(--gold) 100%);border-radius:50%;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:900;letter-spacing:0.04em;color:#111c33;text-align:center;line-height:1.2;flex-shrink:0}
+.pvo-logo-text-main{font-family:'Merriweather',serif;font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
+.pvo-logo-text-sub{font-size:0.65rem;color:#e8c97a;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap}
+.pvo-module-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0.45rem;margin-left:auto}
+.pvo-module-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:0.83rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.45rem 0.75rem;border:1px solid transparent;border-radius:999px;transition:color 0.18s,background 0.18s,border-color 0.18s}
+.pvo-module-links a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
+.pvo-module-links .nav-cta{background:var(--red);color:#fff;border-color:rgba(255,255,255,0.15);padding:0.45rem 1rem}
+.pvo-module-links .nav-cta:hover{background:var(--red-strong)}
+.shell{position:relative;min-height:100vh;display:flex;flex-direction:column;width:100vw;max-width:none;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding:1.5rem 2rem 4rem;background:#08111f}
+#app{width:min(860px,100%);margin:0 auto}
+.top-frame{position:sticky;top:0;z-index:30;width:min(1120px,100%);margin:0 auto 1.5rem;padding:1rem 1.25rem 1.15rem;background:linear-gradient(180deg, rgba(17,28,51,0.96), rgba(13,23,40,0.94));border:1px solid var(--border);border-bottom:3px solid var(--gold);border-radius:8px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.95rem}
+.brand{display:flex;flex-direction:column;gap:0.3rem}
+.brand-line{display:flex;align-items:center;gap:0.65rem;font-family:'Merriweather',serif;font-size:1rem;font-weight:700;color:var(--text)}
+.badge{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(145deg,var(--gold) 0%,#e8c97a 50%,var(--gold) 100%);color:#111c33;font-size:0.65rem;font-weight:800;letter-spacing:0.12em;padding:4px 8px;border-radius:999px;text-transform:uppercase}
+.brand-sub{font-size:0.82rem;color:var(--text-2);line-height:1.4;max-width:520px}
+.ghost-link{display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;padding:0.8rem 1rem;border-radius:var(--radius-lg);border:1px solid var(--border);background:rgba(255,255,255,0.03);color:var(--text);font-family:'Merriweather',serif;text-decoration:none;font-size:0.86rem;font-weight:700;transition:all 0.2s var(--ease)}
 .ghost-link:hover{background:rgba(255,255,255,0.06);border-color:var(--border-strong)}
-.progress-copy{display:grid;gap:0.32rem}
-.progress-kicker{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3)}
-.progress-title{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700}
-.progress-note{font-size:0.8rem;color:var(--text-2)}
-.progress-track{position:relative;height:12px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.06);overflow:hidden;margin-top:0.8rem}
-.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff9568 36%,var(--gold));transition:width 0.35s var(--ease);box-shadow:0 0 22px rgba(255,122,79,0.42)}
-.progress-meta{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:0.7rem;flex-wrap:wrap}
-.progress-step{font-size:0.82rem;color:var(--text-3)}
+.progress-copy{display:grid;gap:0.28rem}
+.progress-kicker{display:inline-flex;align-items:center;gap:0.45rem;width:max-content;padding:0.32rem 0.65rem;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid var(--border);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-2)}
+.progress-title{font-family:'Merriweather',serif;font-size:1rem;font-weight:700;color:var(--text);letter-spacing:0}
+.progress-note{font-size:0.8rem;color:var(--text-3)}
+.progress-track{position:relative;height:12px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);margin-top:0.8rem}
+.progress-track::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 2px), rgba(255,255,255,0.09) calc(25% - 2px), rgba(255,255,255,0.09) 25%);opacity:0.7;pointer-events:none}
+.progress-fill{position:relative;height:100%;width:0;background:linear-gradient(90deg,var(--red) 0%, var(--red-strong) 42%, var(--gold) 100%);border-radius:999px;transition:width 0.55s var(--ease);box-shadow:0 0 22px rgba(178,34,52,0.45)}
+.progress-fill::after{content:"";position:absolute;top:1px;bottom:1px;right:0;width:38%;border-radius:999px;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4))}
+.progress-meta{display:flex;justify-content:space-between;gap:0.75rem;align-items:center;margin-top:0.7rem;flex-wrap:wrap}
+.progress-step{font-size:0.8rem;color:var(--text-2)}
 .progress-dots{display:flex;gap:0.45rem}
-.progress-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.08)}
-.progress-dot.active{background:var(--gold);border-color:transparent;box-shadow:0 0 12px rgba(241,182,92,0.45)}
-.progress-dot.complete{background:var(--green);border-color:transparent;box-shadow:0 0 12px rgba(85,211,155,0.35)}
-.panel{background:linear-gradient(180deg, rgba(21,34,59,0.97), rgba(17,28,49,0.95));border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow);padding:1.4rem}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.08);transition:all 0.28s var(--ease)}
+.progress-dot.active{background:var(--gold);border-color:transparent;box-shadow:0 0 14px rgba(241,182,92,0.55)}
+.progress-dot.complete{background:var(--green);border-color:transparent;box-shadow:0 0 14px rgba(85,211,155,0.45)}
+.panel{background:linear-gradient(180deg, rgba(21,34,59,0.98), rgba(17,28,49,0.96));border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:1.2rem}
 .stack{display:grid;gap:1rem}
-.hero-title{font-family:'Sora',sans-serif;font-size:1.5rem;line-height:1.15;letter-spacing:-0.03em}
-.hero-copy{font-size:0.9rem;line-height:1.6;color:var(--text-2)}
+.hero-title{font-family:'Merriweather',serif;font-size:1.35rem;line-height:1.2;font-weight:700;color:var(--text)}
+.hero-copy{font-size:0.88rem;line-height:1.6;color:var(--text-2)}
 .guide-grid,.upload-grid,.form-grid{display:grid;gap:0.85rem}
-.guide-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.guide-card,.inner-panel{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.guide-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.guide-card,.inner-panel{background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
 .guide-kicker,.section-kicker,.field-label{font-size:0.74rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-3)}
+.guide-kicker{color:var(--gold)}
 .guide-title,.section-title{font-size:0.94rem;font-weight:700;color:var(--text);margin:.28rem 0}
+.section-title{font-family:'Merriweather',serif}
 .guide-copy,.section-copy,.helper,.status-copy{font-size:0.8rem;line-height:1.55;color:var(--text-2)}
-.banner{display:flex;gap:0.8rem;align-items:flex-start;padding:0.95rem 1rem;border:1px solid rgba(241,182,92,0.22);border-radius:var(--radius);background:var(--gold-light)}
-.banner-mark{width:30px;height:30px;border-radius:10px;background:rgba(241,182,92,0.18);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;flex-shrink:0}
+.banner{display:flex;gap:0.75rem;align-items:flex-start;padding:0.95rem 1rem;border:1px solid rgba(241,182,92,0.22);border-radius:var(--radius);background:rgba(241,182,92,0.08)}
+.banner-mark{width:30px;height:30px;border-radius:10px;background:rgba(241,182,92,0.16);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;flex-shrink:0}
 .upload-grid{grid-template-columns:1.1fr 0.9fr}
 .upload-label{display:block;padding:1rem;border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:rgba(255,255,255,0.025);cursor:pointer;transition:all 0.2s var(--ease)}
-.upload-label:hover{background:rgba(255,255,255,0.045);border-color:rgba(241,182,92,0.42)}
+.upload-label:hover{background:rgba(255,255,255,0.04);border-color:rgba(241,182,92,0.45)}
 .file-meta{font-size:0.78rem;color:var(--text-3)}
 .doc-preview{border:1px solid var(--border);border-radius:var(--radius-lg);background:rgba(255,255,255,0.025);min-height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .doc-empty{padding:1rem;text-align:center;font-size:0.8rem;line-height:1.5;color:var(--text-3)}
 .doc-img{display:block;width:100%;height:100%;object-fit:cover}
-.textarea,.input,.select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;color:var(--text);padding:0.9rem 1rem;font-size:0.88rem;transition:border-color 0.2s, box-shadow 0.2s}
+.textarea,.input,.select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;color:var(--text);padding:0.85rem 0.95rem;font-size:0.88rem;transition:border-color 0.2s, box-shadow 0.2s}
 .textarea{min-height:138px;resize:vertical}
-.textarea:focus,.input:focus,.select:focus{outline:none;border-color:#9db7ff;box-shadow:0 0 0 4px rgba(157,183,255,0.1)}
+.textarea:focus,.input:focus,.select:focus{outline:none;border-color:var(--navy-mid);box-shadow:0 0 0 4px rgba(232,201,122,0.12)}
 .field{display:grid;gap:0.35rem}
 .field.span-2{grid-column:span 2}
 .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .helper{font-size:0.76rem}
 .actions{display:flex;gap:0.75rem;flex-wrap:wrap}
-.primary-btn,.secondary-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 1.15rem;border-radius:18px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700;text-decoration:none;transition:all 0.2s var(--ease)}
-.primary-btn{background:linear-gradient(135deg,var(--red),#ff8c6f 62%,var(--gold));color:#08111f;box-shadow:0 12px 30px rgba(255,106,77,0.25)}
-.primary-btn:hover{filter:brightness(1.05)}
+.primary-btn,.secondary-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 1.15rem;border-radius:var(--radius-lg);border:none;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;transition:all 0.2s var(--ease)}
+.primary-btn{background:var(--red);color:#fff;box-shadow:0 12px 30px rgba(178,34,52,0.28)}
+.primary-btn:hover{background:var(--red-strong);box-shadow:0 16px 34px rgba(178,34,52,0.34)}
 .secondary-btn{background:rgba(255,255,255,0.03);color:var(--text);border:1px solid var(--border)}
 .secondary-btn:hover{background:rgba(255,255,255,0.06);border-color:var(--border-strong)}
 .primary-btn:disabled,.secondary-btn:disabled,.primary-btn.is-disabled,.secondary-btn.is-disabled{opacity:.55;cursor:not-allowed;filter:none;box-shadow:none}
@@ -94,10 +120,16 @@ button,input,textarea,select{font:inherit}
 .notice{padding:1rem;border-radius:var(--radius);background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:0.86rem;line-height:1.55;color:var(--text-2)}
 .ocr-state{padding:0.8rem 0.9rem;border-radius:var(--radius);background:rgba(255,255,255,0.03);border:1px solid var(--border);font-size:0.8rem;color:var(--text-2)}
 .raw-text{padding:1rem;border-radius:var(--radius);background:rgba(255,255,255,0.03);border:1px solid var(--border);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.76rem;line-height:1.5;color:var(--text-2);white-space:pre-wrap;max-height:240px;overflow:auto}
+summary{cursor:pointer}
 .missing-list{display:grid;gap:0.35rem;color:var(--text-2);font-size:0.82rem}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 @media (max-width:700px){
   .shell{padding:0.75rem 0.75rem 2.5rem}
+  .pvo-module-nav-inner{padding:0.9rem 1rem 1rem;justify-content:center;text-align:center}
+  .pvo-logo-wrap{flex-direction:column;text-align:center}
+  .pvo-module-links{width:100%;margin-left:0;justify-content:center}
+  .pvo-module-links a{width:100%;text-align:center}
+  .top-frame{top:0.5rem;padding:0.9rem}
   .topbar,.progress-meta,.preview-row,.actions{flex-direction:column;align-items:stretch}
   .guide-grid,.upload-grid,.form-grid{grid-template-columns:1fr}
   .field.span-2{grid-column:auto}
@@ -107,19 +139,37 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 </style>
 </head>
 <body>
+<header class="pvo-module-nav">
+  <div class="pvo-module-nav-inner">
+    <a class="pvo-logo-wrap" href="/">
+      <div class="pvo-logo-emblem">PVO</div>
+      <div>
+        <div class="pvo-logo-text-main">Poway Veterans Organization</div>
+        <div class="pvo-logo-text-sub">Open Coding Society Platform</div>
+      </div>
+    </a>
+    <nav class="pvo-module-links">
+      <a href="/#tools">Platform Tools</a>
+      <a href="/#about">About</a>
+      <a href="https://powayveterans.org/about-pvo/" target="_blank" rel="noopener">About PVO</a>
+      <a href="https://powayveterans.org/volunteer/" target="_blank" rel="noopener">Volunteer</a>
+      <a href="/prescreener" class="nav-cta">Check Eligibility</a>
+    </nav>
+  </div>
+</header>
 <div class="shell">
   <div class="top-frame">
     <div class="topbar">
       <div class="brand">
         <div class="brand-line"><span class="badge">PVO</span><span>Application Assist Module</span></div>
-        <div class="brand-sub">DL or state ID first for contact details. Military ID or DD-214 second for proof of service. Review every autofilled field before moving on.</div>
+        <div class="brand-sub">Follow 4 steps: upload ID, review info, upload proof, open the PVO form.</div>
       </div>
-      <a class="ghost-link" href="/MelTitanic">Back to prescreener</a>
+      <a class="ghost-link" href="/prescreener">Back to prescreener</a>
     </div>
     <div class="progress-copy">
       <div class="progress-kicker">Module progress</div>
       <div class="progress-title" id="progress-title">Start application</div>
-      <div class="progress-note" id="progress-note">We will use your prescreener answers plus document images to build a PVO-ready draft.</div>
+      <div class="progress-note" id="progress-note">Next: upload a driver's license or state ID.</div>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-meta">
@@ -213,19 +263,22 @@ function loadData(){
   try { prescreenerContext = JSON.parse(localStorage.getItem(PRESCREENER_KEY) || 'null'); } catch { prescreenerContext = null; }
   try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { draft = null; }
   if(!draft && prescreenerContext) draft = createDraftFromContext(prescreenerContext);
+  if(draft?.specificNeed?.startsWith('Applicant is requesting') && prescreenerContext){
+    draft.specificNeed = createDraftFromContext(prescreenerContext).specificNeed;
+  }
 }
 
 function createDraftFromContext(ctx){
   const zip = ctx.user_zip || '';
   const generalNeed = PVO_NEED_MAP[ctx.need_type] || 'Other';
-  const specificNeed = `Applicant is requesting ${NEED_TEXT[ctx.need_type] || 'support'}. They report being ${EMPLOYMENT_TEXT[ctx.employment] || 'currently in an unknown work status'}, household size ${ctx.household_sz || 1}, and ${ctx.housing_risk ? 'housing is at risk' : 'housing is stable'}. They are ${ctx.has_va_care ? 'already connected to VA services' : 'not yet connected to VA services'}.`;
+  const specificNeed = `Need: ${NEED_TEXT[ctx.need_type] || 'support'}. Work: ${EMPLOYMENT_TEXT[ctx.employment] || 'unknown'}. Household: ${ctx.household_sz || 1}. Housing: ${ctx.housing_risk ? 'at risk' : 'stable'}. VA: ${ctx.has_va_care ? 'connected' : 'not connected'}.`;
   return {
     firstName:'',lastName:'',street:'',city:'',state:'CA',zip,
     homePhone:'',cellPhone:'',email:'',branch:'',
     generalNeed,specificNeed,
     primaryDocName:'',primaryDocPreview:'',primaryDocText:'',
     proofDocName:'',proofDocPreview:'',
-    ocrStatus:'idle',ocrMessage:'Upload a DL or state ID to begin OCR-assisted autofill.'
+    ocrStatus:'idle',ocrMessage:'Upload ID to start.'
   };
 }
 
@@ -374,11 +427,11 @@ function updatePrimaryPreview(){
   const nameEl = document.getElementById('primary-doc-name');
   const previewEl = document.getElementById('primary-doc-preview');
   const statusEl = document.getElementById('ocr-state');
-  if(nameEl) nameEl.textContent = draft.primaryDocName || 'No intake document selected yet';
+  if(nameEl) nameEl.textContent = draft.primaryDocName || 'No ID selected';
   if(previewEl){
     previewEl.innerHTML = draft.primaryDocPreview
       ? `<img class="doc-img" src="${draft.primaryDocPreview}" alt="Primary document preview">`
-      : '<div class="doc-empty">Upload a DL or state ID. If OCR cannot read everything, you can still verify and finish manually.</div>';
+      : '<div class="doc-empty">ID preview appears here.</div>';
   }
   if(statusEl) statusEl.textContent = draft.ocrMessage;
 }
@@ -415,11 +468,11 @@ function applyGeminiExtraction(extracted = {}){
 function updateProofPreview(){
   const nameEl = document.getElementById('proof-doc-name');
   const previewEl = document.getElementById('proof-doc-preview');
-  if(nameEl) nameEl.textContent = draft.proofDocName || 'No proof-of-service file selected yet';
+  if(nameEl) nameEl.textContent = draft.proofDocName || 'No proof selected';
   if(previewEl){
     previewEl.innerHTML = draft.proofDocPreview
       ? `<img class="doc-img" src="${draft.proofDocPreview}" alt="Proof document preview">`
-      : '<div class="doc-empty">Upload a military ID or DD-214 here. Image files preview immediately; other file types are tracked by file name.</div>';
+      : '<div class="doc-empty">Proof preview appears here.</div>';
   }
 }
 
@@ -429,7 +482,7 @@ async function handlePrimaryDoc(event){
   draft.primaryDocPreview = '';
   draft.primaryDocText = '';
   draft.ocrStatus = 'idle';
-  draft.ocrMessage = file ? 'Preparing AI extraction...' : 'Upload a DL or state ID to begin Gemini-assisted autofill.';
+  draft.ocrMessage = file ? 'Reading document...' : 'Upload ID to start.';
   saveDraft();
   updatePrimaryPreview();
 
@@ -444,7 +497,7 @@ async function handlePrimaryDoc(event){
   }
 
   if(!file || !file.type.startsWith('image/')){
-    draft.ocrMessage = file ? 'Gemini extraction runs on image uploads. You can still paste text manually below.' : draft.ocrMessage;
+    draft.ocrMessage = file ? 'File saved. Review details next.' : draft.ocrMessage;
     saveDraft();
     updatePrimaryPreview();
     return;
@@ -452,7 +505,7 @@ async function handlePrimaryDoc(event){
 
   try{
     draft.ocrStatus = 'running';
-    draft.ocrMessage = 'Sending the image to Gemini for field extraction...';
+    draft.ocrMessage = 'Reading ID...';
     saveDraft();
     updatePrimaryPreview();
     const base64 = await fileToBase64(file);
@@ -473,13 +526,13 @@ async function handlePrimaryDoc(event){
     draft.primaryDocText = extracted.raw_visible_text || '';
     draft.ocrStatus = 'done';
     draft.ocrMessage = extracted.confidence_summary
-      ? `Gemini extraction complete: ${extracted.confidence_summary}`
-      : 'Gemini extraction complete. Review the extracted fields before continuing.';
+      ? `Done: ${extracted.confidence_summary}`
+      : 'Done. Review the fields next.';
     applyGeminiExtraction(extracted);
     applyParsedFields(parseDocumentText(draft.primaryDocText));
   }catch(error){
     draft.ocrStatus = 'error';
-    draft.ocrMessage = `Gemini extraction failed: ${error.message}. You can still paste text manually or continue with manual verification.`;
+    draft.ocrMessage = 'Could not read ID. Review fields.';
     saveDraft();
   }
 
@@ -489,7 +542,7 @@ async function handlePrimaryDoc(event){
 function handlePrimaryText(value){
   draft.primaryDocText = value;
   draft.ocrMessage = value.trim()
-    ? 'Manual text provided. We can use this to prefill the verification step.'
+    ? 'Text saved.'
     : draft.ocrMessage;
   saveDraft();
 }
@@ -524,64 +577,67 @@ function prepareVerification(){
 }
 
 function renderNoContext(){
-  setStep(1, 'Start application', 'Open the prescreener first so this module can inherit the ML result and need summary.');
+  setStep(1, 'Start application', 'Start with the prescreener first.');
   document.getElementById('app').innerHTML = `<div class="panel stack">
-    <div class="hero-title">No prescreener context found</div>
-    <div class="notice">This module expects to open after the prescreener marks the applicant as likely eligible for direct PVO help. Start from the prescreener, then use the application button there.</div>
+    <div class="hero-title">Start with the prescreener</div>
+    <div class="notice">Answer the quick eligibility questions first. Then come back here to build the application draft.</div>
     <div class="actions">
-      <a class="primary-btn" href="/MelTitanic">Open prescreener →</a>
+      <a class="primary-btn" href="/prescreener">Open prescreener →</a>
     </div>
   </div>`;
 }
 
 function renderCapture(){
-  setStep(1, 'Capture intake document', 'Use a DL or state ID first so Gemini can pull identity and address details before review.');
+  setStep(1, 'Step 1: Upload ID', 'Take a clear photo of a driver license or state ID.');
   const ocrRunning = draft.ocrStatus === 'running';
   document.getElementById('app').innerHTML = `<div class="stack">
     <div class="panel stack">
-      <div class="hero-title">Start with a photo that can fill the draft</div>
-      <div class="hero-copy">Best path: 1. DL or state ID for name and address. 2. Military ID or DD-214 later for proof of service. The prescreener has already prepared your need summary.</div>
+      <div class="hero-title">Upload your ID</div>
+      <div class="hero-copy">Use a driver license or state ID. We will pull name and address, then you review it.</div>
     </div>
     <div class="guide-grid">
       <div class="guide-card">
-        <div class="guide-kicker">Best document</div>
-        <div class="guide-title">Driver's license / state ID</div>
-        <div class="guide-copy">Most likely to provide full legal name, street address, city, state, and ZIP in one image.</div>
+        <div class="guide-kicker">Step 1</div>
+        <div class="guide-title">Upload ID</div>
+        <div class="guide-copy">Name and address.</div>
       </div>
       <div class="guide-card">
-        <div class="guide-kicker">Secondary help</div>
-        <div class="guide-title">VA letter or benefits mail</div>
-        <div class="guide-copy">Can reinforce address or provide contact clues if the ID photo is incomplete.</div>
+        <div class="guide-kicker">Step 2</div>
+        <div class="guide-title">Review info</div>
+        <div class="guide-copy">Fix anything wrong.</div>
       </div>
       <div class="guide-card">
-        <div class="guide-kicker">Proof later</div>
-        <div class="guide-title">Military ID or DD-214</div>
-        <div class="guide-copy">Upload this in the next module step where proof of service is required.</div>
+        <div class="guide-kicker">Step 3</div>
+        <div class="guide-title">Upload proof</div>
+        <div class="guide-copy">Military ID or DD-214.</div>
       </div>
-    </div>
-    <div class="banner">
-      <div class="banner-mark">i</div>
-      <div class="status-copy">Gemini reads the uploaded image on the backend and returns structured fields. If the image is hard to read, you can still paste any visible text and verify everything manually before moving on.</div>
+      <div class="guide-card">
+        <div class="guide-kicker">Step 4</div>
+        <div class="guide-title">Open form</div>
+        <div class="guide-copy">Use the final draft.</div>
+      </div>
     </div>
     <div class="upload-grid">
       <div class="panel stack">
         <div class="inner-panel">
-          <div class="section-kicker">Intake document</div>
-          <div class="section-title">Upload or take a photo of the DL / state ID</div>
-          <div class="section-copy">This step is for Gemini autofill. Use proof-of-service documents in the later step.</div>
+          <div class="section-kicker">Do this now</div>
+          <div class="section-title">Choose ID photo</div>
+          <div class="section-copy">Driver license or state ID.</div>
         </div>
         <label class="upload-label">
           <input type="file" accept="image/*,.pdf" capture="environment" style="display:none" onchange="handlePrimaryDoc(event)">
-          <div class="guide-title">Choose image or PDF</div>
-          <div class="guide-copy">For best OCR results, use a clear, straight photo with minimal glare.</div>
+          <div class="guide-title">Upload ID</div>
+          <div class="guide-copy">Clear photo works best.</div>
         </label>
-        <div class="file-meta" id="primary-doc-name">${escapeHtml(draft.primaryDocName || 'No intake document selected yet')}</div>
+        <div class="file-meta" id="primary-doc-name">${escapeHtml(draft.primaryDocName || 'No ID selected')}</div>
         <div class="ocr-state" id="ocr-state">${escapeHtml(draft.ocrMessage || '')}</div>
-        <div class="field">
-          <label class="field-label">Document text</label>
-          <textarea class="textarea" placeholder="If Gemini misses details, paste any text you can read from the document here." oninput="handlePrimaryText(this.value)">${escapeHtml(draft.primaryDocText || '')}</textarea>
-          <div class="helper">This is a fallback. The main extraction path now comes from Gemini through the backend.</div>
-        </div>
+        <details class="inner-panel">
+          <summary class="section-title">Upload not working?</summary>
+          <div class="field">
+            <label class="field-label">Paste ID text</label>
+            <textarea class="textarea" placeholder="Paste text from the ID here." oninput="handlePrimaryText(this.value)">${escapeHtml(draft.primaryDocText || '')}</textarea>
+          </div>
+        </details>
       </div>
       <div class="panel stack">
         <div class="section-title">Preview</div>
@@ -589,21 +645,24 @@ function renderCapture(){
       </div>
     </div>
     <div class="actions">
-      <a class="secondary-btn" href="/MelTitanic">Back to prescreener</a>
-      <button class="primary-btn${ocrRunning ? ' is-disabled' : ''}" ${ocrRunning ? 'disabled' : ''} onclick="prepareVerification()">${ocrRunning ? 'Gemini extracting...' : 'Verify extracted info →'}</button>
+      <a class="secondary-btn" href="/prescreener">Back to prescreener</a>
+      <button class="primary-btn${ocrRunning ? ' is-disabled' : ''}" ${ocrRunning ? 'disabled' : ''} onclick="prepareVerification()">${ocrRunning ? 'Reading ID...' : 'Next: review info →'}</button>
     </div>
   </div>`;
   updatePrimaryPreview();
 }
 
 function renderVerify(){
-  setStep(2, 'Verify autofill', 'Review every field before moving to proof of service.');
+  setStep(2, 'Step 2: Review info', 'Check each field. Fix anything wrong.');
   const hasRawText = !!(draft.primaryDocText && draft.primaryDocText.trim());
+  const rawTextPanel = hasRawText
+    ? `<details class="panel stack"><summary class="section-title">Show ID text</summary><div class="raw-text">${escapeHtml(draft.primaryDocText)}</div></details>`
+    : '';
   document.getElementById('app').innerHTML = `<div class="stack">
     <div class="panel stack">
-      <div class="section-kicker">Verification</div>
-      <div class="hero-title">Check the PVO draft before continuing</div>
-      <div class="hero-copy">Need-related fields came from the prescreener. Identity and address fields came from OCR or your manual corrections.</div>
+      <div class="section-kicker">Do this now</div>
+      <div class="hero-title">Review the information</div>
+      <div class="hero-copy">Check the fields below. Edit anything that is missing or wrong.</div>
     </div>
     <div class="panel form-grid">
       <div class="field">
@@ -660,45 +719,41 @@ function renderVerify(){
         <textarea class="textarea" oninput="syncField('specificNeed', this.value)">${escapeHtml(draft.specificNeed || '')}</textarea>
       </div>
     </div>
-    <div class="panel stack">
-      <div class="section-title">Visible text used for autofill</div>
-      <div class="section-copy">Gemini extracted fields from the image directly. This text block is only a debugging aid if a field still looks off.</div>
-      <div class="raw-text">${hasRawText ? escapeHtml(draft.primaryDocText) : 'No OCR or manual document text was available yet.'}</div>
-    </div>
+    ${rawTextPanel}
     <div class="actions">
-      <button class="secondary-btn" onclick="renderCapture()">Back to intake document</button>
-      <button class="primary-btn" onclick="renderProof()">Continue to proof of service →</button>
+      <button class="secondary-btn" onclick="renderCapture()">Back</button>
+      <button class="primary-btn" onclick="renderProof()">Next: upload proof →</button>
     </div>
   </div>`;
 }
 
 function renderProof(){
-  setStep(3, 'Add proof of service', 'Upload a military ID or DD-214 to complete the PVO packet.');
+  setStep(3, 'Step 3: Upload proof', 'Upload military ID, DD-214, or other proof of service.');
   document.getElementById('app').innerHTML = `<div class="stack">
     <div class="panel stack">
-      <div class="section-kicker">Proof of service</div>
-      <div class="hero-title">Upload the military-service document</div>
-      <div class="hero-copy">This is the second document step. Use a military ID, DD-214, or another accepted proof-of-service file.</div>
+      <div class="section-kicker">Do this now</div>
+      <div class="hero-title">Upload proof of service</div>
+      <div class="hero-copy">Use a military ID, DD-214, or another service document.</div>
     </div>
     <div class="upload-grid">
       <div class="panel stack">
         <label class="upload-label">
           <input type="file" accept="image/*,.pdf,.doc,.txt" capture="environment" style="display:none" onchange="handleProofDoc(event)">
           <div class="guide-title">Upload proof of service</div>
-          <div class="guide-copy">Image files preview immediately. PDFs and other accepted files are tracked by file name.</div>
+          <div class="guide-copy">Photo, PDF, or document.</div>
         </label>
-        <div class="file-meta" id="proof-doc-name">${escapeHtml(draft.proofDocName || 'No proof-of-service file selected yet')}</div>
+        <div class="file-meta" id="proof-doc-name">${escapeHtml(draft.proofDocName || 'No proof selected')}</div>
         <div class="status-row">
           <div>
             <strong>Draft fields</strong>
-            <div class="status-copy">Review step completed for identity and assistance fields.</div>
+            <div class="status-copy">Info reviewed.</div>
           </div>
           <div class="status-pill ready">Ready</div>
         </div>
         <div class="status-row">
           <div>
             <strong>Proof file</strong>
-            <div class="status-copy">${escapeHtml(draft.proofDocName || 'Still needed before final preview')}</div>
+            <div class="status-copy">${escapeHtml(draft.proofDocName || 'Upload needed')}</div>
           </div>
           <div class="status-pill ${draft.proofDocName ? 'ready' : 'missing'}">${draft.proofDocName ? 'Uploaded' : 'Missing'}</div>
         </div>
@@ -709,21 +764,21 @@ function renderProof(){
       </div>
     </div>
     <div class="actions">
-      <button class="secondary-btn" onclick="renderVerify()">Back to verification</button>
-      <button class="primary-btn" onclick="renderFinal()">Show submission-ready preview →</button>
+      <button class="secondary-btn" onclick="renderVerify()">Back</button>
+      <button class="primary-btn" onclick="renderFinal()">Next: final review →</button>
     </div>
   </div>`;
   updateProofPreview();
 }
 
 function renderFinal(){
-  setStep(4, 'Submission-ready preview', 'Review the final packet before opening the live PVO form or future automation handoff.');
+  setStep(4, 'Step 4: Open form', 'Review missing items, then open the PVO form.');
   const missing = getMissingFields();
   document.getElementById('app').innerHTML = `<div class="stack">
     <div class="panel stack">
-      <div class="section-kicker">Final preview</div>
-      <div class="hero-title">PVO-ready draft</div>
-      <div class="hero-copy">This mirrors the major fields from <code>powayveterans.org/request-assistance/</code>. The final handoff can now be manual, browser-automated, or server-assisted later.</div>
+      <div class="section-kicker">Do this now</div>
+      <div class="hero-title">Final review</div>
+      <div class="hero-copy">Check the draft. Then open the official PVO form.</div>
     </div>
     <div class="panel preview-list">
       <div class="preview-row"><div class="preview-key">Name</div><div class="preview-val">${getPreviewValue(`${draft.firstName} ${draft.lastName}`.trim())}</div></div>
@@ -736,20 +791,20 @@ function renderFinal(){
       <div class="preview-row"><div class="preview-key">Specific need</div><div class="preview-val">${getPreviewValue(draft.specificNeed)}</div></div>
     </div>
     <div class="panel stack">
-      <div class="section-title">Attached documents</div>
+      <div class="section-title">Documents</div>
       <div class="pill-row">
         <div class="pill">DL / ID: ${escapeHtml(draft.primaryDocName || 'Not uploaded yet')}</div>
         <div class="pill">Proof of service: ${escapeHtml(draft.proofDocName || 'Not uploaded yet')}</div>
       </div>
     </div>
     <div class="panel stack">
-      <div class="section-title">Readiness check</div>
+      <div class="section-title">Missing items</div>
       ${missing.length
         ? `<div class="missing-list">${missing.map(item => `<div>• ${escapeHtml(item)}</div>`).join('')}</div>`
-        : `<div class="banner"><div class="banner-mark">✓</div><div class="status-copy">The draft is filled for the main PVO fields. Next automation step can hand this into the live PVO form.</div></div>`}
+        : `<div class="banner"><div class="banner-mark">✓</div><div class="status-copy">Ready to open the PVO form.</div></div>`}
     </div>
     <div class="actions">
-      <button class="secondary-btn" onclick="renderProof()">Back to proof step</button>
+      <button class="secondary-btn" onclick="renderProof()">Back</button>
       <button class="secondary-btn" onclick="renderVerify()">Edit draft</button>
       <a class="primary-btn" href="https://powayveterans.org/request-assistance/" target="_blank">Open live PVO form →</a>
     </div>
