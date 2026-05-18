@@ -721,7 +721,7 @@ api_base: http://localhost:4500
     }
 
     try {
-     const res = await fetch('https://pvo.opencodingsociety.com/api/volunteers', {
+     const res = await fetch('https://pirates.opencodingsociety.com/api/volunteers', {
      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)   
