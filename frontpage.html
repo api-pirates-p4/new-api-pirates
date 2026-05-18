@@ -20,22 +20,40 @@ permalink: /
     --red-dark:   #8c1a28;
     --gold:       #c9a84c;
     --gold-light: #e8c97a;
-    --white:      #f5f7fa;
-    --off-white:  #eef1f6;
-    --gray-light: #dde3ed;
-    --gray:       #8a97ab;
-    --text:       #1e2d45;
-    --text-light: #4a5a72;
+    --white:      #f8fafc;
+    --off-white:  #101a2c;
+    --gray-light: #33425c;
+    --gray:       #8f9cb1;
+    --text:       #f4f7fb;
+    --text-light: #c0cad8;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  .page-content {
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+  .page-content > .wrapper,
+  .opencs_root {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   body {
     font-family: 'Source Sans 3', sans-serif;
-    background: var(--navy-light);
+    background: #08111f;
     color: var(--text);
     font-size: 16px;
     line-height: 1.65;
+  }
+  .pvo-site {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background: #08111f;
+    overflow: hidden;
   }
 
   /* ── ANNOUNCEMENT BAR ── */
@@ -70,11 +88,13 @@ permalink: /
   .header-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0.9rem 2rem;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    height: 72px;
+    gap: 1.2rem 2rem;
+    min-height: 72px;
   }
   .logo-wrap {
     display: flex;
@@ -115,7 +135,10 @@ permalink: /
   nav {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-left: auto;
   }
   nav a {
     color: rgba(255,255,255,0.82);
@@ -125,16 +148,21 @@ permalink: /
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 0.45rem 0.75rem;
-    border-radius: 4px;
+    border: 1px solid transparent;
+    border-radius: 999px;
     transition: color 0.18s, background 0.18s;
   }
-  nav a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  nav a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.1);
+  }
   .nav-cta {
     background: var(--red) !important;
     color: #fff !important;
-    border-radius: 5px;
+    border-color: rgba(255,255,255,0.15) !important;
+    border-radius: 999px;
     padding: 0.45rem 1rem !important;
-    margin-left: 0.5rem;
     transition: background 0.18s !important;
   }
   .nav-cta:hover { background: var(--red-dark) !important; }
@@ -239,7 +267,7 @@ permalink: /
 
   /* ── MISSION STRIP ── */
   .mission-strip {
-    background: var(--navy);
+    background: #0d1728;
     padding: 1.5rem 2rem;
     text-align: center;
     border-bottom: 3px solid var(--red);
@@ -255,7 +283,39 @@ permalink: /
   .mission-strip strong { color: var(--gold-light); font-style: normal; }
 
   /* ── SECTIONS ── */
-  .section { max-width: 1100px; margin: 0 auto; padding: 4.5rem 2rem; }
+  .section {
+    padding: 4.25rem 2rem;
+  }
+  .section-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  #tools {
+    background: linear-gradient(180deg, #0b1424 0%, #111d31 100%);
+    border-top: 1px solid #263854;
+    border-bottom: 1px solid #263854;
+  }
+  #about {
+    background: linear-gradient(135deg, #111c33 0%, #182944 100%);
+    border-top: 3px solid var(--gold);
+    border-bottom: 3px solid var(--gold);
+  }
+  #tools .section-eyebrow,
+  #about .section-eyebrow {
+    color: var(--gold-light);
+  }
+  #tools .section-eyebrow::before,
+  #about .section-eyebrow::before {
+    background: var(--gold-light);
+  }
+  #tools .section-title,
+  #about .section-title {
+    color: #fff;
+  }
+  #tools .section-desc,
+  #about .section-desc {
+    color: rgba(255,255,255,0.82);
+  }
 
   .section-eyebrow {
     font-size: 0.7rem;
@@ -279,7 +339,7 @@ permalink: /
     font-family: 'Merriweather', serif;
     font-size: clamp(1.55rem, 2.8vw, 2.1rem);
     font-weight: 700;
-    color: var(--navy-dark);
+    color: #fff;
     margin-bottom: 0.55rem;
     line-height: 1.25;
   }
@@ -288,7 +348,7 @@ permalink: /
     color: var(--text-light);
     max-width: 540px;
     line-height: 1.8;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 2.75rem;
   }
 
@@ -299,7 +359,7 @@ permalink: /
     gap: 1.5rem;
   }
   .tool-card {
-    background: #fff;
+    background: linear-gradient(180deg, #17243a 0%, #111b2d 100%);
     border: 1px solid var(--gray-light);
     border-radius: 8px;
     overflow: hidden;
@@ -308,15 +368,15 @@ permalink: /
     display: flex;
     flex-direction: column;
     transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.26);
   }
   .tool-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(26,39,68,0.14);
+    box-shadow: 0 18px 46px rgba(0,0,0,0.36);
     border-color: var(--gold);
   }
   .card-header {
-    background: var(--navy);
+    background: #0f1a2d;
     padding: 1.5rem 1.5rem 1.25rem;
     position: relative;
     overflow: hidden;
@@ -356,9 +416,9 @@ permalink: /
   .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
   .card-category-tag {
     display: inline-block;
-    background: rgba(178,34,52,0.08);
-    border: 1px solid rgba(178,34,52,0.18);
-    color: var(--red);
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.28);
+    color: var(--gold-light);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -373,11 +433,11 @@ permalink: /
     line-height: 1.78;
     flex: 1;
     margin-bottom: 1.25rem;
-    font-weight: 300;
+    font-weight: 400;
   }
   .card-highlight-box {
-    background: rgba(26,39,68,0.04);
-    border-left: 3px solid var(--navy-light);
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid var(--gold);
     padding: 0.6rem 0.85rem;
     font-size: 0.81rem;
     color: var(--text-light);
@@ -385,14 +445,14 @@ permalink: /
     border-radius: 0 4px 4px 0;
     margin-bottom: 1.25rem;
   }
-  .card-highlight-box strong { color: var(--text); font-weight: 600; }
+  .card-highlight-box strong { color: #fff; font-weight: 600; }
   .card-link {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     font-size: 0.83rem;
     font-weight: 700;
-    color: var(--red);
+    color: var(--gold-light);
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
@@ -414,6 +474,9 @@ permalink: /
   .rule-full {
     border: none;
     border-top: 1px solid var(--gray-light);
+    max-width: 1120px;
+    margin: 0 auto;
+    display: none;
   }
 
   /* ── MISSION / PILLARS ── */
@@ -422,20 +485,20 @@ permalink: /
     padding: 1.75rem;
     border: 1px solid var(--gray-light);
     border-radius: 8px;
-    background: #fff;
+    background: linear-gradient(180deg, #17243a 0%, #111b2d 100%);
     position: relative;
     transition: border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.24);
   }
   .pillar::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: linear-gradient(to right, var(--navy), var(--navy-light));
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
     border-radius: 8px 8px 0 0;
   }
-  .pillar:hover { border-color: var(--navy-light); box-shadow: 0 8px 24px rgba(26,39,68,0.1); }
+  .pillar:hover { border-color: var(--gold); box-shadow: 0 18px 42px rgba(0,0,0,0.32); }
   .pillar-icon {
     font-size: 1.6rem;
     margin-bottom: 1rem;
@@ -445,14 +508,14 @@ permalink: /
     font-family: 'Merriweather', serif;
     font-size: 1rem;
     font-weight: 700;
-    color: var(--navy-dark);
+    color: #fff;
     margin-bottom: 0.5rem;
   }
   .pillar-desc {
     font-size: 0.86rem;
     color: var(--text-light);
     line-height: 1.75;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   /* ── DONATE BANNER ── */
@@ -551,21 +614,51 @@ permalink: /
   }
 
   /* ── RESPONSIVE ── */
+  @media (max-width: 1080px) {
+    .header-inner {
+      justify-content: center;
+      text-align: center;
+    }
+    nav {
+      width: 100%;
+      margin-left: 0;
+      justify-content: center;
+    }
+  }
   @media (max-width: 860px) {
     .tool-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
     .pillars-grid { grid-template-columns: 1fr; }
-    nav { display: none; }
+    .section {
+      padding: 3rem 1.25rem;
+    }
     .footer-inner { grid-template-columns: 1fr; }
     .footer-links { align-items: flex-start; }
   }
   @media (max-width: 600px) {
     .hero { padding: 3.5rem 1.5rem 3.5rem; }
+    .announcement-bar {
+      padding: 0.7rem 1rem;
+      line-height: 1.5;
+      flex-wrap: wrap;
+    }
+    .header-inner {
+      padding: 0.9rem 1rem 1rem;
+    }
+    .logo-wrap {
+      flex-direction: column;
+      text-align: center;
+    }
+    nav a {
+      width: 100%;
+      text-align: center;
+    }
     .hero-actions { flex-direction: column; }
     .btn-primary, .btn-outline { width: 100%; text-align: center; }
   }
 </style>
 </head>
 <body>
+<div class="pvo-site">
 
 <!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar">
@@ -612,57 +705,59 @@ permalink: /
 
 <!-- PLATFORM TOOLS -->
 <div class="section" id="tools">
-  <p class="section-eyebrow">Platform Tools</p>
-  <h2 class="section-title">Three tools built for real impact</h2>
-  <p class="section-desc">Explore these tools to better use our website</p>
+  <div class="section-inner">
+    <p class="section-eyebrow">Platform Tools</p>
+    <h2 class="section-title">Three tools built for real impact</h2>
+    <p class="section-desc">Explore these tools to better use our website</p>
 
-  <div class="tool-grid">
+    <div class="tool-grid">
 
-    <!-- 01 Chatbot -->
-    <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" class="tool-card" target="_blank" rel="noopener">
-      <div class="card-header">
-        <span class="card-num">01 · AI Assistant</span>
-        <div class="card-icon">💬</div>
-        <h3 class="card-title-text">PVO Chatbot</h3>
-      </div>
-      <div class="card-body">
-        <span class="card-category-tag">AI Assistant</span>
-        <p class="card-desc-text">An AI assistant built directly into the platform. Ask it anything — about volunteering, navigating the site, or how to get started — and it responds instantly in plain language, no experience required.</p>
-        <p class="card-highlight-box"><strong>Why it matters:</strong> Not everyone knows where to begin. The chatbot removes that friction and makes the platform accessible to any visitor.</p>
-        <span class="card-link">Open Chatbot <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-      </div>
-    </a>
+      <!-- 01 Chatbot -->
+      <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" class="tool-card" target="_blank" rel="noopener">
+        <div class="card-header">
+          <span class="card-num">01 · AI Assistant</span>
+          <div class="card-icon">💬</div>
+          <h3 class="card-title-text">PVO Chatbot</h3>
+        </div>
+        <div class="card-body">
+          <span class="card-category-tag">AI Assistant</span>
+          <p class="card-desc-text">An AI assistant built directly into the platform. Ask it anything — about volunteering, navigating the site, or how to get started — and it responds instantly in plain language, no experience required.</p>
+          <p class="card-highlight-box"><strong>Why it matters:</strong> Not everyone knows where to begin. The chatbot removes that friction and makes the platform accessible to any visitor.</p>
+          <span class="card-link">Open Chatbot <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
 
-    <!-- 02 Prescreener -->
-    <a href="https://pvo.opencodingsociety.com/prescreener" class="tool-card" target="_blank" rel="noopener">
-      <div class="card-header">
-        <span class="card-num">02 · Fast Prescreener</span>
-        <div class="card-icon">⭐</div>
-        <h3 class="card-title-text">Veteran Eligibility Prescreener</h3>
-      </div>
-      <div class="card-body">
-        <span class="card-category-tag">Fast Prescreener</span>
-        <p class="card-desc-text">Veterans can instantly find out whether they qualify for PVO support<nav></nav>Enter a few details and our trained machine learning model provides an immediate eligibility result.</p>
-        <p class="card-highlight-box"><strong>Why it matters:</strong> Powered by real data, this tool gives veterans a clear, immediate answer — so the right people get connected to resources faster.</p>
-        <span class="card-link">Check Eligibility <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-      </div>
-    </a>
+      <!-- 02 Prescreener -->
+      <a href="https://pvo.opencodingsociety.com/prescreener" class="tool-card" target="_blank" rel="noopener">
+        <div class="card-header">
+          <span class="card-num">02 · Fast Prescreener</span>
+          <div class="card-icon">⭐</div>
+          <h3 class="card-title-text">Veteran Eligibility Prescreener</h3>
+        </div>
+        <div class="card-body">
+          <span class="card-category-tag">Fast Prescreener</span>
+          <p class="card-desc-text">Veterans can instantly find out whether they qualify for PVO support Enter a few details and our trained machine learning model provides an immediate eligibility result.</p>
+          <p class="card-highlight-box"><strong>Why it matters:</strong> Powered by real data, this tool gives veterans a clear, immediate answer — so the right people get connected to resources faster.</p>
+          <span class="card-link">Check Eligibility <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
 
-    <!-- 03 Volunteer Hub -->
-    <a href="https://pvo.opencodingsociety.com/volunteer" class="tool-card" target="_blank" rel="noopener">
-      <div class="card-header">
-        <span class="card-num">03 · Community</span>
-        <div class="card-icon">🤝</div>
-        <h3 class="card-title-text">Volunteer Hub</h3>
-      </div>
-      <div class="card-body">
-        <span class="card-category-tag">Community</span>
-        <p class="card-desc-text">A dedicated space to find, sign up for, and track volunteer opportunities. It connects students who want to give back with the events and causes that need them most.</p>
-        <p class="card-highlight-box"><strong>Why it matters:</strong> Community service is central to what Open Coding Society stands for. This tool turns good intentions into organized, real-world effort.</p>
-        <span class="card-link">Get Involved <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-      </div>
-    </a>
+      <!-- 03 Volunteer Hub -->
+      <a href="https://pvo.opencodingsociety.com/volunteer" class="tool-card" target="_blank" rel="noopener">
+        <div class="card-header">
+          <span class="card-num">03 · Community</span>
+          <div class="card-icon">🤝</div>
+          <h3 class="card-title-text">Volunteer Hub</h3>
+        </div>
+        <div class="card-body">
+          <span class="card-category-tag">Community</span>
+          <p class="card-desc-text">A dedicated space to find, sign up for, and track volunteer opportunities. It connects students who want to give back with the events and causes that need them most.</p>
+          <p class="card-highlight-box"><strong>Why it matters:</strong> Community service is central to what Open Coding Society stands for. This tool turns good intentions into organized, real-world effort.</p>
+          <span class="card-link">Get Involved <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
 
+    </div>
   </div>
 </div>
 
@@ -670,25 +765,27 @@ permalink: /
 
 <!-- ABOUT -->
 <div class="section" id="about">
-  <p class="section-eyebrow">About the Platform</p>
-  <h2 class="section-title">Built with purpose, for those who served</h2>
-  <p class="section-desc">Open Coding Society is a student-run organization at Poway High School. Everything on the PVO platform was conceived, designed, and shipped by students.</p>
+  <div class="section-inner">
+    <p class="section-eyebrow">About the Platform</p>
+    <h2 class="section-title">Built with purpose, for those who served</h2>
+    <p class="section-desc">Open Coding Society is a student-run organization at Poway High School. Everything on the PVO platform was conceived, designed, and shipped by students.</p>
 
-  <div class="pillars-grid">
-    <div class="pillar">
-      <span class="pillar-icon">💡</span>
-      <p class="pillar-title">Student-Built</p>
-      <p class="pillar-desc">Every feature was designed and developed by students building real software engineering skills through hands-on, project-based work.</p>
-    </div>
-    <div class="pillar">
-      <span class="pillar-icon">🎖️</span>
-      <p class="pillar-title">Real Impact</p>
-      <p class="pillar-desc">These aren't just school projects. They solve genuine problems — connecting veterans with help, enabling volunteers, and making AI accessible.</p>
-    </div>
-    <div class="pillar">
-      <span class="pillar-icon">🔓</span>
-      <p class="pillar-title">Open &amp; Accessible</p>
-      <p class="pillar-desc">Good tools should be free and open. Everything on the PVO platform is available to anyone in the community at no cost.</p>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-icon">💡</span>
+        <p class="pillar-title">Student-Built</p>
+        <p class="pillar-desc">Every feature was designed and developed by students building real software engineering skills through hands-on, project-based work.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🎖️</span>
+        <p class="pillar-title">Real Impact</p>
+        <p class="pillar-desc">These aren't just school projects. They solve genuine problems — connecting veterans with help, enabling volunteers, and making AI accessible.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🔓</span>
+        <p class="pillar-title">Open &amp; Accessible</p>
+        <p class="pillar-desc">Good tools should be free and open. Everything on the PVO platform is available to anyone in the community at no cost.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -720,5 +817,6 @@ permalink: /
   </div>
 </footer>
 
+</div>
 </body>
 </html>
