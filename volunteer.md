@@ -721,11 +721,12 @@ api_base: http://localhost:4500
     }
 
     try {
-      const res = await fetch('http://localhost:8426/api/volunteers', {
+      const res = await fetch('https://pirates.opencodingsociety.com/api/volunteers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(payload)
-      });
+     });
       const data = await res.json();
       if (res.ok) {
         alert("Application submitted! We'll be in touch within 3 business days.");
