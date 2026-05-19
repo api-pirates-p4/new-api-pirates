@@ -127,14 +127,6 @@ permalink: /
     line-height: 1.2;
     white-space: nowrap;
   }
-  .logo-text-sub {
-    font-size: 0.65rem;
-    color: var(--gold-light);
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
   nav {
     display: flex;
     align-items: center;
@@ -353,6 +345,18 @@ permalink: /
     line-height: 1.8;
     font-weight: 400;
     margin-bottom: 2.75rem;
+  }
+  .about-copy {
+    max-width: 880px;
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+  .about-copy p {
+    color: var(--text-light);
+    font-size: 0.98rem;
+    line-height: 1.85;
+    margin: 0;
   }
 
   /* ── TOOL CARDS ── */
@@ -676,14 +680,12 @@ permalink: /
       <div class="logo-emblem">PVO</div>
       <div>
         <div class="logo-text-main">Poway Veterans Organization</div>
-        <div class="logo-text-sub">Open Coding Society Platform</div>
       </div>
     </a>
     <nav>
       <a href="#tools">Platform Tools</a>
       <a href="#about">About</a>
-      <a href="https://powayveterans.org/about-pvo/" target="_blank" rel="noopener">About PVO</a>
-      <a href="https://powayveterans.org/volunteer/" target="_blank" rel="noopener">Volunteer</a>
+      <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank" rel="noopener">Volunteer</a>
       <a href="https://pvo.opencodingsociety.com/prescreener" target="_blank" rel="noopener" class="nav-cta">Check Eligibility</a>
     </nav>
   </div>
@@ -769,26 +771,13 @@ permalink: /
 <!-- ABOUT -->
 <div class="section" id="about">
   <div class="section-inner">
-    <p class="section-eyebrow">About the Platform</p>
-    <h2 class="section-title">Built with purpose, for those who served</h2>
-    <p class="section-desc">Open Coding Society is a student-run organization at Poway High School. Everything on the PVO platform was conceived, designed, and shipped by students.</p>
-
-    <div class="pillars-grid">
-      <div class="pillar">
-        <span class="pillar-icon">💡</span>
-        <p class="pillar-title">Student-Built</p>
-        <p class="pillar-desc">Every feature was designed and developed by students building real software engineering skills through hands-on, project-based work.</p>
-      </div>
-      <div class="pillar">
-        <span class="pillar-icon">🎖️</span>
-        <p class="pillar-title">Real Impact</p>
-        <p class="pillar-desc">These aren't just school projects. They solve genuine problems — connecting veterans with help, enabling volunteers, and making AI accessible.</p>
-      </div>
-      <div class="pillar">
-        <span class="pillar-icon">🔓</span>
-        <p class="pillar-title">Open &amp; Accessible</p>
-        <p class="pillar-desc">Good tools should be free and open. Everything on the PVO platform is available to anyone in the community at no cost.</p>
-      </div>
+    <p class="section-eyebrow">About PVO</p>
+    <h2 class="section-title">Poway Veterans Organization</h2>
+    <div class="about-copy">
+      <p>We are a group of veterans from the Poway area that established our organization in 2014. The mission of the Poway Veterans Organization (PVO) is to provide various types of assistance to veterans and their families residing in Poway, Ramona and surrounding areas. Our objective is to reach out to area veterans who are in need and to do what we can to help meet their needs. Specifically we are providing assistance in areas such as home repairs and upkeep, repairs on personal transportation vehicles and similar activities that are requested by the veterans/families that apply for our assistance.</p>
+      <p>The PVO has no paid staff members, capital assets or buildings/equipment to maintain. We have a small storage shed located at Lake Poway where we keep various PVO materials, such as a pop-up that is used during our fund raising events. The City of Poway provides a secure facility for this storage shed at no cost to PVO.</p>
+      <p>The PVO annual overhead costs for operation include purchasing required liability insurance for our volunteers and board members. We also pay annual fees for our web site and land-line telephone service. State and federal licensing/operation fees are also required annually. Miscellaneous costs (printing, stamps, etc) are kept to a minimum.</p>
+      <p>By keeping PVO operating costs under rigid control, the PVO dedicates more than 95% of our funds to veteran assistance projects and providing financial donations to other veteran service organizations, such as the Disabled American Veterans. At all times we strive to be good stewards of funds donated by the friends of PVO.</p>
     </div>
   </div>
 </div>
