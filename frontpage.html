@@ -659,6 +659,310 @@ permalink: /
     text-transform: uppercase;
   }
 
+  /* ── FLOATING CHATBOT ── */
+  .pvo-chatbot-fab {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    z-index: 220;
+    width: 64px;
+    height: 64px;
+    border: 1px solid rgba(201,168,76,0.65);
+    border-right: 0;
+    border-radius: 18px 0 0 18px;
+    background: linear-gradient(145deg, var(--red) 0%, var(--red-dark) 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.72rem;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.42), 0 0 18px rgba(255,255,255,0.12);
+    transform: translateY(-50%);
+    transition: width 0.18s, background 0.18s, transform 0.18s;
+    isolation: isolate;
+    overflow: visible;
+  }
+  .pvo-chatbot-fab::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    z-index: -1;
+    border-radius: 26px 0 0 26px;
+    padding: 5px;
+    background: linear-gradient(
+      135deg,
+      #ff304f 0%,
+      #ffb000 22%,
+      #ffe45c 40%,
+      #29d17d 58%,
+      #18c8ff 76%,
+      #a45cff 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    box-shadow: 0 0 16px rgba(255, 176, 0, 0.42), 0 0 26px rgba(24, 200, 255, 0.3);
+    opacity: 0.96;
+    animation: pvoChatbotHueShift 4s linear infinite;
+    transition: opacity 0.18s, box-shadow 0.18s;
+  }
+  .pvo-chatbot-fab:hover,
+  .pvo-chatbot-fab:focus-visible {
+    width: 74px;
+    background: linear-gradient(145deg, #d12d43 0%, var(--red) 52%, var(--red-dark) 100%);
+    color: #fff;
+    outline: none;
+  }
+  .pvo-chatbot-fab:hover::before,
+  .pvo-chatbot-fab:focus-visible::before {
+    box-shadow: 0 0 18px rgba(255, 176, 0, 0.55), 0 0 24px rgba(24, 200, 255, 0.42);
+    opacity: 1;
+  }
+  @keyframes pvoChatbotHueShift {
+    to { filter: hue-rotate(360deg); }
+  }
+  .pvo-chatbot-widget {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 230;
+    width: min(390px, calc(100vw - 28px));
+    height: min(620px, calc(100vh - 36px));
+    max-height: 620px;
+    background: #f7f3ec;
+    border: 1px solid rgba(201,168,76,0.45);
+    border-radius: 10px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.48);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(18px) scale(0.97);
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .pvo-chatbot-widget.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .pvo-chatbot-topbar {
+    background: var(--navy-dark);
+    color: #fff;
+    border-bottom: 3px solid var(--gold);
+    padding: 0.8rem 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .pvo-chatbot-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pvo-chatbot-title {
+    min-width: 0;
+    flex: 1;
+  }
+  .pvo-chatbot-title strong {
+    display: block;
+    font-family: 'Merriweather', serif;
+    font-size: 0.92rem;
+    line-height: 1.2;
+  }
+  .pvo-chatbot-title span {
+    color: var(--gold-light);
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .pvo-chatbot-close {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+  .pvo-chatbot-close:hover,
+  .pvo-chatbot-close:focus-visible {
+    background: rgba(255,255,255,0.16);
+    outline: none;
+  }
+  .pvo-chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.72), rgba(247,243,236,0.92)),
+      #f7f3ec;
+  }
+  .pvo-chatbot-message {
+    display: flex;
+    gap: 0.55rem;
+    max-width: 92%;
+  }
+  .pvo-chatbot-message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+  .pvo-chatbot-message.bot {
+    align-self: flex-start;
+  }
+  .pvo-chatbot-message .message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+  .pvo-chatbot-message.user .message-avatar {
+    background: var(--red);
+  }
+  .pvo-chatbot-bubble {
+    background: #fff;
+    color: var(--navy);
+    border-radius: 10px;
+    border-bottom-left-radius: 3px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .pvo-chatbot-message.user .pvo-chatbot-bubble {
+    background: var(--navy);
+    color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 3px;
+  }
+  .pvo-chatbot-bubble a {
+    color: var(--red);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(178,34,52,0.32);
+  }
+  .pvo-chatbot-message.user .pvo-chatbot-bubble a {
+    color: var(--gold-light);
+  }
+  .pvo-chatbot-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+  }
+  .pvo-chatbot-chip {
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    background: #f7f3ec;
+    color: var(--navy);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.34rem 0.68rem;
+  }
+  .pvo-chatbot-chip:hover,
+  .pvo-chatbot-chip:focus-visible {
+    background: var(--gold);
+    color: var(--navy-dark);
+    outline: none;
+  }
+  .pvo-chatbot-typing {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.22rem 0.1rem;
+  }
+  .pvo-chatbot-typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #8a8070;
+    animation: chatbotBounce 1.1s infinite;
+  }
+  .pvo-chatbot-typing span:nth-child(2) { animation-delay: 0.18s; }
+  .pvo-chatbot-typing span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes chatbotBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+  .pvo-chatbot-form {
+    display: flex;
+    gap: 0.55rem;
+    padding: 0.75rem;
+    background: #fff;
+    border-top: 1px solid #e8e4dd;
+  }
+  .pvo-chatbot-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #d8d1c6;
+    border-radius: 999px;
+    background: #f7f3ec;
+    color: var(--navy);
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    outline: none;
+  }
+  .pvo-chatbot-input:focus {
+    border-color: var(--navy);
+  }
+  .pvo-chatbot-send {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pvo-chatbot-send:hover,
+  .pvo-chatbot-send:focus-visible {
+    background: var(--red);
+    outline: none;
+  }
+  .pvo-chatbot-send:disabled {
+    background: #c7c0b6;
+    cursor: default;
+  }
+  .pvo-chatbot-send svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 1080px) {
     .header-inner {
@@ -700,6 +1004,29 @@ permalink: /
     }
     .hero-actions { flex-direction: column; }
     .btn-primary, .btn-outline { width: 100%; text-align: center; }
+    .pvo-chatbot-fab {
+      top: auto;
+      right: 14px;
+      bottom: 14px;
+      width: 62px;
+      height: 62px;
+      border: 1px solid rgba(201,168,76,0.65);
+      border-radius: 50%;
+      transform: none;
+    }
+    .pvo-chatbot-fab:hover,
+    .pvo-chatbot-fab:focus-visible {
+      width: 62px;
+    }
+    .pvo-chatbot-fab::before {
+      border-radius: 50%;
+    }
+    .pvo-chatbot-widget {
+      inset: 10px;
+      width: auto;
+      height: auto;
+      max-height: none;
+    }
   }
 </style>
 </head>
@@ -757,7 +1084,7 @@ permalink: /
     <div class="tool-grid">
 
       <!-- 01 Chatbot -->
-      <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" class="tool-card" target="_blank" rel="noopener">
+      <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" class="tool-card" data-chatbot-open>
         <div class="card-header">
           <span class="card-num">01 · AI Assistant</span>
           <div class="card-icon">💬</div>
@@ -836,7 +1163,7 @@ permalink: /
       <p class="footer-tagline">Assisting veterans or their dependents in Poway, Ramona, and the surrounding areas.</p>
     </div>
     <div class="footer-links">
-      <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" target="_blank" rel="noopener">PVO Chatbot</a>
+      <a href="https://pvo.opencodingsociety.com/pvo-chatbot/" data-chatbot-open>PVO Chatbot</a>
       <a href="https://pvo.opencodingsociety.com/prescreener" target="_blank" rel="noopener">Eligibility Prescreener</a>
       <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank" rel="noopener">Volunteer Hub</a>
       <a href="https://powayveterans.org/" target="_blank" rel="noopener">PVO Main Site</a>
@@ -848,36 +1175,175 @@ permalink: /
   </div>
 </footer>
 
+<button class="pvo-chatbot-fab" id="pvoChatbotFab" type="button" aria-label="Open PVO assistant" aria-controls="pvoChatbotWidget" aria-expanded="false">🎖️</button>
+
+<aside class="pvo-chatbot-widget" id="pvoChatbotWidget" aria-label="PVO Virtual Assistant" aria-hidden="true" inert>
+  <div class="pvo-chatbot-topbar">
+    <div class="pvo-chatbot-avatar">🎖️</div>
+    <div class="pvo-chatbot-title">
+      <strong>PVO Virtual Assistant</strong>
+      <span>Help and site guide</span>
+    </div>
+    <button class="pvo-chatbot-close" id="pvoChatbotClose" type="button" aria-label="Close PVO assistant">&times;</button>
+  </div>
+  <div class="pvo-chatbot-messages" id="pvoChatbotMessages" aria-live="polite"></div>
+  <form class="pvo-chatbot-form" id="pvoChatbotForm">
+    <input class="pvo-chatbot-input" id="pvoChatbotInput" type="text" placeholder="Ask about PVO..." autocomplete="off" />
+    <button class="pvo-chatbot-send" id="pvoChatbotSend" type="submit" aria-label="Send message">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+</aside>
+
 </div>
-</footer>
 
-<script>
-(function(){
-  const cards = document.querySelectorAll('.tool-card');
-  if(!cards || !cards.length) return;
-  const supportsHover = window.matchMedia('(hover: hover)').matches;
-  if(!supportsHover){
-    // On touch devices, first tap expands, second tap follows the link.
-    cards.forEach(card=>{
-      card.addEventListener('click', function(e){
-        if(!card.classList.contains('expanded')){
-          e.preventDefault();
-          cards.forEach(c=>c.classList.remove('expanded'));
-          card.classList.add('expanded');
-          setTimeout(()=>{
-            card.scrollIntoView({behavior:'smooth', block:'center'});
-          }, 80);
-        }
-        // if already expanded, let the link behave normally (navigate)
-      });
-    });
-    // Collapse when tapping outside
-    document.addEventListener('click', (ev)=>{
-      if(!ev.target.closest('.tool-card')) cards.forEach(c=>c.classList.remove('expanded'));
-    });
+<script type="module">
+  import { pythonURI } from '/assets/js/api/config.js';
+
+  const widget = document.getElementById('pvoChatbotWidget');
+  const fab = document.getElementById('pvoChatbotFab');
+  const closeButton = document.getElementById('pvoChatbotClose');
+  const messagesEl = document.getElementById('pvoChatbotMessages');
+  const form = document.getElementById('pvoChatbotForm');
+  const input = document.getElementById('pvoChatbotInput');
+  const sendButton = document.getElementById('pvoChatbotSend');
+  const openLinks = document.querySelectorAll('[data-chatbot-open]');
+
+  let chatHistory = [];
+  let chatLoading = false;
+  let welcomeShown = false;
+
+  function setChatOpen(open) {
+    widget.classList.toggle('is-open', open);
+    widget.setAttribute('aria-hidden', String(!open));
+    widget.inert = !open;
+    fab.setAttribute('aria-expanded', String(open));
+    fab.setAttribute('aria-label', open ? 'Close PVO assistant' : 'Open PVO assistant');
+    if (open) {
+      showWelcome();
+      window.setTimeout(() => input.focus(), 120);
+    }
   }
-})();
-</script>
 
+  function showWelcome() {
+    if (welcomeShown) return;
+    welcomeShown = true;
+    addChatMessage('bot',
+      'Welcome, and thank you for your service!<br><br>I am the <strong>PVO Virtual Assistant</strong>. I can help with assistance requests, volunteering, donations, events, and contact information.',
+      ['Apply for Assistance', 'Scholarships', 'Volunteer / Donate', 'Upcoming Events', 'Contact PVO']
+    );
+  }
+
+  function addChatMessage(role, html, chips = []) {
+    const message = document.createElement('div');
+    message.className = `pvo-chatbot-message ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = role === 'bot' ? '🎖️' : '👤';
+
+    const content = document.createElement('div');
+    const bubble = document.createElement('div');
+    bubble.className = 'pvo-chatbot-bubble';
+    bubble.innerHTML = html;
+    content.appendChild(bubble);
+
+    if (chips.length) {
+      const chipRow = document.createElement('div');
+      chipRow.className = 'pvo-chatbot-chips';
+      chips.forEach((chipText) => {
+        const chip = document.createElement('button');
+        chip.className = 'pvo-chatbot-chip';
+        chip.type = 'button';
+        chip.textContent = chipText;
+        chip.addEventListener('click', () => sendChatMessage(chipText));
+        chipRow.appendChild(chip);
+      });
+      content.appendChild(chipRow);
+    }
+
+    message.appendChild(avatar);
+    message.appendChild(content);
+    messagesEl.appendChild(message);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatChatResponse(text) {
+    return escapeHtml(text)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>[\s\S]*<\/li>)/, '<ul style="padding-left:18px;margin-top:6px;display:flex;flex-direction:column;gap:4px">$1</ul>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function addTypingIndicator() {
+    const message = document.createElement('div');
+    message.className = 'pvo-chatbot-message bot';
+    message.id = 'pvoChatbotTyping';
+    message.innerHTML = '<div class="message-avatar">🎖️</div><div class="pvo-chatbot-bubble"><div class="pvo-chatbot-typing"><span></span><span></span><span></span></div></div>';
+    messagesEl.appendChild(message);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function sendChatMessage(overrideText) {
+    if (chatLoading) return;
+    const text = (overrideText || input.value).trim();
+    if (!text) return;
+
+    input.value = '';
+    addChatMessage('user', escapeHtml(text));
+    chatHistory.push({ role: 'user', content: text });
+    chatLoading = true;
+    sendButton.disabled = true;
+    addTypingIndicator();
+
+    try {
+      const response = await fetch(`${pythonURI}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+      const data = await response.json();
+      document.getElementById('pvoChatbotTyping')?.remove();
+      const reply = data.content?.[0]?.text || 'Sorry, I could not get a response. Please call (858) 206-8854.';
+      chatHistory.push({ role: 'assistant', content: reply });
+      addChatMessage('bot', formatChatResponse(reply));
+    } catch (error) {
+      document.getElementById('pvoChatbotTyping')?.remove();
+      addChatMessage('bot', 'Sorry, something went wrong. Please <a href="mailto:contact@powayveterans.org">email us</a> or call (858) 206-8854.');
+    } finally {
+      chatLoading = false;
+      sendButton.disabled = false;
+      input.focus();
+    }
+  }
+
+  fab.addEventListener('click', () => setChatOpen(!widget.classList.contains('is-open')));
+  closeButton.addEventListener('click', () => setChatOpen(false));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    sendChatMessage();
+  });
+  openLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      setChatOpen(true);
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && widget.classList.contains('is-open')) {
+      setChatOpen(false);
+      fab.focus();
+    }
+  });
+</script>
 </body>
 </html>
