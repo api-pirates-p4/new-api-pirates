@@ -201,8 +201,8 @@ const EMPLOYMENT_TEXT = {
   employed:'currently working',unemployed:'currently between jobs',disabled:'currently disabled or unable to work'
 };
 const BACKEND_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? 'https://pirates.opencodingsociety.com'
-  : location.origin;
+  ? 'http://localhost:8426'
+  : 'https://pirates.opencodingsociety.com';
 
 let currentStep = 1;
 let prescreenerContext = null;
