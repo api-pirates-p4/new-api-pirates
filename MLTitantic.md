@@ -302,7 +302,7 @@ nav a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,2
 <body>
 <header>
   <div class="header-inner">
-    <a class="logo-wrap" href="#">
+    <a class="logo-wrap" href="https://pvo.opencodingsociety.com/">
       <div class="logo-emblem">PVO</div>
       <div>
         <div class="logo-text-main">Poway Veterans Organization</div>

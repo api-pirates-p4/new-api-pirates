@@ -140,7 +140,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 <body>
 <header class="pvo-module-nav">
   <div class="pvo-module-nav-inner">
-    <a class="pvo-logo-wrap" href="/">
+    <a class="pvo-logo-wrap" href="https://pvo.opencodingsociety.com/">
       <div class="pvo-logo-emblem">PVO</div>
       <div>
         <div class="pvo-logo-text-main">Poway Veterans Organization</div>
