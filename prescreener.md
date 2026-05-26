@@ -39,17 +39,16 @@ button,input{font:inherit}
 
 /* ── Layout ── */
 .shell{position:relative;min-height:100vh;display:flex;flex-direction:column;width:100vw;max-width:none;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding:1.5rem 2rem 4rem;background:#08111f}
-.pvo-module-nav{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#111c33;border-bottom:3px solid var(--gold);box-shadow:0 2px 18px rgba(0,0,0,0.35);position:relative;z-index:50}
-.pvo-module-nav-inner{max-width:1200px;margin:0 auto;padding:0.9rem 2rem;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:1.2rem 2rem;min-height:72px}
-.pvo-logo-wrap{display:flex;align-items:center;gap:0.9rem;text-decoration:none}
-.pvo-logo-emblem{width:46px;height:46px;background:linear-gradient(145deg,var(--gold) 0%,#e8c97a 50%,var(--gold) 100%);border-radius:50%;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:900;letter-spacing:0.04em;color:#111c33;text-align:center;line-height:1.2;flex-shrink:0}
-.pvo-logo-text-main{font-family:'Merriweather',serif;font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
-.pvo-logo-text-sub{font-size:0.65rem;color:#e8c97a;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap}
-.pvo-module-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0.45rem;margin-left:auto}
-.pvo-module-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:0.83rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.45rem 0.75rem;border:1px solid transparent;border-radius:999px;transition:color 0.18s,background 0.18s,border-color 0.18s}
-.pvo-module-links a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
-.pvo-module-links .nav-cta{background:var(--red);color:#fff;border-color:rgba(255,255,255,0.15);padding:0.45rem 1rem}
-.pvo-module-links .nav-cta:hover{background:var(--red-strong)}
+header{background:#111c33;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 18px rgba(0,0,0,0.35)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0.9rem 2rem;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:1.2rem 2rem;min-height:72px}
+.logo-wrap{display:flex;align-items:center;gap:0.9rem;text-decoration:none}
+.logo-emblem{width:46px;height:46px;background:linear-gradient(145deg,var(--gold) 0%,#e8c97a 50%,var(--gold) 100%);border-radius:50%;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:900;letter-spacing:0.04em;color:#111c33;text-align:center;line-height:1.2;flex-shrink:0}
+.logo-text-main{font-family:'Merriweather',serif;font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
+nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0.45rem;margin-left:auto}
+nav a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:0.83rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.45rem 0.75rem;border:1px solid transparent;border-radius:999px;transition:color 0.18s,background 0.18s}
+nav a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
+.nav-cta{background:var(--red)!important;color:#fff!important;border-color:rgba(255,255,255,0.15)!important;border-radius:999px;padding:0.45rem 1rem!important;transition:background 0.18s!important}
+.nav-cta:hover{background:#8c1a28!important}
 
 /* ── Top frame ── */
 .top-frame{position:sticky;top:0;z-index:30;width:min(1120px,100%);margin:0 auto 1.5rem;padding:1rem 1.25rem 1.15rem;background:linear-gradient(180deg, rgba(17,28,51,0.96), rgba(13,23,40,0.94));border:1px solid var(--border);border-bottom:3px solid var(--gold);border-radius:8px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
@@ -278,10 +277,10 @@ button,input{font:inherit}
 
 @media (max-width:640px){
   .shell{padding:0.75rem 0.75rem 2.5rem}
-  .pvo-module-nav-inner{padding:0.9rem 1rem 1rem;justify-content:center;text-align:center}
-  .pvo-logo-wrap{flex-direction:column;text-align:center}
-  .pvo-module-links{width:100%;margin-left:0;justify-content:center}
-  .pvo-module-links a{width:100%;text-align:center}
+  .header-inner{padding:0.9rem 1rem 1rem;justify-content:center;text-align:center}
+  .logo-wrap{flex-direction:column;text-align:center}
+  nav{width:100%;margin-left:0;justify-content:center}
+  nav a{width:100%;text-align:center}
   .top-frame{top:0.5rem;padding:0.9rem}
   .topbar,.progress-head,.progress-foot{flex-direction:column;align-items:stretch}
   .progress-pct-wrap{text-align:left}
@@ -301,21 +300,19 @@ button,input{font:inherit}
 </style>
 </head>
 <body>
-<header class="pvo-module-nav">
-  <div class="pvo-module-nav-inner">
-    <a class="pvo-logo-wrap" href="/">
-      <div class="pvo-logo-emblem">PVO</div>
+<header>
+  <div class="header-inner">
+    <a class="logo-wrap" href="https://pvo.opencodingsociety.com/">
+      <div class="logo-emblem">PVO</div>
       <div>
-        <div class="pvo-logo-text-main">Poway Veterans Organization</div>
-        <div class="pvo-logo-text-sub">Open Coding Society Platform</div>
+        <div class="logo-text-main">Poway Veterans Organization</div>
       </div>
     </a>
-    <nav class="pvo-module-links">
-      <a href="/#tools">Platform Tools</a>
-      <a href="/#about">About</a>
-      <a href="https://powayveterans.org/about-pvo/" target="_blank" rel="noopener">About PVO</a>
-      <a href="https://powayveterans.org/volunteer/" target="_blank" rel="noopener">Volunteer</a>
-      <a href="/prescreener" class="nav-cta">Check Eligibility</a>
+    <nav>
+      <a href="#tools">Platform Tools</a>
+      <a href="#about">About</a>
+      <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank" rel="noopener">Volunteer</a>
+      <a href="https://pvo.opencodingsociety.com/prescreener" target="_blank" rel="noopener" class="nav-cta">Check Eligibility</a>
     </nav>
   </div>
 </header>

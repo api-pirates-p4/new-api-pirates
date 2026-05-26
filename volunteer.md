@@ -9,77 +9,54 @@ api_base: http://localhost:4500
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Poway Veterans Organization — Volunteer & Donate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --navy: #1a2744;
-    --navy-light: #243360;
-    --gold: #c8922a;
-    --gold-light: #e8b04a;
-    --red: #8b1c1c;
-    --cream: transparent;
-    --warm-white: transparent;
-    --gray: #6b7280;
-    --gray-light: #e8e4dc;
-    --text: #1f2937;
-    --font-display: 'Playfair Display', Georgia, serif;
+    --navy-dark: #111c33;
+    --navy-light: #243460;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --red: #b22234;
+    --red-dark: #8c1a28;
+    --cream: #08111f;
+    --warm-white: #101a2c;
+    --gray: #8f9cb1;
+    --gray-light: #33425c;
+    --text: #f4f7fb;
+    --text-light: #c0cad8;
+    --font-display: 'Merriweather', Georgia, serif;
     --font-body: 'Source Sans 3', 'Georgia', sans-serif;
   }
 
   html { scroll-behavior: smooth; }
+  .site-header{display:none!important}
+  .page-content{padding:0!important;overflow-x:hidden}
+  .page-content>.wrapper,.opencs_root,.post,.post-content,.post-content.e-content{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+  .post-header,.post-title{display:none!important}
 
   body {
     font-family: var(--font-body);
-    background: transparent;
+    background: #08111f;
     color: var(--text);
     line-height: 1.6;
     font-size: 16px;
   }
+  .pvo-site{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#08111f;overflow:hidden}
 
-  /* ── NAV ── */
-  nav {
-    background: var(--navy);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-  }
-  .nav-logo {
-    font-family: var(--font-display);
-    color: var(--gold);
-    font-size: 1.1rem;
-    letter-spacing: 0.04em;
-  }
-  .nav-tabs {
-    display: flex;
-    gap: 0;
-    background: rgba(255,255,255,0.08);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .nav-tab {
-    padding: 0.5rem 1.5rem;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: all 0.2s;
-    border: none;
-    background: none;
-  }
-  .nav-tab.active, .nav-tab:hover {
-    background: var(--gold);
-    color: var(--navy);
-  }
+  /* ── HEADER / NAV ── */
+  header{background:var(--navy-dark);border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 18px rgba(0,0,0,0.35)}
+  .header-inner{max-width:1200px;margin:0 auto;padding:0.9rem 2rem;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:1.2rem 2rem;min-height:72px}
+  .logo-wrap{display:flex;align-items:center;gap:0.9rem;text-decoration:none}
+  .logo-emblem{width:46px;height:46px;background:linear-gradient(145deg,var(--gold) 0%,var(--gold-light) 50%,var(--gold) 100%);border-radius:50%;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:900;letter-spacing:0.04em;color:var(--navy-dark);text-align:center;line-height:1.2;flex-shrink:0}
+  .logo-text-main{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
+  nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0.45rem;margin-left:auto}
+  nav a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:0.83rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.45rem 0.75rem;border:1px solid transparent;border-radius:999px;transition:color 0.18s,background 0.18s}
+  nav a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
+  .nav-cta{background:var(--red)!important;color:#fff!important;border-color:rgba(255,255,255,0.15)!important;border-radius:999px;padding:0.45rem 1rem!important;transition:background 0.18s!important}
+  .nav-cta:hover{background:var(--red-dark)!important}
 
   /* ── PAGE SECTIONS ── */
   .page { display: none; }
@@ -440,13 +417,17 @@ api_base: http://localhost:4500
   .form-submit:hover { background: var(--gold-light); }
   .form-note {
     font-size: 0.78rem;
-    color: #1f2937;
+    color: rgba(255,255,255,0.68);
     text-align: center;
     margin-top: 0.75rem;
   }
 
   /* ── STAT BAR MOBILE ── */
   @media (max-width: 600px) {
+    .header-inner{padding:0.9rem 1rem 1rem;justify-content:center;text-align:center}
+    .logo-wrap{flex-direction:column;text-align:center}
+    nav{width:100%;margin-left:0;justify-content:center}
+    nav a{width:100%;text-align:center}
     .form-row { grid-template-columns: 1fr; }
     .role-selector { grid-template-columns: repeat(2, 1fr); }
     .stat-item + .stat-item::before { display: none; }
@@ -456,12 +437,23 @@ api_base: http://localhost:4500
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">Poway Veterans Organization</div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('volunteer')">Volunteer</button>
+<div class="pvo-site">
+<header>
+  <div class="header-inner">
+    <a class="logo-wrap" href="https://pvo.opencodingsociety.com/">
+      <div class="logo-emblem">PVO</div>
+      <div>
+        <div class="logo-text-main">Poway Veterans Organization</div>
+      </div>
+    </a>
+    <nav>
+      <a href="/#tools">Platform Tools</a>
+      <a href="/#about">About</a>
+      <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank" rel="noopener">Volunteer</a>
+      <a href="https://pvo.opencodingsociety.com/prescreener" target="_blank" rel="noopener" class="nav-cta">Check Eligibility</a>
+    </nav>
   </div>
-</nav>
+</header>
 
 <div id="volunteer-page" class="page active">
 
@@ -688,6 +680,10 @@ api_base: http://localhost:4500
 <button class="form-submit">Submit Volunteer Application</button>
 <p class="form-note">Your info is used only for volunteer coordination and is never shared or sold.</p>
 
+</div>
+</div>
+</div>
+</div>
 
 <script>
   function toggleRole(card, role) {

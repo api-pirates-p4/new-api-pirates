@@ -41,7 +41,6 @@ button,input,textarea,select{font:inherit}
 .pvo-logo-wrap{display:flex;align-items:center;gap:0.9rem;text-decoration:none}
 .pvo-logo-emblem{width:46px;height:46px;background:linear-gradient(145deg,var(--gold) 0%,#e8c97a 50%,var(--gold) 100%);border-radius:50%;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:900;letter-spacing:0.04em;color:#111c33;text-align:center;line-height:1.2;flex-shrink:0}
 .pvo-logo-text-main{font-family:'Merriweather',serif;font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
-.pvo-logo-text-sub{font-size:0.65rem;color:#e8c97a;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap}
 .pvo-module-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0.45rem;margin-left:auto}
 .pvo-module-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:0.83rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.45rem 0.75rem;border:1px solid transparent;border-radius:999px;transition:color 0.18s,background 0.18s,border-color 0.18s}
 .pvo-module-links a:hover{color:#fff;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
@@ -141,18 +140,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 <body>
 <header class="pvo-module-nav">
   <div class="pvo-module-nav-inner">
-    <a class="pvo-logo-wrap" href="/">
+    <a class="pvo-logo-wrap" href="https://pvo.opencodingsociety.com/">
       <div class="pvo-logo-emblem">PVO</div>
       <div>
         <div class="pvo-logo-text-main">Poway Veterans Organization</div>
-        <div class="pvo-logo-text-sub">Open Coding Society Platform</div>
       </div>
     </a>
     <nav class="pvo-module-links">
       <a href="/#tools">Platform Tools</a>
       <a href="/#about">About</a>
-      <a href="https://powayveterans.org/about-pvo/" target="_blank" rel="noopener">About PVO</a>
-      <a href="https://powayveterans.org/volunteer/" target="_blank" rel="noopener">Volunteer</a>
+      <a href="https://pvo.opencodingsociety.com/volunteer" target="_blank" rel="noopener">Volunteer</a>
       <a href="/prescreener" class="nav-cta">Check Eligibility</a>
     </nav>
   </div>
@@ -202,7 +199,7 @@ const EMPLOYMENT_TEXT = {
 };
 const BACKEND_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? 'http://localhost:8426'
-  : location.origin;
+  : 'https://pirates.opencodingsociety.com';
 
 let currentStep = 1;
 let prescreenerContext = null;
