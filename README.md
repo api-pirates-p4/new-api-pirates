@@ -52,7 +52,7 @@ A form spec for prospective volunteers to express interest, share availability, 
 | Frontend | Plain HTML, CSS, JavaScript |
 | AI / Chat | [Groq API](https://groq.com) |
 | AI / ID Extraction | [Gemini API](https://ai.google.dev) |
-| Backend | Python / [Flask](pirates.opencodingsociety.com) |
+| Backend | Python / Flask |
 | Database | SQLite |
 
 ---
@@ -60,12 +60,15 @@ A form spec for prospective volunteers to express interest, share availability, 
 ## How to Run
 
 1. Clone or download this repository
-2. Install Python dependencies: `pip install flask`
-3. Start the Flask server: `python app.py` (or equivalent entry point)
-4. Open the app in a browser at `http://localhost:5000`
-5. For the chatbot — add your Groq API key where indicated (environment variable or config file)
-6. The `.md` files are design specs, not yet interactive — read them in any Markdown viewer or GitHub
-
+2. Create and activate a virtual environment:
+```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+3. Install Python dependencies: `pip install -r requirements.txt`
+4. Start the Flask server in backend: `python app.py`
+5. Open the app in a browser at `http://localhost:4500`
+6. For the chatbot — add your Groq API key where indicated (environment variable or config file)
 ---
 
 ## What's Been Done
